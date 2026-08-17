@@ -1,0 +1,74 @@
+{
+  "source_system": "Workday ERP",
+  "object": "Customer Invoice",
+  "data": {
+    "invoice_number": "DE21-CI058556",
+    "invoice_type": "Early Invoice",
+    "status": "Approved",
+    "payment_status": "Unpaid",
+    "company": "DE21 Polestar Automotive Germany GmbH",
+    "customer": "FINN GmbH",
+    "customer_id": "0014J00000TJ7kxQAD",
+    "bill_to_customer": "FINN GmbH",
+    "sold_to_customer": "FINN GmbH",
+    "bill_to_address": "Prinzregentenplatz 9 81675 München Germany",
+    "ship_to_customer": "FINN GmbH",
+    "ship_to_address": "Prinzregentenplatz 9 81675 München Germany",
+    "bill_to_contact": null,
+    "sales_order": "11730184",
+    "po_number": "11730184",
+    "vehicle_identifier_number": "YSM4ZPBA1SF407295",
+    "model": "Polestar 2 (2025)",
+    "invoice_date": "21/07/2026",
+    "due_date": "27/07/2026",
+    "discount_date": null,
+    "payment_terms": "Net 6 days",
+    "payment_type": null,
+    "printed": "No",
+    "memo": "Prel. delivery date: 2026-08-11",
+    "worktag_invoice_type": "Payment - Early Invoice, Bank & FSP Inv before HO",
+    "worktags": {
+      "invoice_type": "Payment - Early Invoice, Bank & FSP Inv before HO",
+      "model": "Polestar 2U",
+      "sales_order": "11730184",
+      "vehicle_identifier_number": "YSM4ZPBA1SF407295"
+    },
+    "currency": "EUR",
+    "default_tax_code": "DEU 19% VAT (19%)",
+    "net_invoice_amount": 43571.93,
+    "tax_amount": 8278.67,
+    "total_invoice_amount": 51850.6,
+    "less_withholding_amount": 0.0,
+    "control_total_amount": 0.0,
+    "amount_due": 51850.6,
+    "invoice_lines": [
+      {
+        "line": 1,
+        "item": "Vehicle sale",
+        "description": "Polestar 2 (2025)",
+        "quantity": 1,
+        "unit_price": 40086.18,
+        "tax_code": "DEU 19% VAT (19%)",
+        "extended_amount": 40086.18
+      },
+      {
+        "line": 2,
+        "item": "Delivery & handling",
+        "description": "Transport to retail location",
+        "quantity": 1,
+        "unit_price": 2178.6,
+        "tax_code": "DEU 19% VAT (19%)",
+        "extended_amount": 2178.6
+      },
+      {
+        "line": 3,
+        "item": "Registration services",
+        "description": "Vehicle registration DE",
+        "quantity": 1,
+        "unit_price": 1307.15,
+        "tax_code": "DEU 19% VAT (19%)",
+        "extended_amount": 1307.15
+      }
+    ]
+  }
+}

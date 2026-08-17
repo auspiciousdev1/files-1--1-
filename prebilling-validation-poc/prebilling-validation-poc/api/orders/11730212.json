@@ -1,0 +1,92 @@
+{
+  "source_system": "POMS",
+  "object": "Order",
+  "data": {
+    "order_no": "11730212",
+    "order_type": "new_car",
+    "sales_channel": "Online Retail",
+    "order_to_delivery_flow": "level_2",
+    "logistic_flow": null,
+    "order_status": "delivery_planning",
+    "communicated_delivery_status": "Vor der Auslieferung",
+    "delivery_status_label": "Delivery Planning",
+    "extras_status": "no_extras_added",
+    "protection_status": "no_protection_added",
+    "market": "DE",
+    "is_sme_order": false,
+    "sales_type": "B2B",
+    "configuration_id": "928e59fe-f92c-086c-ff65-98b9871838a9",
+    "session_id": "c6a431f1-ec3b-92df-7241-e21b0d571c67",
+    "car": {
+      "model": "Polestar 2",
+      "model_year": 2025,
+      "display": "Polestar 2 (2025)",
+      "vin": "YSM4ZPBA1SF407347",
+      "colour": "Snow",
+      "interior": "Zinc"
+    },
+    "orderer": {
+      "first_name": "Jonas",
+      "last_name": "Weidmann",
+      "email": "jonas.weidmann@ayvens.com",
+      "company": "Ayvens Germany GmbH",
+      "customer_id": "0014J00000TN8kLQAV",
+      "address": "Nedderfeld 95 22529 Hamburg Germany"
+    },
+    "financing_option": "Leasing",
+    "created_at": "07/18/2026, 06:11 AM UTC",
+    "updated_at": "07/18/2026, 11:11 PM UTC",
+    "confirmed_at": "07/18/2026, 06:11 AM UTC",
+    "csl_accepted_at": null,
+    "terms_and_conditions_accepted_at": null,
+    "created_at_iso": "2026-07-18T06:11:00Z",
+    "price_information": {
+      "currency": "EUR",
+      "grand_total_price": 58800.8,
+      "grand_total_vat": 9388.36,
+      "grand_total_tax": 0,
+      "grand_total_car_fiscal": null,
+      "car_total_price": 58800.8,
+      "car_total_vat": 9388.36,
+      "car_total_tax": 0,
+      "car_total_incentive_label": null,
+      "car_total_incentive_value": null,
+      "car_total_incentive_excl_vat_label": null,
+      "car_total_incentive_excl_vat_value": null,
+      "extras_total_price": 0.0,
+      "extras_total_vat": 0
+    },
+    "order_lines": [
+      {
+        "line": 1,
+        "item": "Polestar 2 2025",
+        "qty": 1,
+        "unit_price_incl_vat": 58800.8,
+        "vat_rate": "19%",
+        "amount_incl_vat": 58800.8
+      }
+    ],
+    "deliveries": [
+      {
+        "delivery_id": "DLV-11730212",
+        "planned_date": "2026-08-08",
+        "location": "München",
+        "status": "planned"
+      }
+    ],
+    "events": [
+      {
+        "timestamp": "2026-07-18 06:11 UTC",
+        "event": "order_created"
+      },
+      {
+        "timestamp": "2026-07-18 06:11 UTC",
+        "event": "order_confirmed"
+      },
+      {
+        "timestamp": "2026-07-18 23:11 UTC",
+        "event": "delivery_planning_started"
+      }
+    ]
+  }
+}

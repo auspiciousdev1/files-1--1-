@@ -1,0 +1,17 @@
+{
+  "poc": "Pre-billing invoice field validation",
+  "source_of_truth": "POMS",
+  "endpoints": {
+    "workday_invoice_list": "api/invoices.json",
+    "workday_invoice_detail": "api/invoices/{invoice_number}.json",
+    "poms_order_list": "api/orders.json",
+    "poms_order_detail": "api/orders/{order_no}.json",
+    "expected_findings": "api/mismatches.json"
+  },
+  "join_key": "workday.sales_order == poms.order_no",
+  "counts": {
+    "invoices": 23,
+    "orders": 23,
+    "seeded_findings": 8
+  }
+}

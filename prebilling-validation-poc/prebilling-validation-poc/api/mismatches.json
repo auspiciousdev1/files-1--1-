@@ -1,0 +1,62 @@
+{
+  "note": "Answer key for the POC. POMS is the source of truth.",
+  "count": 8,
+  "data": [
+    {
+      "invoice_number": "DE21-CI058546",
+      "order_no": "11730114",
+      "finding": "total_amount",
+      "description": "Workday total invoice amount is lower than the POMS grand total price.",
+      "severity": "high"
+    },
+    {
+      "invoice_number": "DE21-CI058549",
+      "order_no": "11730135",
+      "finding": "vat_amount",
+      "description": "Workday applied a 0% tax code; POMS expects 19% VAT.",
+      "severity": "high"
+    },
+    {
+      "invoice_number": "DE21-CI058552",
+      "order_no": "11730156",
+      "finding": "vin",
+      "description": "VIN on the Workday invoice does not match the VIN on the POMS order.",
+      "severity": "medium"
+    },
+    {
+      "invoice_number": "DE21-CI058555",
+      "order_no": null,
+      "finding": "missing_in_poms",
+      "description": "Invoice exists in Workday but no matching order exists in POMS.",
+      "severity": "high"
+    },
+    {
+      "invoice_number": "DE21-CI058558",
+      "order_no": "11730198",
+      "finding": "po_number_missing",
+      "description": "PO number is blank on the Workday invoice.",
+      "severity": "medium"
+    },
+    {
+      "invoice_number": "DE21-CI058561",
+      "order_no": "11730219",
+      "finding": "customer_mismatch",
+      "description": "Sold-to customer in Workday differs from the ordering company in POMS.",
+      "severity": "medium"
+    },
+    {
+      "invoice_number": "DE21-CI058564",
+      "order_no": "11730240",
+      "finding": "model_mismatch",
+      "description": "Model / model year on the invoice differs from the ordered car.",
+      "severity": "medium"
+    },
+    {
+      "invoice_number": null,
+      "order_no": "11730254",
+      "finding": "missing_in_workday",
+      "description": "Order exists in POMS but has not been invoiced in Workday.",
+      "severity": "high"
+    }
+  ]
+}

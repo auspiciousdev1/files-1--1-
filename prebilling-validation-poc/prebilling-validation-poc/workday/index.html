@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Find Open Customer Invoices - OTC</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-left">
+      <span class="wd-title" id="pageTitle">Find Open Customer Invoices - OTC</span>
+      <span class="wd-subtitle" id="pageSubtitle"></span>
+      <button class="ra-dots" title="Related Actions" aria-label="Related actions">&#8943;</button>
+      <span class="wd-glyph" title="Filter">&#9776;</span>
+    </div>
+    <div class="topbar-right">
+      <a class="home-link" href="../index.html" title="Back to POC home">&#9636;</a>
+      <span class="wd-glyph">&#9993;</span>
+    </div>
+  </header>
+
+  <main id="view"></main>
+
+  <template id="tpl-list">
+    <section class="page">
+      <button class="section-toggle" aria-expanded="false"><span class="chev">&#8250;</span> Details</button>
+      <div class="details-panel" hidden>
+        <div class="detail-grid">
+          <div><label>Company</label><span class="link">DE21 Polestar Automotive Germany GmbH</span></div>
+          <div><label>Invoice Status</label><span>Draft; Approved</span></div>
+          <div><label>Payment Status</label><span>Unpaid</span></div>
+          <div><label>Currency</label><span class="link">EUR</span></div>
+        </div>
+      </div>
+
+      <div class="grid-toolbar">
+        <span class="item-count" id="itemCount"></span>
+        <span class="toolbar-icons">
+          <input id="quickFilter" class="quick-filter" placeholder="Search invoice, order, VIN, customer">
+          <span class="wd-glyph">&#8681;</span><span class="wd-glyph">&#9635;</span>
+          <span class="wd-glyph">&#9660;</span><span class="wd-glyph">&#128200;</span>
+          <span class="wd-glyph">&#9783;</span><span class="wd-glyph">&#10530;</span>
+          <span class="wd-glyph">&#9639;</span><span class="wd-glyph active">&#9638;</span>
+        </span>
+      </div>
+
+      <div class="grid-scroll">
+        <table class="wd-grid" id="invoiceGrid">
+          <thead>
+            <tr>
+              <th>Invoice Number</th><th>Invoice</th><th class="col-selected">Invoice Type</th>
+              <th>Status</th><th>Customer</th><th>Customer ID</th><th>Sales Order</th>
+              <th>Vehicle Identifier Number</th><th>Invoice_Type</th><th>Payment Terms</th>
+              <th>Memo</th><th class="num">Total Invoice Amount</th><th class="num">Tax Amount</th>
+              <th>Currency</th><th>Invoice Date</th><th>Due Date</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
