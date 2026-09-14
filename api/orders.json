@@ -21,7 +21,10 @@
       "email": "tim.hartdegen@finn.com",
       "company": "FINN GmbH",
       "grand_total_price": 31000.0,
-      "grand_total_vat": 4949.58
+      "grand_total_vat": 4949.58,
+      "lock_state": "Locked",
+      "final_payment_amount": 0.0,
+      "upfront_payment": 0.0
     },
     {
       "order_no": "11730107",
@@ -40,7 +43,10 @@
       "email": "lena.brandt@vivelacar.com",
       "company": "ViveLaCar GmbH",
       "grand_total_price": 32737.55,
-      "grand_total_vat": 5227.0
+      "grand_total_vat": 5227.0,
+      "lock_state": "Locked",
+      "final_payment_amount": 0.0,
+      "upfront_payment": 0.0
     },
     {
       "order_no": "11730114",
@@ -59,7 +65,10 @@
       "email": "marco.seiler@sixt.de",
       "company": "Sixt SE",
       "grand_total_price": 34475.1,
-      "grand_total_vat": 5504.43
+      "grand_total_vat": 5504.43,
+      "lock_state": "Locked",
+      "final_payment_amount": 0.0,
+      "upfront_payment": 0.0
     },
     {
       "order_no": "11730121",
@@ -74,11 +83,14 @@
       "model_year": 2026,
       "vin": "YSM4ZPBA1SF407178",
       "first_name": "Anja",
-      "last_name": "Köhler",
-      "email": "anja.köhler@leaseplan.de",
+      "last_name": "K\u00f6hler",
+      "email": "anja.k\u00f6hler@leaseplan.de",
       "company": "LeasePlan Deutschland GmbH",
       "grand_total_price": 36212.65,
-      "grand_total_vat": 5781.85
+      "grand_total_vat": 5781.85,
+      "lock_state": "Locked",
+      "final_payment_amount": 0.0,
+      "upfront_payment": 0.0
     },
     {
       "order_no": "11730128",
@@ -97,7 +109,10 @@
       "email": "jonas.weidmann@ayvens.com",
       "company": "Ayvens Germany GmbH",
       "grand_total_price": 37950.2,
-      "grand_total_vat": 6059.28
+      "grand_total_vat": 6059.28,
+      "lock_state": "Locked",
+      "final_payment_amount": 0.0,
+      "upfront_payment": 0.0
     },
     {
       "order_no": "11730135",
@@ -116,7 +131,10 @@
       "email": "sofia.lindqvist@athlon.com",
       "company": "Athlon Germany GmbH",
       "grand_total_price": 39687.75,
-      "grand_total_vat": 6336.7
+      "grand_total_vat": 6336.7,
+      "lock_state": "Locked",
+      "final_payment_amount": 0.0,
+      "upfront_payment": 0.0
     },
     {
       "order_no": "11730142",
@@ -135,7 +153,10 @@
       "email": "peter.ahlgren@finn.com",
       "company": "FINN GmbH",
       "grand_total_price": 41425.3,
-      "grand_total_vat": 6614.12
+      "grand_total_vat": 6614.12,
+      "lock_state": "Locked",
+      "final_payment_amount": 0.0,
+      "upfront_payment": 0.0
     },
     {
       "order_no": "11730149",
@@ -154,7 +175,10 @@
       "email": "nadia.rustam@vivelacar.com",
       "company": "ViveLaCar GmbH",
       "grand_total_price": 43162.85,
-      "grand_total_vat": 6891.55
+      "grand_total_vat": 6891.55,
+      "lock_state": "Locked",
+      "final_payment_amount": 0.0,
+      "upfront_payment": 0.0
     },
     {
       "order_no": "11730156",
@@ -173,7 +197,10 @@
       "email": "felix.wagner@sixt.de",
       "company": "Sixt SE",
       "grand_total_price": 44900.4,
-      "grand_total_vat": 7168.97
+      "grand_total_vat": 7168.97,
+      "lock_state": "Locked",
+      "final_payment_amount": 0.0,
+      "upfront_payment": 0.0
     },
     {
       "order_no": "11730163",
@@ -192,7 +219,10 @@
       "email": "clara.neumann@leaseplan.de",
       "company": "LeasePlan Deutschland GmbH",
       "grand_total_price": 46637.95,
-      "grand_total_vat": 7446.4
+      "grand_total_vat": 7446.4,
+      "lock_state": "Locked",
+      "final_payment_amount": 0.0,
+      "upfront_payment": 0.0
     },
     {
       "order_no": "11730170",
@@ -211,7 +241,10 @@
       "email": "ravi.menon@ayvens.com",
       "company": "Ayvens Germany GmbH",
       "grand_total_price": 48375.5,
-      "grand_total_vat": 7723.82
+      "grand_total_vat": 7723.82,
+      "lock_state": "Locked",
+      "final_payment_amount": 0.0,
+      "upfront_payment": 0.0
     },
     {
       "order_no": "11730184",
@@ -230,7 +263,10 @@
       "email": "tim.hartdegen@finn.com",
       "company": "FINN GmbH",
       "grand_total_price": 51850.6,
-      "grand_total_vat": 8278.67
+      "grand_total_vat": 8278.67,
+      "lock_state": "Locked",
+      "final_payment_amount": 0.0,
+      "upfront_payment": 0.0
     },
     {
       "order_no": "11730191",
@@ -249,7 +285,10 @@
       "email": "lena.brandt@vivelacar.com",
       "company": "ViveLaCar GmbH",
       "grand_total_price": 53588.15,
-      "grand_total_vat": 8556.09
+      "grand_total_vat": 8556.09,
+      "lock_state": "Locked",
+      "final_payment_amount": 0.0,
+      "upfront_payment": 0.0
     },
     {
       "order_no": "11730198",
@@ -268,7 +307,10 @@
       "email": "marco.seiler@sixt.de",
       "company": "Sixt SE",
       "grand_total_price": 55325.7,
-      "grand_total_vat": 8833.52
+      "grand_total_vat": 8833.52,
+      "lock_state": "Locked",
+      "final_payment_amount": 0.0,
+      "upfront_payment": 0.0
     },
     {
       "order_no": "11730205",
@@ -283,11 +325,14 @@
       "model_year": 2026,
       "vin": "YSM4ZPBA1SF407334",
       "first_name": "Anja",
-      "last_name": "Köhler",
-      "email": "anja.köhler@leaseplan.de",
+      "last_name": "K\u00f6hler",
+      "email": "anja.k\u00f6hler@leaseplan.de",
       "company": "LeasePlan Deutschland GmbH",
       "grand_total_price": 57063.25,
-      "grand_total_vat": 9110.94
+      "grand_total_vat": 9110.94,
+      "lock_state": "Locked",
+      "final_payment_amount": 0.0,
+      "upfront_payment": 0.0
     },
     {
       "order_no": "11730212",
@@ -306,7 +351,10 @@
       "email": "jonas.weidmann@ayvens.com",
       "company": "Ayvens Germany GmbH",
       "grand_total_price": 58800.8,
-      "grand_total_vat": 9388.36
+      "grand_total_vat": 9388.36,
+      "lock_state": "Locked",
+      "final_payment_amount": 0.0,
+      "upfront_payment": 0.0
     },
     {
       "order_no": "11730219",
@@ -325,7 +373,10 @@
       "email": "sofia.lindqvist@athlon.com",
       "company": "Athlon Germany GmbH",
       "grand_total_price": 60538.35,
-      "grand_total_vat": 9665.79
+      "grand_total_vat": 9665.79,
+      "lock_state": "Locked",
+      "final_payment_amount": 0.0,
+      "upfront_payment": 0.0
     },
     {
       "order_no": "11730226",
@@ -344,7 +395,10 @@
       "email": "peter.ahlgren@finn.com",
       "company": "FINN GmbH",
       "grand_total_price": 62275.9,
-      "grand_total_vat": 9943.21
+      "grand_total_vat": 9943.21,
+      "lock_state": "Locked",
+      "final_payment_amount": 0.0,
+      "upfront_payment": 0.0
     },
     {
       "order_no": "11730233",
@@ -363,7 +417,10 @@
       "email": "nadia.rustam@vivelacar.com",
       "company": "ViveLaCar GmbH",
       "grand_total_price": 64013.45,
-      "grand_total_vat": 10220.63
+      "grand_total_vat": 10220.63,
+      "lock_state": "Locked",
+      "final_payment_amount": 0.0,
+      "upfront_payment": 0.0
     },
     {
       "order_no": "11730240",
@@ -382,7 +439,10 @@
       "email": "felix.wagner@sixt.de",
       "company": "Sixt SE",
       "grand_total_price": 65751.0,
-      "grand_total_vat": 10498.06
+      "grand_total_vat": 10498.06,
+      "lock_state": "Locked",
+      "final_payment_amount": 0.0,
+      "upfront_payment": 0.0
     },
     {
       "order_no": "11730247",
@@ -401,7 +461,10 @@
       "email": "clara.neumann@leaseplan.de",
       "company": "LeasePlan Deutschland GmbH",
       "grand_total_price": 67488.55,
-      "grand_total_vat": 10775.48
+      "grand_total_vat": 10775.48,
+      "lock_state": "Locked",
+      "final_payment_amount": 0.0,
+      "upfront_payment": 0.0
     },
     {
       "order_no": "11730254",
@@ -420,7 +483,10 @@
       "email": "ravi.menon@ayvens.com",
       "company": "Ayvens Germany GmbH",
       "grand_total_price": 69226.1,
-      "grand_total_vat": 11052.91
+      "grand_total_vat": 11052.91,
+      "lock_state": "Locked",
+      "final_payment_amount": 0.0,
+      "upfront_payment": 0.0
     },
     {
       "order_no": "11730261",
@@ -439,7 +505,10 @@
       "email": "erik.sundberg@athlon.com",
       "company": "Athlon Germany GmbH",
       "grand_total_price": 70963.65,
-      "grand_total_vat": 11330.33
+      "grand_total_vat": 11330.33,
+      "lock_state": "Locked",
+      "final_payment_amount": 0.0,
+      "upfront_payment": 0.0
     }
   ]
 }

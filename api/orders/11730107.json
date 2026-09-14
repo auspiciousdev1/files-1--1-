@@ -8,7 +8,7 @@
     "order_to_delivery_flow": "level_2",
     "logistic_flow": null,
     "order_status": "confirmed",
-    "communicated_delivery_status": "Bestellung bestätigt",
+    "communicated_delivery_status": "Bestellung best\u00e4tigt",
     "delivery_status_label": "Confirmed",
     "extras_status": "no_extras_added",
     "protection_status": "no_protection_added",
@@ -31,7 +31,7 @@
       "email": "lena.brandt@vivelacar.com",
       "company": "ViveLaCar GmbH",
       "customer_id": "0014J00000TK2mAQAT",
-      "address": "Königstraße 27 70173 Stuttgart Germany"
+      "address": "K\u00f6nigstra\u00dfe 27 70173 Stuttgart Germany"
     },
     "financing_option": "Leasing",
     "created_at": "08/02/2026, 11:58 AM UTC",
@@ -87,6 +87,9 @@
         "timestamp": "2026-08-03 04:58 UTC",
         "event": "delivery_planning_started"
       }
-    ]
+    ],
+    "lock_state": "Locked",
+    "final_payment_amount": 0.0,
+    "upfront_payment": 0.0
   }
 }

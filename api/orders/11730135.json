@@ -8,7 +8,7 @@
     "order_to_delivery_flow": "level_3",
     "logistic_flow": null,
     "order_status": "confirmed",
-    "communicated_delivery_status": "Bestellung bestätigt",
+    "communicated_delivery_status": "Bestellung best\u00e4tigt",
     "delivery_status_label": "Confirmed",
     "extras_status": "no_extras_added",
     "protection_status": "no_protection_added",
@@ -31,7 +31,7 @@
       "email": "sofia.lindqvist@athlon.com",
       "company": "Athlon Germany GmbH",
       "customer_id": "0014J00000TP1nDQAT",
-      "address": "Herriotstraße 1 60528 Frankfurt Germany"
+      "address": "Herriotstra\u00dfe 1 60528 Frankfurt Germany"
     },
     "financing_option": "Financing",
     "created_at": "07/28/2026, 11:14 PM UTC",
@@ -87,6 +87,9 @@
         "timestamp": "2026-07-29 16:14 UTC",
         "event": "delivery_planning_started"
       }
-    ]
+    ],
+    "lock_state": "Locked",
+    "final_payment_amount": 0.0,
+    "upfront_payment": 0.0
   }
 }

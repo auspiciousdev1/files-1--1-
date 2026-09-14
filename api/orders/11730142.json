@@ -31,7 +31,7 @@
       "email": "peter.ahlgren@finn.com",
       "company": "FINN GmbH",
       "customer_id": "0014J00000TJ7kxQAD",
-      "address": "Prinzregentenplatz 9 81675 München Germany"
+      "address": "Prinzregentenplatz 9 81675 M\u00fcnchen Germany"
     },
     "financing_option": "Cash",
     "created_at": "07/27/2026, 09:02 PM UTC",
@@ -95,6 +95,9 @@
         "timestamp": "2026-07-28 14:02 UTC",
         "event": "delivery_planning_started"
       }
-    ]
+    ],
+    "lock_state": "Locked",
+    "final_payment_amount": 0.0,
+    "upfront_payment": 0.0
   }
 }

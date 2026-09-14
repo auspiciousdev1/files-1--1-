@@ -70,7 +70,7 @@
       {
         "delivery_id": "DLV-11730128",
         "planned_date": "2026-08-20",
-        "location": "München",
+        "location": "M\u00fcnchen",
         "status": "planned"
       }
     ],
@@ -87,6 +87,9 @@
         "timestamp": "2026-07-30 19:25 UTC",
         "event": "delivery_planning_started"
       }
-    ]
+    ],
+    "lock_state": "Locked",
+    "final_payment_amount": 0.0,
+    "upfront_payment": 0.0
   }
 }

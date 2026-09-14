@@ -31,7 +31,7 @@
       "email": "marco.seiler@sixt.de",
       "company": "Sixt SE",
       "customer_id": "0014J00000TL9pQQAV",
-      "address": "Zugspitzstraße 1 82049 Pullach Germany"
+      "address": "Zugspitzstra\u00dfe 1 82049 Pullach Germany"
     },
     "financing_option": "Financing",
     "created_at": "08/01/2026, 08:47 AM UTC",
@@ -87,6 +87,9 @@
         "timestamp": "2026-08-02 01:47 UTC",
         "event": "delivery_planning_started"
       }
-    ]
+    ],
+    "lock_state": "Locked",
+    "final_payment_amount": 0.0,
+    "upfront_payment": 0.0
   }
 }

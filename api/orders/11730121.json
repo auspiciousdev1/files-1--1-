@@ -27,11 +27,11 @@
     },
     "orderer": {
       "first_name": "Anja",
-      "last_name": "Köhler",
-      "email": "anja.köhler@leaseplan.de",
+      "last_name": "K\u00f6hler",
+      "email": "anja.k\u00f6hler@leaseplan.de",
       "company": "LeasePlan Deutschland GmbH",
       "customer_id": "0014J00000TM4rXQAT",
-      "address": "Hellersbergstraße 10b 41460 Neuss Germany"
+      "address": "Hellersbergstra\u00dfe 10b 41460 Neuss Germany"
     },
     "financing_option": "Cash",
     "created_at": "07/31/2026, 05:36 AM UTC",
@@ -95,6 +95,9 @@
         "timestamp": "2026-07-31 22:36 UTC",
         "event": "delivery_planning_started"
       }
-    ]
+    ],
+    "lock_state": "Locked",
+    "final_payment_amount": 0.0,
+    "upfront_payment": 0.0
   }
 }

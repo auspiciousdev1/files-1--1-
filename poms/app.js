@@ -94,6 +94,7 @@ async function renderDetail(id) {
     ${row('Company', esc(d.orderer.company))}
     ${row('Customer ID', esc(d.orderer.customer_id), 'mono')}
     ${row('Financing Option', esc(d.financing_option))}
+    ${row('Lock State', esc(d.lock_state))}
     ${row('Created At', esc(d.created_at))}
     ${row('Updated At', esc(d.updated_at))}
     ${row('Confirmed at', esc(d.confirmed_at))}
@@ -102,6 +103,8 @@ async function renderDetail(id) {
     <div class="section">PRICE INFORMATION</div>
     ${row('Currency', esc(p.currency))}
     ${row('Grand Total Price', num(p.grand_total_price))}
+    ${row('Final Payment Amount', num(d.final_payment_amount))}
+    ${row('Upfront Payment', num(d.upfront_payment))}
     ${row('Grand Total Vat', num(p.grand_total_vat))}
     ${row('Grand Total Tax', p.grand_total_tax)}
     ${row('Grand Total Car Fiscal', p.grand_total_car_fiscal)}

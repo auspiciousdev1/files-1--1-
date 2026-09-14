@@ -31,7 +31,7 @@
       "email": "nadia.rustam@vivelacar.com",
       "company": "ViveLaCar GmbH",
       "customer_id": "0014J00000TK2mAQAT",
-      "address": "Königstraße 27 70173 Stuttgart Germany"
+      "address": "K\u00f6nigstra\u00dfe 27 70173 Stuttgart Germany"
     },
     "financing_option": "Leasing",
     "created_at": "07/14/2026, 09:37 PM UTC",
@@ -87,6 +87,9 @@
         "timestamp": "2026-07-15 14:37 UTC",
         "event": "delivery_planning_started"
       }
-    ]
+    ],
+    "lock_state": "Locked",
+    "final_payment_amount": 0.0,
+    "upfront_payment": 0.0
   }
 }

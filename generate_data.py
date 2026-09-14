@@ -171,6 +171,10 @@ for i in range(N):
                 "address": cust_addr,
             },
             "financing_option": fin,
+            # Additive fields for Invoice-Validation mappings.yaml (Nova scrape / loader)
+            "lock_state": "Locked",
+            "final_payment_amount": 0.0,
+            "upfront_payment": 0.0,
             "created_at": created.strftime("%m/%d/%Y, %I:%M %p UTC"),
             "updated_at": updated.strftime("%m/%d/%Y, %I:%M %p UTC"),
             "confirmed_at": confirmed.strftime("%m/%d/%Y, %I:%M %p UTC"),
@@ -311,7 +315,7 @@ for inv in invoices:
          {"source_system": "Workday ERP", "object": "Customer Invoice", "data": inv})
 
 order_grid = ["order_no", "order_type", "delivery_status_label", "order_status", "market", "created_at",
-              "financing_option", "created_at_iso"]
+              "financing_option", "lock_state", "final_payment_amount", "upfront_payment", "created_at_iso"]
 dump(os.path.join(api, "orders.json"), {
     "source_system": "POMS",
     "object": "Order",
@@ -375,6 +379,9 @@ CREATE TABLE poms_order (
   orderer_email           VARCHAR(120),
   customer_id             VARCHAR(30),
   financing_option        VARCHAR(20),
+  lock_state              VARCHAR(20),
+  final_payment_amount    DECIMAL(12,2),
+  upfront_payment         DECIMAL(12,2),
   currency                CHAR(3),
   grand_total_price       DECIMAL(12,2),
   grand_total_vat         DECIMAL(12,2),
@@ -458,7 +465,8 @@ for o in orders:
         "INSERT INTO poms_order VALUES (" + ", ".join(map(q, [
             o["order_no"], o["order_type"], o["sales_channel"], o["order_status"], o["market"], o["sales_type"],
             o["car"]["model"], o["car"]["model_year"], o["car"]["vin"], o["orderer"]["company"],
-            o["orderer"]["email"], o["orderer"]["customer_id"], o["financing_option"], p["currency"],
+            o["orderer"]["email"], o["orderer"]["customer_id"], o["financing_option"],
+            o["lock_state"], o["final_payment_amount"], o["upfront_payment"], p["currency"],
             p["grand_total_price"], p["grand_total_vat"], p["car_total_price"], p["extras_total_price"],
             to_dt(o["created_at"]), to_dt(o["confirmed_at"]),
         ])) + ");")
