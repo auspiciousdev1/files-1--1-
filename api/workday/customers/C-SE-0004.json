@@ -7,11 +7,19 @@
     "customer_type": "PRIVATE",
     "country": "SE",
     "vat_number": null,
+    "address": {
+      "street": "Drottninggatan 7",
+      "postal_code": "753 10",
+      "city": "Uppsala",
+      "country": "SE"
+    },
+    "address_text": "Drottninggatan 7, 753 10 Uppsala, Sweden",
+    "contact": null,
     "related_party": false,
     "nga_customer": false,
     "leasing_plate_required": false,
     "loan_provider": false,
-    "bpi_exception": false,
+    "bank_sold_to_exception": false,
     "sharepoint_tracker": false
   }
 }

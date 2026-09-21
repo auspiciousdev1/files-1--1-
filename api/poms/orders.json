@@ -15,6 +15,10 @@
       "exterior_colour": "Snow",
       "buyer_customer_id": "C-SE-0003",
       "buyer_name": "Anna Lindqvist",
+      "buyer_address": "Storgatan 12, 211 42 Malmö, Sweden",
+      "order_type": "new_car",
+      "sales_type": "B2C",
+      "sales_channel": "Online",
       "financing_type": "CASH",
       "financing_partner_id": null,
       "financing_partner": null,
@@ -40,6 +44,36 @@
       "total_price": 601100.0,
       "payment_status": "PAID",
       "poms_last_updated": "2026-09-17T18:40:00Z",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11200001",
+          "planned_date": "2026-09-12",
+          "location": "Göteborg Delivery Hub",
+          "status": "completed"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-09 10:12 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-09 10:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-11 08:30 UTC",
+          "event": "payment_received"
+        },
+        {
+          "timestamp": "2026-09-05 09:00 UTC",
+          "event": "delivery_planning_started"
+        },
+        {
+          "timestamp": "2026-09-12 14:00 UTC",
+          "event": "handover_completed"
+        }
+      ],
       "workday_invoices": [
         "CI-SE21-100201"
       ]
@@ -55,9 +89,13 @@
       "exterior_colour": "Midnight",
       "buyer_customer_id": "C-SE-0004",
       "buyer_name": "Erik Johansson",
+      "buyer_address": "Drottninggatan 7, 753 10 Uppsala, Sweden",
+      "order_type": "new_car",
+      "sales_type": "B2C",
+      "sales_channel": "Online",
       "financing_type": "PERSONAL_LOAN",
       "financing_partner_id": "C-SE-0001",
-      "financing_partner": "Ziklo Bank",
+      "financing_partner": "Nordkredit Bank AB",
       "license_plate": null,
       "order_date": "2026-08-09",
       "handover_date": "2026-09-12",
@@ -74,6 +112,36 @@
       "total_price": 596000.0,
       "payment_status": "FINANCED",
       "poms_last_updated": "2026-09-17T18:40:00Z",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11200002",
+          "planned_date": "2026-09-12",
+          "location": "Göteborg Delivery Hub",
+          "status": "completed"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-09 10:12 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-09 10:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-11 08:30 UTC",
+          "event": "payment_financing_approved"
+        },
+        {
+          "timestamp": "2026-09-05 09:00 UTC",
+          "event": "delivery_planning_started"
+        },
+        {
+          "timestamp": "2026-09-12 14:00 UTC",
+          "event": "handover_completed"
+        }
+      ],
       "workday_invoices": [
         "CI-SE21-100202"
       ]
@@ -89,9 +157,13 @@
       "exterior_colour": "Snow",
       "buyer_customer_id": "C-SE-0006",
       "buyer_name": "Sara Nilsson",
+      "buyer_address": "Östra Hamngatan 18, 411 09 Göteborg, Sweden",
+      "order_type": "new_car",
+      "sales_type": "B2C",
+      "sales_channel": "Online",
       "financing_type": "PERSONAL_LOAN",
       "financing_partner_id": "C-SE-0002",
-      "financing_partner": "Volvo Bank",
+      "financing_partner": "Svea Fordonsbank AB",
       "license_plate": null,
       "order_date": "2026-08-09",
       "handover_date": "2026-09-12",
@@ -114,6 +186,36 @@
       "total_price": 582350.0,
       "payment_status": "FINANCED",
       "poms_last_updated": "2026-09-17T18:40:00Z",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11200003",
+          "planned_date": "2026-09-12",
+          "location": "Göteborg Delivery Hub",
+          "status": "completed"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-09 10:12 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-09 10:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-11 08:30 UTC",
+          "event": "payment_financing_approved"
+        },
+        {
+          "timestamp": "2026-09-05 09:00 UTC",
+          "event": "delivery_planning_started"
+        },
+        {
+          "timestamp": "2026-09-12 14:00 UTC",
+          "event": "handover_completed"
+        }
+      ],
       "workday_invoices": [
         "CI-SE21-100203"
       ]
@@ -128,7 +230,11 @@
       "model_year": 2027,
       "exterior_colour": "Storm",
       "buyer_customer_id": "C-SE-0001",
-      "buyer_name": "Ziklo Bank",
+      "buyer_name": "Nordkredit Bank AB",
+      "buyer_address": "Sveavägen 44, 111 34 Stockholm, Sweden",
+      "order_type": "new_car",
+      "sales_type": "B2B",
+      "sales_channel": "Fleet & Business",
       "financing_type": "LEASING",
       "financing_partner_id": null,
       "financing_partner": null,
@@ -148,6 +254,36 @@
       "total_price": 760750.0,
       "payment_status": "FINANCED",
       "poms_last_updated": "2026-09-17T18:40:00Z",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11200004",
+          "planned_date": "2026-09-12",
+          "location": "Göteborg Delivery Hub",
+          "status": "completed"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-09 10:12 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-09 10:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-11 08:30 UTC",
+          "event": "payment_financing_approved"
+        },
+        {
+          "timestamp": "2026-09-05 09:00 UTC",
+          "event": "delivery_planning_started"
+        },
+        {
+          "timestamp": "2026-09-12 14:00 UTC",
+          "event": "handover_completed"
+        }
+      ],
       "workday_invoices": [
         "CI-SE21-100204"
       ]
@@ -163,6 +299,10 @@
       "exterior_colour": "Snow",
       "buyer_customer_id": "C-SE-0005",
       "buyer_name": "Nordic Fleet Solutions AB",
+      "buyer_address": "Hamngatan 3, 582 26 Linköping, Sweden",
+      "order_type": "new_car",
+      "sales_type": "B2B",
+      "sales_channel": "Fleet & Business",
       "financing_type": "COMPANY",
       "financing_partner_id": null,
       "financing_partner": null,
@@ -188,6 +328,36 @@
       "total_price": 772375.0,
       "payment_status": "PAID",
       "poms_last_updated": "2026-09-17T18:40:00Z",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11200005",
+          "planned_date": "2026-09-12",
+          "location": "Göteborg Delivery Hub",
+          "status": "completed"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-09 10:12 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-09 10:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-11 08:30 UTC",
+          "event": "payment_financing_approved"
+        },
+        {
+          "timestamp": "2026-09-05 09:00 UTC",
+          "event": "delivery_planning_started"
+        },
+        {
+          "timestamp": "2026-09-12 14:00 UTC",
+          "event": "handover_completed"
+        }
+      ],
       "workday_invoices": [
         "CI-SE21-100205"
       ]
@@ -203,6 +373,10 @@
       "exterior_colour": "Snow",
       "buyer_customer_id": "C-SE-0007",
       "buyer_name": "Johan Ek",
+      "buyer_address": "Fleminggatan 20, 112 26 Stockholm, Sweden",
+      "order_type": "new_car",
+      "sales_type": "B2C",
+      "sales_channel": "Online",
       "financing_type": "CASH",
       "financing_partner_id": null,
       "financing_partner": null,
@@ -222,6 +396,36 @@
       "total_price": 599000.0,
       "payment_status": "PAID",
       "poms_last_updated": "2026-09-17T18:40:00Z",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11200006",
+          "planned_date": "2026-09-12",
+          "location": "Göteborg Delivery Hub",
+          "status": "completed"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-09 10:12 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-09 10:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-11 08:30 UTC",
+          "event": "payment_received"
+        },
+        {
+          "timestamp": "2026-09-05 09:00 UTC",
+          "event": "delivery_planning_started"
+        },
+        {
+          "timestamp": "2026-09-12 14:00 UTC",
+          "event": "handover_completed"
+        }
+      ],
       "workday_invoices": [
         "CI-SE21-100206"
       ]
@@ -237,6 +441,10 @@
       "exterior_colour": "Snow",
       "buyer_customer_id": "C-NO-0110",
       "buyer_name": "Ingrid Haugen",
+      "buyer_address": "Bogstadveien 11, 0355 Oslo, Norway",
+      "order_type": "new_car",
+      "sales_type": "B2C",
+      "sales_channel": "Online",
       "financing_type": "CASH",
       "financing_partner_id": null,
       "financing_partner": null,
@@ -267,6 +475,36 @@
       "total_price": 578862.5,
       "payment_status": "PAID",
       "poms_last_updated": "2026-09-17T18:40:00Z",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11100001",
+          "planned_date": "2026-09-12",
+          "location": "Oslo Delivery Hub",
+          "status": "completed"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-09 10:12 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-09 10:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-11 08:30 UTC",
+          "event": "payment_received"
+        },
+        {
+          "timestamp": "2026-09-05 09:00 UTC",
+          "event": "delivery_planning_started"
+        },
+        {
+          "timestamp": "2026-09-12 14:00 UTC",
+          "event": "handover_completed"
+        }
+      ],
       "workday_invoices": [
         "CI-NO21-200301"
       ]
@@ -282,6 +520,10 @@
       "exterior_colour": "Snow",
       "buyer_customer_id": "C-NO-0101",
       "buyer_name": "Fjord Leasing AS",
+      "buyer_address": "Karl Johans gate 12, 0154 Oslo, Norway",
+      "order_type": "new_car",
+      "sales_type": "B2B",
+      "sales_channel": "Fleet & Business",
       "financing_type": "LEASING",
       "financing_partner_id": null,
       "financing_partner": null,
@@ -312,6 +554,36 @@
       "total_price": 578862.5,
       "payment_status": "FINANCED",
       "poms_last_updated": "2026-09-17T18:40:00Z",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11100002",
+          "planned_date": "2026-09-12",
+          "location": "Oslo Delivery Hub",
+          "status": "completed"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-09 10:12 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-09 10:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-11 08:30 UTC",
+          "event": "payment_financing_approved"
+        },
+        {
+          "timestamp": "2026-09-05 09:00 UTC",
+          "event": "delivery_planning_started"
+        },
+        {
+          "timestamp": "2026-09-12 14:00 UTC",
+          "event": "handover_completed"
+        }
+      ],
       "workday_invoices": [
         "CI-NO21-200302"
       ]
@@ -327,6 +599,10 @@
       "exterior_colour": "Storm",
       "buyer_customer_id": "C-NO-0102",
       "buyer_name": "Nordlys Finans AS",
+      "buyer_address": "Bryggen 5, 5003 Bergen, Norway",
+      "order_type": "new_car",
+      "sales_type": "B2B",
+      "sales_channel": "Fleet & Business",
       "financing_type": "LEASING",
       "financing_partner_id": null,
       "financing_partner": null,
@@ -357,6 +633,36 @@
       "total_price": 841237.5,
       "payment_status": "FINANCED",
       "poms_last_updated": "2026-09-17T18:40:00Z",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11100003",
+          "planned_date": "2026-09-12",
+          "location": "Oslo Delivery Hub",
+          "status": "completed"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-09 10:12 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-09 10:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-11 08:30 UTC",
+          "event": "payment_financing_approved"
+        },
+        {
+          "timestamp": "2026-09-05 09:00 UTC",
+          "event": "delivery_planning_started"
+        },
+        {
+          "timestamp": "2026-09-12 14:00 UTC",
+          "event": "handover_completed"
+        }
+      ],
       "workday_invoices": [
         "CI-NO21-200303"
       ]
@@ -372,6 +678,10 @@
       "exterior_colour": "Snow",
       "buyer_customer_id": "C-NO-0103",
       "buyer_name": "Viking Fleet AS",
+      "buyer_address": "Munkegata 20, 7013 Trondheim, Norway",
+      "order_type": "new_car",
+      "sales_type": "B2B",
+      "sales_channel": "Fleet & Business",
       "financing_type": "LEASING",
       "financing_partner_id": null,
       "financing_partner": null,
@@ -402,6 +712,36 @@
       "total_price": 578862.5,
       "payment_status": "FINANCED",
       "poms_last_updated": "2026-09-17T18:40:00Z",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11100004",
+          "planned_date": "2026-09-12",
+          "location": "Oslo Delivery Hub",
+          "status": "completed"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-09 10:12 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-09 10:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-11 08:30 UTC",
+          "event": "payment_financing_approved"
+        },
+        {
+          "timestamp": "2026-09-05 09:00 UTC",
+          "event": "delivery_planning_started"
+        },
+        {
+          "timestamp": "2026-09-12 14:00 UTC",
+          "event": "handover_completed"
+        }
+      ],
       "workday_invoices": [
         "CI-NO21-200304"
       ]
@@ -417,6 +757,10 @@
       "exterior_colour": "Midnight",
       "buyer_customer_id": "C-NO-0104",
       "buyer_name": "Bergen Bilfinans AS",
+      "buyer_address": "Kirkegata 14, 4006 Stavanger, Norway",
+      "order_type": "new_car",
+      "sales_type": "B2B",
+      "sales_channel": "Fleet & Business",
       "financing_type": "LEASING",
       "financing_partner_id": null,
       "financing_partner": null,
@@ -447,6 +791,36 @@
       "total_price": 591237.5,
       "payment_status": "FINANCED",
       "poms_last_updated": "2026-09-17T18:40:00Z",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11100005",
+          "planned_date": "2026-09-12",
+          "location": "Oslo Delivery Hub",
+          "status": "completed"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-09 10:12 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-09 10:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-11 08:30 UTC",
+          "event": "payment_financing_approved"
+        },
+        {
+          "timestamp": "2026-09-05 09:00 UTC",
+          "event": "delivery_planning_started"
+        },
+        {
+          "timestamp": "2026-09-12 14:00 UTC",
+          "event": "handover_completed"
+        }
+      ],
       "workday_invoices": [
         "CI-NO21-200305"
       ]
@@ -462,6 +836,10 @@
       "exterior_colour": "Snow",
       "buyer_customer_id": "C-NO-0105",
       "buyer_name": "Oslo Leasing Partner AS",
+      "buyer_address": "Storgata 60, 9008 Tromsø, Norway",
+      "order_type": "new_car",
+      "sales_type": "B2B",
+      "sales_channel": "Fleet & Business",
       "financing_type": "LEASING",
       "financing_partner_id": null,
       "financing_partner": null,
@@ -492,6 +870,36 @@
       "total_price": 578862.5,
       "payment_status": "FINANCED",
       "poms_last_updated": "2026-09-17T18:40:00Z",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11100006",
+          "planned_date": "2026-09-12",
+          "location": "Oslo Delivery Hub",
+          "status": "completed"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-09 10:12 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-09 10:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-11 08:30 UTC",
+          "event": "payment_financing_approved"
+        },
+        {
+          "timestamp": "2026-09-05 09:00 UTC",
+          "event": "delivery_planning_started"
+        },
+        {
+          "timestamp": "2026-09-12 14:00 UTC",
+          "event": "handover_completed"
+        }
+      ],
       "workday_invoices": [
         "CI-NO21-200306"
       ]
@@ -507,6 +915,10 @@
       "exterior_colour": "Snow",
       "buyer_customer_id": "C-NO-0111",
       "buyer_name": "Lars Berg",
+      "buyer_address": "Hegdehaugsveien 27, 0352 Oslo, Norway",
+      "order_type": "new_car",
+      "sales_type": "B2C",
+      "sales_channel": "Online",
       "financing_type": "CASH",
       "financing_partner_id": null,
       "financing_partner": null,
@@ -537,6 +949,36 @@
       "total_price": 578862.5,
       "payment_status": "PAID",
       "poms_last_updated": "2026-09-17T18:40:00Z",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11100007",
+          "planned_date": "2026-09-12",
+          "location": "Oslo Delivery Hub",
+          "status": "completed"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-09 10:12 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-09 10:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-11 08:30 UTC",
+          "event": "payment_received"
+        },
+        {
+          "timestamp": "2026-09-05 09:00 UTC",
+          "event": "delivery_planning_started"
+        },
+        {
+          "timestamp": "2026-09-12 14:00 UTC",
+          "event": "handover_completed"
+        }
+      ],
       "workday_invoices": [
         "CI-NO21-200307"
       ]
@@ -552,6 +994,10 @@
       "exterior_colour": "Snow",
       "buyer_customer_id": "C-NO-0112",
       "buyer_name": "Nordic Consulting AS",
+      "buyer_address": "Rådhusgata 5, 0151 Oslo, Norway",
+      "order_type": "new_car",
+      "sales_type": "B2B",
+      "sales_channel": "Fleet & Business",
       "financing_type": "COMPANY",
       "financing_partner_id": null,
       "financing_partner": null,
@@ -582,6 +1028,36 @@
       "total_price": 828862.5,
       "payment_status": "ON_ACCOUNT",
       "poms_last_updated": "2026-09-17T18:40:00Z",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11100008",
+          "planned_date": "2026-09-12",
+          "location": "Oslo Delivery Hub",
+          "status": "completed"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-09 10:12 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-09 10:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-11 08:30 UTC",
+          "event": "payment_financing_approved"
+        },
+        {
+          "timestamp": "2026-09-05 09:00 UTC",
+          "event": "delivery_planning_started"
+        },
+        {
+          "timestamp": "2026-09-12 14:00 UTC",
+          "event": "handover_completed"
+        }
+      ],
       "workday_invoices": [
         "CI-NO21-200308"
       ]
@@ -597,6 +1073,10 @@
       "exterior_colour": "Snow",
       "buyer_customer_id": "C-NO-0106",
       "buyer_name": "Trondheim Auto Finans AS",
+      "buyer_address": "Markens gate 8, 4611 Kristiansand, Norway",
+      "order_type": "new_car",
+      "sales_type": "B2B",
+      "sales_channel": "Fleet & Business",
       "financing_type": "LEASING",
       "financing_partner_id": null,
       "financing_partner": null,
@@ -627,6 +1107,36 @@
       "total_price": 578862.5,
       "payment_status": "FINANCED",
       "poms_last_updated": "2026-09-17T18:40:00Z",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11100009",
+          "planned_date": "2026-09-12",
+          "location": "Oslo Delivery Hub",
+          "status": "completed"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-09 10:12 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-09 10:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-11 08:30 UTC",
+          "event": "payment_financing_approved"
+        },
+        {
+          "timestamp": "2026-09-05 09:00 UTC",
+          "event": "delivery_planning_started"
+        },
+        {
+          "timestamp": "2026-09-12 14:00 UTC",
+          "event": "handover_completed"
+        }
+      ],
       "workday_invoices": [
         "CI-NO21-200309"
       ]
@@ -642,6 +1152,10 @@
       "exterior_colour": "Snow",
       "buyer_customer_id": "C-NO-0107",
       "buyer_name": "Stavanger Fleet Solutions AS",
+      "buyer_address": "Dronningens gate 22, 0154 Oslo, Norway",
+      "order_type": "new_car",
+      "sales_type": "B2B",
+      "sales_channel": "Fleet & Business",
       "financing_type": "LEASING",
       "financing_partner_id": null,
       "financing_partner": null,
@@ -672,6 +1186,36 @@
       "total_price": 828862.5,
       "payment_status": "FINANCED",
       "poms_last_updated": "2026-09-17T18:40:00Z",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11100010",
+          "planned_date": "2026-09-12",
+          "location": "Oslo Delivery Hub",
+          "status": "completed"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-09 10:12 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-09 10:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-11 08:30 UTC",
+          "event": "payment_financing_approved"
+        },
+        {
+          "timestamp": "2026-09-05 09:00 UTC",
+          "event": "delivery_planning_started"
+        },
+        {
+          "timestamp": "2026-09-12 14:00 UTC",
+          "event": "handover_completed"
+        }
+      ],
       "workday_invoices": [
         "CI-NO21-200310"
       ]
@@ -687,6 +1231,10 @@
       "exterior_colour": "Snow",
       "buyer_customer_id": "C-PT-0209",
       "buyer_name": "João Ferreira",
+      "buyer_address": "Rua Augusta 78, 1100-053 Lisboa, Portugal",
+      "order_type": "new_car",
+      "sales_type": "B2C",
+      "sales_channel": "Online",
       "financing_type": "CASH",
       "financing_partner_id": null,
       "financing_partner": null,
@@ -706,6 +1254,36 @@
       "total_price": 56457.0,
       "payment_status": "PAID",
       "poms_last_updated": "2026-09-17T18:40:00Z",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11300001",
+          "planned_date": "2026-09-12",
+          "location": "Lisboa Delivery Hub",
+          "status": "completed"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-09 10:12 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-09 10:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-11 08:30 UTC",
+          "event": "payment_received"
+        },
+        {
+          "timestamp": "2026-09-05 09:00 UTC",
+          "event": "delivery_planning_started"
+        },
+        {
+          "timestamp": "2026-09-12 14:00 UTC",
+          "event": "handover_completed"
+        }
+      ],
       "workday_invoices": [
         "CI-PT21-300401",
         "CI-PT21-300415"
@@ -721,7 +1299,11 @@
       "model_year": 2027,
       "exterior_colour": "Snow",
       "buyer_customer_id": "C-PT-0201",
-      "buyer_name": "LeasePlan Portugal",
+      "buyer_name": "Atlântico Renting SA",
+      "buyer_address": "Avenida da Liberdade 110, 1250-146 Lisboa, Portugal",
+      "order_type": "new_car",
+      "sales_type": "B2B",
+      "sales_channel": "Fleet & Business",
       "financing_type": "LEASING",
       "financing_partner_id": null,
       "financing_partner": null,
@@ -741,6 +1323,36 @@
       "total_price": 56457.0,
       "payment_status": "FINANCED",
       "poms_last_updated": "2026-09-17T18:40:00Z",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11300002",
+          "planned_date": "2026-09-12",
+          "location": "Lisboa Delivery Hub",
+          "status": "completed"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-09 10:12 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-09 10:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-11 08:30 UTC",
+          "event": "payment_financing_approved"
+        },
+        {
+          "timestamp": "2026-09-05 09:00 UTC",
+          "event": "delivery_planning_started"
+        },
+        {
+          "timestamp": "2026-09-12 14:00 UTC",
+          "event": "handover_completed"
+        }
+      ],
       "workday_invoices": [
         "CI-PT21-300402"
       ]
@@ -755,7 +1367,11 @@
       "model_year": 2027,
       "exterior_colour": "Storm",
       "buyer_customer_id": "C-PT-0202",
-      "buyer_name": "Arval Service Lease Portugal",
+      "buyer_name": "Lusoleasing SA",
+      "buyer_address": "Rua de Santa Catarina 320, 4000-443 Porto, Portugal",
+      "order_type": "new_car",
+      "sales_type": "B2B",
+      "sales_channel": "Fleet & Business",
       "financing_type": "LEASING",
       "financing_partner_id": null,
       "financing_partner": null,
@@ -775,6 +1391,36 @@
       "total_price": 78584.7,
       "payment_status": "FINANCED",
       "poms_last_updated": "2026-09-17T18:40:00Z",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11300003",
+          "planned_date": "2026-09-12",
+          "location": "Lisboa Delivery Hub",
+          "status": "completed"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-09 10:12 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-09 10:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-11 08:30 UTC",
+          "event": "payment_financing_approved"
+        },
+        {
+          "timestamp": "2026-09-05 09:00 UTC",
+          "event": "delivery_planning_started"
+        },
+        {
+          "timestamp": "2026-09-12 14:00 UTC",
+          "event": "handover_completed"
+        }
+      ],
       "workday_invoices": [
         "CI-PT21-300403"
       ]
@@ -789,7 +1435,11 @@
       "model_year": 2027,
       "exterior_colour": "Snow",
       "buyer_customer_id": "C-PT-0205",
-      "buyer_name": "Kinto Portugal",
+      "buyer_name": "Mobilease Portugal Lda",
+      "buyer_address": "Avenida Fontes Pereira de Melo 14, 1050-121 Lisboa, Portugal",
+      "order_type": "new_car",
+      "sales_type": "B2B",
+      "sales_channel": "Fleet & Business",
       "financing_type": "LEASING",
       "financing_partner_id": null,
       "financing_partner": null,
@@ -809,6 +1459,36 @@
       "total_price": 56457.0,
       "payment_status": "FINANCED",
       "poms_last_updated": "2026-09-17T18:40:00Z",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11300004",
+          "planned_date": "2026-09-12",
+          "location": "Lisboa Delivery Hub",
+          "status": "completed"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-09 10:12 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-09 10:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-11 08:30 UTC",
+          "event": "payment_financing_approved"
+        },
+        {
+          "timestamp": "2026-09-05 09:00 UTC",
+          "event": "delivery_planning_started"
+        },
+        {
+          "timestamp": "2026-09-12 14:00 UTC",
+          "event": "handover_completed"
+        }
+      ],
       "workday_invoices": [
         "CI-PT21-300404",
         "CI-PT21-300416"
@@ -825,6 +1505,10 @@
       "exterior_colour": "Snow",
       "buyer_customer_id": "C-PT-0210",
       "buyer_name": "Maria Santos",
+      "buyer_address": "Praça da Batalha 12, 4000-101 Porto, Portugal",
+      "order_type": "new_car",
+      "sales_type": "B2C",
+      "sales_channel": "Online",
       "financing_type": "PERSONAL_LOAN",
       "financing_partner_id": "C-PT-0207",
       "financing_partner": "Lusitânia Crédito SA",
@@ -844,6 +1528,36 @@
       "total_price": 56457.0,
       "payment_status": "FINANCED",
       "poms_last_updated": "2026-09-17T18:40:00Z",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11300005",
+          "planned_date": "2026-09-12",
+          "location": "Lisboa Delivery Hub",
+          "status": "completed"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-09 10:12 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-09 10:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-11 08:30 UTC",
+          "event": "payment_financing_approved"
+        },
+        {
+          "timestamp": "2026-09-05 09:00 UTC",
+          "event": "delivery_planning_started"
+        },
+        {
+          "timestamp": "2026-09-12 14:00 UTC",
+          "event": "handover_completed"
+        }
+      ],
       "workday_invoices": [
         "CI-PT21-300405"
       ]
@@ -859,6 +1573,10 @@
       "exterior_colour": "Snow",
       "buyer_customer_id": "C-PT-0211",
       "buyer_name": "Pedro Almeida",
+      "buyer_address": "Avenida 5 de Outubro 200, 1050-065 Lisboa, Portugal",
+      "order_type": "new_car",
+      "sales_type": "B2C",
+      "sales_channel": "Online",
       "financing_type": "PERSONAL_LOAN",
       "financing_partner_id": "C-PT-0208",
       "financing_partner": "Crédito Ibérico SA",
@@ -878,6 +1596,36 @@
       "total_price": 77367.0,
       "payment_status": "FINANCED",
       "poms_last_updated": "2026-09-17T18:40:00Z",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11300006",
+          "planned_date": "2026-09-12",
+          "location": "Lisboa Delivery Hub",
+          "status": "completed"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-09 10:12 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-09 10:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-11 08:30 UTC",
+          "event": "payment_financing_approved"
+        },
+        {
+          "timestamp": "2026-09-05 09:00 UTC",
+          "event": "delivery_planning_started"
+        },
+        {
+          "timestamp": "2026-09-12 14:00 UTC",
+          "event": "handover_completed"
+        }
+      ],
       "workday_invoices": [
         "CI-PT21-300406"
       ]
@@ -893,9 +1641,13 @@
       "exterior_colour": "Midnight",
       "buyer_customer_id": "C-PT-0212",
       "buyer_name": "Ana Costa",
+      "buyer_address": "Rua do Comércio 45, 3000-115 Coimbra, Portugal",
+      "order_type": "new_car",
+      "sales_type": "B2C",
+      "sales_channel": "Online",
       "financing_type": "PERSONAL_LOAN",
       "financing_partner_id": "C-PT-0206",
-      "financing_partner": "Banco BPI SA",
+      "financing_partner": "Banco Meridional SA",
       "license_plate": null,
       "order_date": "2026-08-09",
       "handover_date": "2026-09-12",
@@ -912,6 +1664,36 @@
       "total_price": 57674.7,
       "payment_status": "FINANCED",
       "poms_last_updated": "2026-09-17T18:40:00Z",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11300007",
+          "planned_date": "2026-09-12",
+          "location": "Lisboa Delivery Hub",
+          "status": "completed"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-09 10:12 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-09 10:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-11 08:30 UTC",
+          "event": "payment_financing_approved"
+        },
+        {
+          "timestamp": "2026-09-05 09:00 UTC",
+          "event": "delivery_planning_started"
+        },
+        {
+          "timestamp": "2026-09-12 14:00 UTC",
+          "event": "handover_completed"
+        }
+      ],
       "workday_invoices": [
         "CI-PT21-300407"
       ]
@@ -927,9 +1709,13 @@
       "exterior_colour": "Snow",
       "buyer_customer_id": "C-PT-0213",
       "buyer_name": "Rui Martins",
+      "buyer_address": "Rua da Boavista 88, 4050-107 Porto, Portugal",
+      "order_type": "new_car",
+      "sales_type": "B2C",
+      "sales_channel": "Online",
       "financing_type": "PERSONAL_LOAN",
       "financing_partner_id": "C-PT-0206",
-      "financing_partner": "Banco BPI SA",
+      "financing_partner": "Banco Meridional SA",
       "license_plate": null,
       "order_date": "2026-08-09",
       "handover_date": "2026-09-12",
@@ -946,6 +1732,36 @@
       "total_price": 56457.0,
       "payment_status": "FINANCED",
       "poms_last_updated": "2026-09-17T18:40:00Z",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11300008",
+          "planned_date": "2026-09-12",
+          "location": "Lisboa Delivery Hub",
+          "status": "completed"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-09 10:12 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-09 10:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-11 08:30 UTC",
+          "event": "payment_financing_approved"
+        },
+        {
+          "timestamp": "2026-09-05 09:00 UTC",
+          "event": "delivery_planning_started"
+        },
+        {
+          "timestamp": "2026-09-12 14:00 UTC",
+          "event": "handover_completed"
+        }
+      ],
       "workday_invoices": [
         "CI-PT21-300408"
       ]
@@ -961,6 +1777,10 @@
       "exterior_colour": "Snow",
       "buyer_customer_id": "C-PT-0217",
       "buyer_name": "Douro Consultores Lda",
+      "buyer_address": "Rua Ferreira Borges 27, 3000-180 Coimbra, Portugal",
+      "order_type": "new_car",
+      "sales_type": "B2B",
+      "sales_channel": "Fleet & Business",
       "financing_type": "COMPANY",
       "financing_partner_id": null,
       "financing_partner": null,
@@ -980,6 +1800,32 @@
       "total_price": 77367.0,
       "payment_status": "PAID",
       "poms_last_updated": "2026-09-17T18:40:00Z",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11300009",
+          "planned_date": "2026-10-09",
+          "location": "Lisboa Delivery Hub",
+          "status": "planned"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-09 10:12 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-09 10:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-11 08:30 UTC",
+          "event": "payment_financing_approved"
+        },
+        {
+          "timestamp": "2026-10-02 09:00 UTC",
+          "event": "delivery_planning_started"
+        }
+      ],
       "workday_invoices": [
         "CI-PT21-300409"
       ]
@@ -995,6 +1841,10 @@
       "exterior_colour": "Snow",
       "buyer_customer_id": "C-PT-0216",
       "buyer_name": "Tejo Logística Lda",
+      "buyer_address": "Alameda dos Oceanos 60, 1990-207 Lisboa, Portugal",
+      "order_type": "new_car",
+      "sales_type": "B2B",
+      "sales_channel": "Fleet & Business",
       "financing_type": "COMPANY",
       "financing_partner_id": null,
       "financing_partner": null,
@@ -1014,6 +1864,32 @@
       "total_price": 56457.0,
       "payment_status": "PAID",
       "poms_last_updated": "2026-09-17T18:40:00Z",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11300010",
+          "planned_date": "2026-10-02",
+          "location": "Lisboa Delivery Hub",
+          "status": "planned"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-09 10:12 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-09 10:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-11 08:30 UTC",
+          "event": "payment_financing_approved"
+        },
+        {
+          "timestamp": "2026-09-25 09:00 UTC",
+          "event": "delivery_planning_started"
+        }
+      ],
       "workday_invoices": [
         "CI-PT21-300410"
       ]
@@ -1028,7 +1904,11 @@
       "model_year": 2027,
       "exterior_colour": "Snow",
       "buyer_customer_id": "C-PT-0204",
-      "buyer_name": "Locarent",
+      "buyer_name": "Rentalis Portugal SA",
+      "buyer_address": "Rua Júlio Dinis 728, 4050-012 Porto, Portugal",
+      "order_type": "new_car",
+      "sales_type": "B2B",
+      "sales_channel": "Fleet & Business",
       "financing_type": "LEASING",
       "financing_partner_id": null,
       "financing_partner": null,
@@ -1048,6 +1928,36 @@
       "total_price": 56457.0,
       "payment_status": "FINANCED",
       "poms_last_updated": "2026-09-17T18:40:00Z",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11300011",
+          "planned_date": "2026-09-12",
+          "location": "Lisboa Delivery Hub",
+          "status": "completed"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-09 10:12 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-09 10:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-11 08:30 UTC",
+          "event": "payment_financing_approved"
+        },
+        {
+          "timestamp": "2026-09-05 09:00 UTC",
+          "event": "delivery_planning_started"
+        },
+        {
+          "timestamp": "2026-09-12 14:00 UTC",
+          "event": "handover_completed"
+        }
+      ],
       "workday_invoices": [
         "CI-PT21-300411"
       ]
@@ -1062,7 +1972,11 @@
       "model_year": 2027,
       "exterior_colour": "Snow",
       "buyer_customer_id": "C-PT-0203",
-      "buyer_name": "Leasys Portugal",
+      "buyer_name": "Iberfrota Leasing Lda",
+      "buyer_address": "Avenida da República 25, 1050-186 Lisboa, Portugal",
+      "order_type": "new_car",
+      "sales_type": "B2B",
+      "sales_channel": "Fleet & Business",
       "financing_type": "LEASING",
       "financing_partner_id": null,
       "financing_partner": null,
@@ -1082,6 +1996,36 @@
       "total_price": 77367.0,
       "payment_status": "FINANCED",
       "poms_last_updated": "2026-09-17T18:40:00Z",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11300012",
+          "planned_date": "2026-09-12",
+          "location": "Lisboa Delivery Hub",
+          "status": "completed"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-09 10:12 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-09 10:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-11 08:30 UTC",
+          "event": "payment_financing_approved"
+        },
+        {
+          "timestamp": "2026-09-05 09:00 UTC",
+          "event": "delivery_planning_started"
+        },
+        {
+          "timestamp": "2026-09-12 14:00 UTC",
+          "event": "handover_completed"
+        }
+      ],
       "workday_invoices": [
         "CI-PT21-300412"
       ]
@@ -1097,6 +2041,10 @@
       "exterior_colour": "Snow",
       "buyer_customer_id": "C-PT-0214",
       "buyer_name": "Carla Sousa",
+      "buyer_address": "Avenida de Roma 33, 1700-342 Lisboa, Portugal",
+      "order_type": "new_car",
+      "sales_type": "B2C",
+      "sales_channel": "Online",
       "financing_type": "CASH",
       "financing_partner_id": null,
       "financing_partner": null,
@@ -1116,6 +2064,36 @@
       "total_price": 56457.0,
       "payment_status": "PAID",
       "poms_last_updated": "2026-09-17T18:40:00Z",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11300013",
+          "planned_date": "2026-09-12",
+          "location": "Lisboa Delivery Hub",
+          "status": "completed"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-09 10:12 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-09 10:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-11 08:30 UTC",
+          "event": "payment_received"
+        },
+        {
+          "timestamp": "2026-09-05 09:00 UTC",
+          "event": "delivery_planning_started"
+        },
+        {
+          "timestamp": "2026-09-12 14:00 UTC",
+          "event": "handover_completed"
+        }
+      ],
       "workday_invoices": [
         "CI-PT21-300413"
       ]
@@ -1131,6 +2109,10 @@
       "exterior_colour": "Snow",
       "buyer_customer_id": "C-PT-0215",
       "buyer_name": "Tiago Lopes",
+      "buyer_address": "Rua Formosa 250, 4000-249 Porto, Portugal",
+      "order_type": "new_car",
+      "sales_type": "B2C",
+      "sales_channel": "Online",
       "financing_type": "CASH",
       "financing_partner_id": null,
       "financing_partner": null,
@@ -1150,6 +2132,36 @@
       "total_price": 56457.0,
       "payment_status": "PAID",
       "poms_last_updated": "2026-09-17T18:40:00Z",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11300014",
+          "planned_date": "2026-09-12",
+          "location": "Lisboa Delivery Hub",
+          "status": "completed"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-09 10:12 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-09 10:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-11 08:30 UTC",
+          "event": "payment_received"
+        },
+        {
+          "timestamp": "2026-09-05 09:00 UTC",
+          "event": "delivery_planning_started"
+        },
+        {
+          "timestamp": "2026-09-12 14:00 UTC",
+          "event": "handover_completed"
+        }
+      ],
       "workday_invoices": [
         "CI-PT21-300414"
       ]
@@ -1165,6 +2177,10 @@
       "exterior_colour": "Snow",
       "buyer_customer_id": "C-DK-0302",
       "buyer_name": "Mette Hansen",
+      "buyer_address": "Nørregade 8, 8000 Aarhus C, Denmark",
+      "order_type": "new_car",
+      "sales_type": "B2C",
+      "sales_channel": "Online",
       "financing_type": "CASH",
       "financing_partner_id": null,
       "financing_partner": null,
@@ -1184,6 +2200,36 @@
       "total_price": 437493.75,
       "payment_status": "PAID",
       "poms_last_updated": "2026-09-17T18:40:00Z",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11400001",
+          "planned_date": "2026-09-12",
+          "location": "København Delivery Hub",
+          "status": "completed"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-09 10:12 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-09 10:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-11 08:30 UTC",
+          "event": "payment_received"
+        },
+        {
+          "timestamp": "2026-09-05 09:00 UTC",
+          "event": "delivery_planning_started"
+        },
+        {
+          "timestamp": "2026-09-12 14:00 UTC",
+          "event": "handover_completed"
+        }
+      ],
       "workday_invoices": [
         "CI-DK21-400501"
       ]
@@ -1199,6 +2245,10 @@
       "exterior_colour": "Snow",
       "buyer_customer_id": "C-DK-0301",
       "buyer_name": "Øresund Fleet A/S",
+      "buyer_address": "Vesterbrogade 24, 1620 København V, Denmark",
+      "order_type": "new_car",
+      "sales_type": "B2B",
+      "sales_channel": "Fleet & Business",
       "financing_type": "LEASING",
       "financing_partner_id": null,
       "financing_partner": null,
@@ -1218,6 +2268,36 @@
       "total_price": 412493.75,
       "payment_status": "FINANCED",
       "poms_last_updated": "2026-09-17T18:40:00Z",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11400002",
+          "planned_date": "2026-09-12",
+          "location": "København Delivery Hub",
+          "status": "completed"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-09 10:12 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-09 10:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-11 08:30 UTC",
+          "event": "payment_financing_approved"
+        },
+        {
+          "timestamp": "2026-09-05 09:00 UTC",
+          "event": "delivery_planning_started"
+        },
+        {
+          "timestamp": "2026-09-12 14:00 UTC",
+          "event": "handover_completed"
+        }
+      ],
       "workday_invoices": [
         "CI-DK21-400502"
       ]
@@ -1233,6 +2313,10 @@
       "exterior_colour": "Storm",
       "buyer_customer_id": "C-DK-0301",
       "buyer_name": "Øresund Fleet A/S",
+      "buyer_address": "Vesterbrogade 24, 1620 København V, Denmark",
+      "order_type": "new_car",
+      "sales_type": "B2B",
+      "sales_channel": "Fleet & Business",
       "financing_type": "LEASING",
       "financing_partner_id": null,
       "financing_partner": null,
@@ -1252,6 +2336,36 @@
       "total_price": 546862.5,
       "payment_status": "FINANCED",
       "poms_last_updated": "2026-09-17T18:40:00Z",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11400003",
+          "planned_date": "2026-09-12",
+          "location": "København Delivery Hub",
+          "status": "completed"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-09 10:12 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-09 10:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-11 08:30 UTC",
+          "event": "payment_financing_approved"
+        },
+        {
+          "timestamp": "2026-09-05 09:00 UTC",
+          "event": "delivery_planning_started"
+        },
+        {
+          "timestamp": "2026-09-12 14:00 UTC",
+          "event": "handover_completed"
+        }
+      ],
       "workday_invoices": [
         "CI-DK21-400503"
       ]
@@ -1267,6 +2381,10 @@
       "exterior_colour": "Snow",
       "buyer_customer_id": "C-DK-0304",
       "buyer_name": "København Byggeri A/S",
+      "buyer_address": "Østergade 5, 5000 Odense C, Denmark",
+      "order_type": "new_car",
+      "sales_type": "B2B",
+      "sales_channel": "Fleet & Business",
       "financing_type": "COMPANY",
       "financing_partner_id": null,
       "financing_partner": null,
@@ -1292,6 +2410,36 @@
       "total_price": 584987.5,
       "payment_status": "PAID",
       "poms_last_updated": "2026-09-17T18:40:00Z",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11400004",
+          "planned_date": "2026-09-12",
+          "location": "København Delivery Hub",
+          "status": "completed"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-09 10:12 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-09 10:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-11 08:30 UTC",
+          "event": "payment_financing_approved"
+        },
+        {
+          "timestamp": "2026-09-05 09:00 UTC",
+          "event": "delivery_planning_started"
+        },
+        {
+          "timestamp": "2026-09-12 14:00 UTC",
+          "event": "handover_completed"
+        }
+      ],
       "workday_invoices": [
         "CI-DK21-400504"
       ]
@@ -1307,6 +2455,10 @@
       "exterior_colour": "Midnight",
       "buyer_customer_id": "C-DK-0303",
       "buyer_name": "Søren Nielsen",
+      "buyer_address": "Algade 16, 9000 Aalborg, Denmark",
+      "order_type": "new_car",
+      "sales_type": "B2C",
+      "sales_channel": "Online",
       "financing_type": "CASH",
       "financing_partner_id": null,
       "financing_partner": null,
@@ -1326,6 +2478,36 @@
       "total_price": 446862.5,
       "payment_status": "PAID",
       "poms_last_updated": "2026-09-17T18:40:00Z",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11400005",
+          "planned_date": "2026-09-12",
+          "location": "København Delivery Hub",
+          "status": "completed"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-09 10:12 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-09 10:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-11 08:30 UTC",
+          "event": "payment_received"
+        },
+        {
+          "timestamp": "2026-09-05 09:00 UTC",
+          "event": "delivery_planning_started"
+        },
+        {
+          "timestamp": "2026-09-12 14:00 UTC",
+          "event": "handover_completed"
+        }
+      ],
       "workday_invoices": [
         "CI-DK21-400505"
       ]
@@ -1340,8 +2522,9 @@
       "model_year": 2025,
       "exterior_colour": "Snow",
       "buyer_customer_id": "0014J00000TJ7kxQAD",
-      "buyer_name": "FINN GmbH",
-      "buyer_contact": "Tim Hartdegen",
+      "buyer_name": "Rheinmobil Fleet GmbH",
+      "buyer_address": "Kaiserswerther Straße 115, 40474 Düsseldorf, Germany",
+      "buyer_contact": "Tim Brauer",
       "financing_type": "CASH",
       "financing_partner_id": null,
       "financing_partner": null,
@@ -1370,6 +2553,28 @@
       "total_price": 31000.0,
       "payment_status": "UNPAID",
       "poms_last_updated": "08/04/2026, 08:09 AM UTC",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11730100",
+          "planned_date": "2026-08-24",
+          "location": "Remarketing Center Leipzig",
+          "status": "planned"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-03 15:09 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-03 15:09 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-04 08:09 UTC",
+          "event": "delivery_planning_started"
+        }
+      ],
       "workday_invoices": [
         "DE21-CI058544"
       ]
@@ -1384,8 +2589,9 @@
       "model_year": 2025,
       "exterior_colour": "Space",
       "buyer_customer_id": "0014J00000TK2mAQAT",
-      "buyer_name": "ViveLaCar GmbH",
-      "buyer_contact": "Lena Brandt",
+      "buyer_name": "AutoAbo Nord GmbH",
+      "buyer_address": "Große Elbstraße 47, 22767 Hamburg, Germany",
+      "buyer_contact": "Lena Krüger",
       "financing_type": "LEASING",
       "financing_partner_id": null,
       "financing_partner": null,
@@ -1408,6 +2614,28 @@
       "total_price": 32737.55,
       "payment_status": "UNPAID",
       "poms_last_updated": "08/03/2026, 04:58 AM UTC",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11730107",
+          "planned_date": "2026-08-23",
+          "location": "München Delivery Hub",
+          "status": "planned"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-02 11:58 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-02 11:58 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-03 04:58 UTC",
+          "event": "delivery_planning_started"
+        }
+      ],
       "workday_invoices": [
         "DE21-CI058545"
       ]
@@ -1422,7 +2650,8 @@
       "model_year": 2025,
       "exterior_colour": "Magnesium",
       "buyer_customer_id": "0014J00000TL9pQQAV",
-      "buyer_name": "Sixt SE",
+      "buyer_name": "Mietwagen Süd AG",
+      "buyer_address": "Landsberger Straße 300, 80687 München, Germany",
       "buyer_contact": "Marco Seiler",
       "financing_type": "LOAN",
       "financing_partner_id": null,
@@ -1446,6 +2675,28 @@
       "total_price": 34475.1,
       "payment_status": "UNPAID",
       "poms_last_updated": "08/02/2026, 01:47 AM UTC",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11730114",
+          "planned_date": "2026-08-22",
+          "location": "Remarketing Center Leipzig",
+          "status": "planned"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-08-01 08:47 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-08-01 08:47 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-08-02 01:47 UTC",
+          "event": "delivery_planning_started"
+        }
+      ],
       "workday_invoices": [
         "DE21-CI058546"
       ]
@@ -1460,7 +2711,8 @@
       "model_year": 2026,
       "exterior_colour": "Thunder",
       "buyer_customer_id": "0014J00000TM4rXQAT",
-      "buyer_name": "LeasePlan Deutschland GmbH",
+      "buyer_name": "Hanse Leasing GmbH",
+      "buyer_address": "Speicherstadt 12, 20457 Hamburg, Germany",
       "buyer_contact": "Anja Köhler",
       "financing_type": "CASH",
       "financing_partner_id": null,
@@ -1490,6 +2742,28 @@
       "total_price": 36212.65,
       "payment_status": "UNPAID",
       "poms_last_updated": "07/31/2026, 10:36 PM UTC",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11730121",
+          "planned_date": "2026-08-21",
+          "location": "München Delivery Hub",
+          "status": "planned"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-07-31 05:36 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-07-31 05:36 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-07-31 22:36 UTC",
+          "event": "delivery_planning_started"
+        }
+      ],
       "workday_invoices": [
         "DE21-CI058547"
       ]
@@ -1504,7 +2778,8 @@
       "model_year": 2025,
       "exterior_colour": "Snow",
       "buyer_customer_id": "0014J00000TN8kLQAV",
-      "buyer_name": "Ayvens Germany GmbH",
+      "buyer_name": "Elbe Fuhrpark GmbH",
+      "buyer_address": "Friedrichstraße 88, 10117 Berlin, Germany",
       "buyer_contact": "Jonas Weidmann",
       "financing_type": "LEASING",
       "financing_partner_id": null,
@@ -1528,6 +2803,28 @@
       "total_price": 37950.2,
       "payment_status": "UNPAID",
       "poms_last_updated": "07/30/2026, 07:25 PM UTC",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11730128",
+          "planned_date": "2026-08-20",
+          "location": "München Delivery Hub",
+          "status": "planned"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-07-30 02:25 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-07-30 02:25 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-07-30 19:25 UTC",
+          "event": "delivery_planning_started"
+        }
+      ],
       "workday_invoices": [
         "DE21-CI058548"
       ]
@@ -1542,7 +2839,8 @@
       "model_year": 2025,
       "exterior_colour": "Space",
       "buyer_customer_id": "0014J00000TP1nDQAT",
-      "buyer_name": "Athlon Germany GmbH",
+      "buyer_name": "Isar Flottenmanagement GmbH",
+      "buyer_address": "Theresienhöhe 30, 80339 München, Germany",
       "buyer_contact": "Sofia Lindqvist",
       "financing_type": "LOAN",
       "financing_partner_id": null,
@@ -1566,6 +2864,28 @@
       "total_price": 39687.75,
       "payment_status": "UNPAID",
       "poms_last_updated": "07/29/2026, 04:14 PM UTC",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11730135",
+          "planned_date": "2026-08-18",
+          "location": "Remarketing Center Leipzig",
+          "status": "planned"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-07-28 23:14 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-07-28 23:14 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-07-29 16:14 UTC",
+          "event": "delivery_planning_started"
+        }
+      ],
       "workday_invoices": [
         "DE21-CI058549"
       ]
@@ -1580,7 +2900,8 @@
       "model_year": 2025,
       "exterior_colour": "Magnesium",
       "buyer_customer_id": "0014J00000TJ7kxQAD",
-      "buyer_name": "FINN GmbH",
+      "buyer_name": "Rheinmobil Fleet GmbH",
+      "buyer_address": "Kaiserswerther Straße 115, 40474 Düsseldorf, Germany",
       "buyer_contact": "Peter Ahlgren",
       "financing_type": "CASH",
       "financing_partner_id": null,
@@ -1610,6 +2931,28 @@
       "total_price": 41425.3,
       "payment_status": "UNPAID",
       "poms_last_updated": "07/28/2026, 02:02 PM UTC",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11730142",
+          "planned_date": "2026-08-17",
+          "location": "München Delivery Hub",
+          "status": "planned"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-07-27 21:02 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-07-27 21:02 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-07-28 14:02 UTC",
+          "event": "delivery_planning_started"
+        }
+      ],
       "workday_invoices": [
         "DE21-CI058550"
       ]
@@ -1624,7 +2967,8 @@
       "model_year": 2026,
       "exterior_colour": "Thunder",
       "buyer_customer_id": "0014J00000TK2mAQAT",
-      "buyer_name": "ViveLaCar GmbH",
+      "buyer_name": "AutoAbo Nord GmbH",
+      "buyer_address": "Große Elbstraße 47, 22767 Hamburg, Germany",
       "buyer_contact": "Nadia Rustam",
       "financing_type": "LEASING",
       "financing_partner_id": null,
@@ -1648,6 +2992,28 @@
       "total_price": 43162.85,
       "payment_status": "UNPAID",
       "poms_last_updated": "07/28/2026, 06:51 AM UTC",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11730149",
+          "planned_date": "2026-08-17",
+          "location": "Remarketing Center Leipzig",
+          "status": "planned"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-07-27 13:51 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-07-27 13:51 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-07-28 06:51 UTC",
+          "event": "delivery_planning_started"
+        }
+      ],
       "workday_invoices": [
         "DE21-CI058551"
       ]
@@ -1662,7 +3028,8 @@
       "model_year": 2025,
       "exterior_colour": "Snow",
       "buyer_customer_id": "0014J00000TL9pQQAV",
-      "buyer_name": "Sixt SE",
+      "buyer_name": "Mietwagen Süd AG",
+      "buyer_address": "Landsberger Straße 300, 80687 München, Germany",
       "buyer_contact": "Felix Wagner",
       "financing_type": "LOAN",
       "financing_partner_id": null,
@@ -1686,6 +3053,28 @@
       "total_price": 44900.4,
       "payment_status": "UNPAID",
       "poms_last_updated": "07/27/2026, 03:40 AM UTC",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11730156",
+          "planned_date": "2026-08-16",
+          "location": "München Delivery Hub",
+          "status": "planned"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-07-26 10:40 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-07-26 10:40 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-07-27 03:40 UTC",
+          "event": "delivery_planning_started"
+        }
+      ],
       "workday_invoices": [
         "DE21-CI058552"
       ]
@@ -1700,7 +3089,8 @@
       "model_year": 2025,
       "exterior_colour": "Space",
       "buyer_customer_id": "0014J00000TM4rXQAT",
-      "buyer_name": "LeasePlan Deutschland GmbH",
+      "buyer_name": "Hanse Leasing GmbH",
+      "buyer_address": "Speicherstadt 12, 20457 Hamburg, Germany",
       "buyer_contact": "Clara Neumann",
       "financing_type": "CASH",
       "financing_partner_id": null,
@@ -1730,6 +3120,28 @@
       "total_price": 46637.95,
       "payment_status": "UNPAID",
       "poms_last_updated": "07/26/2026, 12:29 AM UTC",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11730163",
+          "planned_date": "2026-08-15",
+          "location": "München Delivery Hub",
+          "status": "planned"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-07-25 07:29 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-07-25 07:29 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-07-26 00:29 UTC",
+          "event": "delivery_planning_started"
+        }
+      ],
       "workday_invoices": [
         "DE21-CI058553"
       ]
@@ -1744,8 +3156,9 @@
       "model_year": 2025,
       "exterior_colour": "Magnesium",
       "buyer_customer_id": "0014J00000TN8kLQAV",
-      "buyer_name": "Ayvens Germany GmbH",
-      "buyer_contact": "Ravi Menon",
+      "buyer_name": "Elbe Fuhrpark GmbH",
+      "buyer_address": "Friedrichstraße 88, 10117 Berlin, Germany",
+      "buyer_contact": "Ravi Schuster",
       "financing_type": "LEASING",
       "financing_partner_id": null,
       "financing_partner": null,
@@ -1768,6 +3181,28 @@
       "total_price": 48375.5,
       "payment_status": "UNPAID",
       "poms_last_updated": "07/24/2026, 09:18 PM UTC",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11730170",
+          "planned_date": "2026-08-14",
+          "location": "Remarketing Center Leipzig",
+          "status": "planned"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-07-24 04:18 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-07-24 04:18 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-07-24 21:18 UTC",
+          "event": "delivery_planning_started"
+        }
+      ],
       "workday_invoices": [
         "DE21-CI058554"
       ]
@@ -1782,8 +3217,9 @@
       "model_year": 2025,
       "exterior_colour": "Snow",
       "buyer_customer_id": "0014J00000TJ7kxQAD",
-      "buyer_name": "FINN GmbH",
-      "buyer_contact": "Tim Hartdegen",
+      "buyer_name": "Rheinmobil Fleet GmbH",
+      "buyer_address": "Kaiserswerther Straße 115, 40474 Düsseldorf, Germany",
+      "buyer_contact": "Tim Brauer",
       "financing_type": "CASH",
       "financing_partner_id": null,
       "financing_partner": null,
@@ -1812,6 +3248,28 @@
       "total_price": 51850.6,
       "payment_status": "UNPAID",
       "poms_last_updated": "07/22/2026, 03:55 PM UTC",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11730184",
+          "planned_date": "2026-08-11",
+          "location": "Remarketing Center Leipzig",
+          "status": "planned"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-07-21 22:55 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-07-21 22:55 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-07-22 15:55 UTC",
+          "event": "delivery_planning_started"
+        }
+      ],
       "workday_invoices": [
         "DE21-CI058556"
       ]
@@ -1826,8 +3284,9 @@
       "model_year": 2025,
       "exterior_colour": "Space",
       "buyer_customer_id": "0014J00000TK2mAQAT",
-      "buyer_name": "ViveLaCar GmbH",
-      "buyer_contact": "Lena Brandt",
+      "buyer_name": "AutoAbo Nord GmbH",
+      "buyer_address": "Große Elbstraße 47, 22767 Hamburg, Germany",
+      "buyer_contact": "Lena Krüger",
       "financing_type": "LEASING",
       "financing_partner_id": null,
       "financing_partner": null,
@@ -1850,6 +3309,28 @@
       "total_price": 53588.15,
       "payment_status": "UNPAID",
       "poms_last_updated": "07/21/2026, 12:44 PM UTC",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11730191",
+          "planned_date": "2026-08-10",
+          "location": "München Delivery Hub",
+          "status": "planned"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-07-20 19:44 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-07-20 19:44 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-07-21 12:44 UTC",
+          "event": "delivery_planning_started"
+        }
+      ],
       "workday_invoices": [
         "DE21-CI058557"
       ]
@@ -1864,7 +3345,8 @@
       "model_year": 2025,
       "exterior_colour": "Magnesium",
       "buyer_customer_id": "0014J00000TL9pQQAV",
-      "buyer_name": "Sixt SE",
+      "buyer_name": "Mietwagen Süd AG",
+      "buyer_address": "Landsberger Straße 300, 80687 München, Germany",
       "buyer_contact": "Marco Seiler",
       "financing_type": "LOAN",
       "financing_partner_id": null,
@@ -1888,6 +3370,28 @@
       "total_price": 55325.7,
       "payment_status": "UNPAID",
       "poms_last_updated": "07/21/2026, 05:33 AM UTC",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11730198",
+          "planned_date": "2026-08-10",
+          "location": "München Delivery Hub",
+          "status": "planned"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-07-20 12:33 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-07-20 12:33 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-07-21 05:33 UTC",
+          "event": "delivery_planning_started"
+        }
+      ],
       "workday_invoices": [
         "DE21-CI058558"
       ]
@@ -1902,7 +3406,8 @@
       "model_year": 2026,
       "exterior_colour": "Thunder",
       "buyer_customer_id": "0014J00000TM4rXQAT",
-      "buyer_name": "LeasePlan Deutschland GmbH",
+      "buyer_name": "Hanse Leasing GmbH",
+      "buyer_address": "Speicherstadt 12, 20457 Hamburg, Germany",
       "buyer_contact": "Anja Köhler",
       "financing_type": "CASH",
       "financing_partner_id": null,
@@ -1932,6 +3437,28 @@
       "total_price": 57063.25,
       "payment_status": "UNPAID",
       "poms_last_updated": "07/20/2026, 02:22 AM UTC",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11730205",
+          "planned_date": "2026-08-09",
+          "location": "Remarketing Center Leipzig",
+          "status": "planned"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-07-19 09:22 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-07-19 09:22 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-07-20 02:22 UTC",
+          "event": "delivery_planning_started"
+        }
+      ],
       "workday_invoices": [
         "DE21-CI058559"
       ]
@@ -1946,7 +3473,8 @@
       "model_year": 2025,
       "exterior_colour": "Snow",
       "buyer_customer_id": "0014J00000TN8kLQAV",
-      "buyer_name": "Ayvens Germany GmbH",
+      "buyer_name": "Elbe Fuhrpark GmbH",
+      "buyer_address": "Friedrichstraße 88, 10117 Berlin, Germany",
       "buyer_contact": "Jonas Weidmann",
       "financing_type": "LEASING",
       "financing_partner_id": null,
@@ -1970,6 +3498,28 @@
       "total_price": 58800.8,
       "payment_status": "UNPAID",
       "poms_last_updated": "07/18/2026, 11:11 PM UTC",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11730212",
+          "planned_date": "2026-08-08",
+          "location": "München Delivery Hub",
+          "status": "planned"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-07-18 06:11 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-07-18 06:11 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-07-18 23:11 UTC",
+          "event": "delivery_planning_started"
+        }
+      ],
       "workday_invoices": [
         "DE21-CI058560"
       ]
@@ -1984,7 +3534,8 @@
       "model_year": 2025,
       "exterior_colour": "Space",
       "buyer_customer_id": "0014J00000TP1nDQAT",
-      "buyer_name": "Athlon Germany GmbH",
+      "buyer_name": "Isar Flottenmanagement GmbH",
+      "buyer_address": "Theresienhöhe 30, 80339 München, Germany",
       "buyer_contact": "Sofia Lindqvist",
       "financing_type": "LOAN",
       "financing_partner_id": null,
@@ -2008,6 +3559,28 @@
       "total_price": 60538.35,
       "payment_status": "UNPAID",
       "poms_last_updated": "07/17/2026, 08:59 PM UTC",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11730219",
+          "planned_date": "2026-08-07",
+          "location": "Remarketing Center Leipzig",
+          "status": "planned"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-07-17 03:59 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-07-17 03:59 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-07-17 20:59 UTC",
+          "event": "delivery_planning_started"
+        }
+      ],
       "workday_invoices": [
         "DE21-CI058561"
       ]
@@ -2022,7 +3595,8 @@
       "model_year": 2025,
       "exterior_colour": "Magnesium",
       "buyer_customer_id": "0014J00000TJ7kxQAD",
-      "buyer_name": "FINN GmbH",
+      "buyer_name": "Rheinmobil Fleet GmbH",
+      "buyer_address": "Kaiserswerther Straße 115, 40474 Düsseldorf, Germany",
       "buyer_contact": "Peter Ahlgren",
       "financing_type": "CASH",
       "financing_partner_id": null,
@@ -2052,6 +3626,28 @@
       "total_price": 62275.9,
       "payment_status": "UNPAID",
       "poms_last_updated": "07/16/2026, 05:48 PM UTC",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11730226",
+          "planned_date": "2026-08-06",
+          "location": "München Delivery Hub",
+          "status": "planned"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-07-16 00:48 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-07-16 00:48 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-07-16 17:48 UTC",
+          "event": "delivery_planning_started"
+        }
+      ],
       "workday_invoices": [
         "DE21-CI058562"
       ]
@@ -2066,7 +3662,8 @@
       "model_year": 2026,
       "exterior_colour": "Thunder",
       "buyer_customer_id": "0014J00000TK2mAQAT",
-      "buyer_name": "ViveLaCar GmbH",
+      "buyer_name": "AutoAbo Nord GmbH",
+      "buyer_address": "Große Elbstraße 47, 22767 Hamburg, Germany",
       "buyer_contact": "Nadia Rustam",
       "financing_type": "LEASING",
       "financing_partner_id": null,
@@ -2090,6 +3687,28 @@
       "total_price": 64013.45,
       "payment_status": "UNPAID",
       "poms_last_updated": "07/15/2026, 02:37 PM UTC",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11730233",
+          "planned_date": "2026-08-04",
+          "location": "München Delivery Hub",
+          "status": "planned"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-07-14 21:37 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-07-14 21:37 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-07-15 14:37 UTC",
+          "event": "delivery_planning_started"
+        }
+      ],
       "workday_invoices": [
         "DE21-CI058563"
       ]
@@ -2104,7 +3723,8 @@
       "model_year": 2025,
       "exterior_colour": "Snow",
       "buyer_customer_id": "0014J00000TL9pQQAV",
-      "buyer_name": "Sixt SE",
+      "buyer_name": "Mietwagen Süd AG",
+      "buyer_address": "Landsberger Straße 300, 80687 München, Germany",
       "buyer_contact": "Felix Wagner",
       "financing_type": "LOAN",
       "financing_partner_id": null,
@@ -2128,6 +3748,28 @@
       "total_price": 65751.0,
       "payment_status": "UNPAID",
       "poms_last_updated": "07/15/2026, 07:26 AM UTC",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11730240",
+          "planned_date": "2026-08-04",
+          "location": "Remarketing Center Leipzig",
+          "status": "planned"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-07-14 14:26 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-07-14 14:26 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-07-15 07:26 UTC",
+          "event": "delivery_planning_started"
+        }
+      ],
       "workday_invoices": [
         "DE21-CI058564"
       ]
@@ -2142,7 +3784,8 @@
       "model_year": 2025,
       "exterior_colour": "Space",
       "buyer_customer_id": "0014J00000TM4rXQAT",
-      "buyer_name": "LeasePlan Deutschland GmbH",
+      "buyer_name": "Hanse Leasing GmbH",
+      "buyer_address": "Speicherstadt 12, 20457 Hamburg, Germany",
       "buyer_contact": "Clara Neumann",
       "financing_type": "CASH",
       "financing_partner_id": null,
@@ -2172,6 +3815,28 @@
       "total_price": 67488.55,
       "payment_status": "UNPAID",
       "poms_last_updated": "07/14/2026, 04:15 AM UTC",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11730247",
+          "planned_date": "2026-08-03",
+          "location": "München Delivery Hub",
+          "status": "planned"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-07-13 11:15 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-07-13 11:15 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-07-14 04:15 UTC",
+          "event": "delivery_planning_started"
+        }
+      ],
       "workday_invoices": [
         "DE21-CI058565"
       ]
@@ -2186,8 +3851,9 @@
       "model_year": 2025,
       "exterior_colour": "Magnesium",
       "buyer_customer_id": "0014J00000TN8kLQAV",
-      "buyer_name": "Ayvens Germany GmbH",
-      "buyer_contact": "Ravi Menon",
+      "buyer_name": "Elbe Fuhrpark GmbH",
+      "buyer_address": "Friedrichstraße 88, 10117 Berlin, Germany",
+      "buyer_contact": "Ravi Schuster",
       "financing_type": "LEASING",
       "financing_partner_id": null,
       "financing_partner": null,
@@ -2210,6 +3876,28 @@
       "total_price": 69226.1,
       "payment_status": "UNPAID",
       "poms_last_updated": "07/13/2026, 02:03 AM UTC",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11730254",
+          "planned_date": "2026-08-02",
+          "location": "Remarketing Center Leipzig",
+          "status": "planned"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-07-12 09:03 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-07-12 09:03 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-07-13 02:03 UTC",
+          "event": "delivery_planning_started"
+        }
+      ],
       "workday_invoices": []
     },
     {
@@ -2222,7 +3910,8 @@
       "model_year": 2026,
       "exterior_colour": "Thunder",
       "buyer_customer_id": "0014J00000TP1nDQAT",
-      "buyer_name": "Athlon Germany GmbH",
+      "buyer_name": "Isar Flottenmanagement GmbH",
+      "buyer_address": "Theresienhöhe 30, 80339 München, Germany",
       "buyer_contact": "Erik Sundberg",
       "financing_type": "LOAN",
       "financing_partner_id": null,
@@ -2246,6 +3935,28 @@
       "total_price": 70963.65,
       "payment_status": "UNPAID",
       "poms_last_updated": "07/11/2026, 10:52 PM UTC",
+      "deliveries": [
+        {
+          "delivery_id": "DLV-11730261",
+          "planned_date": "2026-08-01",
+          "location": "München Delivery Hub",
+          "status": "planned"
+        }
+      ],
+      "events": [
+        {
+          "timestamp": "2026-07-11 05:52 UTC",
+          "event": "order_created"
+        },
+        {
+          "timestamp": "2026-07-11 05:52 UTC",
+          "event": "order_confirmed"
+        },
+        {
+          "timestamp": "2026-07-11 22:52 UTC",
+          "event": "delivery_planning_started"
+        }
+      ],
       "workday_invoices": [
         "DE21-CI058567"
       ]

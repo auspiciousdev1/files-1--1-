@@ -11,13 +11,19 @@
     "invoice_date": "2026-07-27",
     "due_date": "2026-08-02",
     "payment_terms": "Net 6 days",
+    "customer": "Rheinmobil Fleet GmbH",
+    "customer_id": "0014J00000TJ7kxQAD",
     "bill_to_customer_id": "0014J00000TJ7kxQAD",
-    "bill_to_customer": "FINN GmbH",
+    "bill_to_customer": "Rheinmobil Fleet GmbH",
+    "bill_to_address": "Kaiserswerther Straße 115, 40474 Düsseldorf, Germany",
+    "bill_to_contact": null,
     "sold_to_customer_id": "0014J00000TJ7kxQAD",
-    "sold_to_customer": "FINN GmbH",
-    "ship_to_customer": "FINN GmbH",
-    "bill_to_address": "Prinzregentenplatz 9 81675 München Germany",
-    "customer_vat_number": null,
+    "sold_to_customer": "Rheinmobil Fleet GmbH",
+    "ship_to_customer": "Rheinmobil Fleet GmbH",
+    "ship_to_address": "Kaiserswerther Straße 115, 40474 Düsseldorf, Germany",
+    "payment_type": null,
+    "printed": "No",
+    "customer_vat_number": "DE812345671",
     "currency": "EUR",
     "po_number": "11730142",
     "vin": "YSM4ZPBA1SF407217",
@@ -100,8 +106,32 @@
       "subtotal": 34811.18,
       "tax_amount": 6614.12,
       "total_amount": 41425.3,
+      "amount_due": 41425.3,
       "currency": "EUR"
     },
+    "process_history": [
+      {
+        "step": "Customer Invoice Event",
+        "status": "Step Completed",
+        "person": "BPO O2C Billing Desk",
+        "moment": "2026-07-27T08:30:00Z",
+        "comment": "Created from POMS order 11730142"
+      },
+      {
+        "step": "Review Customer Invoice",
+        "status": "Step Completed",
+        "person": "Billing Specialist",
+        "moment": "2026-07-27T11:45:00Z",
+        "comment": ""
+      },
+      {
+        "step": "Approval by Finance Manager",
+        "status": "Approved",
+        "person": "Finance Manager",
+        "moment": "2026-07-27T15:10:00Z",
+        "comment": ""
+      }
+    ],
     "created_by": "BPO O2C Billing Desk",
     "created_on": "2026-07-27T08:30:00Z",
     "last_updated": "2026-07-27T08:30:00Z"

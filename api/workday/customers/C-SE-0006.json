@@ -7,11 +7,19 @@
     "customer_type": "PRIVATE",
     "country": "SE",
     "vat_number": null,
+    "address": {
+      "street": "Östra Hamngatan 18",
+      "postal_code": "411 09",
+      "city": "Göteborg",
+      "country": "SE"
+    },
+    "address_text": "Östra Hamngatan 18, 411 09 Göteborg, Sweden",
+    "contact": null,
     "related_party": false,
     "nga_customer": false,
     "leasing_plate_required": false,
     "loan_provider": false,
-    "bpi_exception": false,
+    "bank_sold_to_exception": false,
     "sharepoint_tracker": false
   }
 }

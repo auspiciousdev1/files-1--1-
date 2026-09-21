@@ -3,13 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>POMS — Polestar Order Management System (POC)</title>
+<title>POMS — Order Management</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="bar">
-    <div class="brand"><span class="mark">POMS</span><span class="sub">Order Management System</span></div>
-    <div class="right"><span class="env">POC · SE · NO · PT · DK</span><a class="home" href="../index.html" title="System home">⌂</a></div>
+  <header class="top">
+    <a class="brand" href="#/"><span class="mark">★</span>POMS <span class="sub">Order Management</span></a>
+    <nav class="tabsnav"><a href="#/" class="active" id="nav-orders">Orders</a><a href="#/customers" id="nav-customers">Customers</a><a href="#/deliveries" id="nav-deliveries">Deliveries</a></nav>
+    <div class="right"><input id="gs" placeholder="Order no, VIN, customer, plate…"><span class="user">Order Desk · EU Markets</span></div>
   </header>
   <main id="view"><div class="loading">Loading…</div></main>
   <script src="app.js"></script>

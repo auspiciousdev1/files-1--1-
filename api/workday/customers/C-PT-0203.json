@@ -2,16 +2,24 @@
   "source_system": "Workday",
   "data": {
     "customer_id": "C-PT-0203",
-    "customer_name": "Leasys Portugal",
+    "customer_name": "Iberfrota Leasing Lda",
     "company": "PT21",
     "customer_type": "LEASING",
     "country": "PT",
     "vat_number": "PT504234567",
+    "address": {
+      "street": "Avenida da República 25",
+      "postal_code": "1050-186",
+      "city": "Lisboa",
+      "country": "PT"
+    },
+    "address_text": "Avenida da República 25, 1050-186 Lisboa, Portugal",
+    "contact": null,
     "related_party": false,
     "nga_customer": false,
     "leasing_plate_required": true,
     "loan_provider": false,
-    "bpi_exception": false,
+    "bank_sold_to_exception": false,
     "sharepoint_tracker": false
   }
 }

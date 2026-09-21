@@ -10,7 +10,8 @@
     "model_year": 2025,
     "exterior_colour": "Magnesium",
     "buyer_customer_id": "0014J00000TJ7kxQAD",
-    "buyer_name": "FINN GmbH",
+    "buyer_name": "Rheinmobil Fleet GmbH",
+    "buyer_address": "Kaiserswerther Straße 115, 40474 Düsseldorf, Germany",
     "buyer_contact": "Peter Ahlgren",
     "financing_type": "CASH",
     "financing_partner_id": null,
@@ -40,6 +41,28 @@
     "total_price": 41425.3,
     "payment_status": "UNPAID",
     "poms_last_updated": "07/28/2026, 02:02 PM UTC",
+    "deliveries": [
+      {
+        "delivery_id": "DLV-11730142",
+        "planned_date": "2026-08-17",
+        "location": "München Delivery Hub",
+        "status": "planned"
+      }
+    ],
+    "events": [
+      {
+        "timestamp": "2026-07-27 21:02 UTC",
+        "event": "order_created"
+      },
+      {
+        "timestamp": "2026-07-27 21:02 UTC",
+        "event": "order_confirmed"
+      },
+      {
+        "timestamp": "2026-07-28 14:02 UTC",
+        "event": "delivery_planning_started"
+      }
+    ],
     "workday_invoices": [
       "DE21-CI058550"
     ]

@@ -7,11 +7,19 @@
     "customer_type": "CORPORATE",
     "country": "DK",
     "vat_number": "DK25123456",
+    "address": {
+      "street": "Østergade 5",
+      "postal_code": "5000",
+      "city": "Odense C",
+      "country": "DK"
+    },
+    "address_text": "Østergade 5, 5000 Odense C, Denmark",
+    "contact": null,
     "related_party": false,
     "nga_customer": false,
     "leasing_plate_required": false,
     "loan_provider": false,
-    "bpi_exception": false,
+    "bank_sold_to_exception": false,
     "sharepoint_tracker": false
   }
 }

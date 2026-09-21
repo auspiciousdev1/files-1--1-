@@ -7,11 +7,19 @@
     "customer_type": "PRIVATE",
     "country": "PT",
     "vat_number": "PT232567890",
+    "address": {
+      "street": "Praça da Batalha 12",
+      "postal_code": "4000-101",
+      "city": "Porto",
+      "country": "PT"
+    },
+    "address_text": "Praça da Batalha 12, 4000-101 Porto, Portugal",
+    "contact": null,
     "related_party": false,
     "nga_customer": false,
     "leasing_plate_required": false,
     "loan_provider": false,
-    "bpi_exception": false,
+    "bank_sold_to_exception": false,
     "sharepoint_tracker": false
   }
 }

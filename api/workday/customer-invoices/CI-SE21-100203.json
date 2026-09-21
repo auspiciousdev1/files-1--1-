@@ -9,10 +9,20 @@
     "invoice_date": "2026-09-16",
     "due_date": "2026-10-16",
     "payment_terms": "Net 30",
+    "invoice_type": "Final Invoice",
+    "customer": "Svea Fordonsbank AB",
+    "customer_id": "C-SE-0002",
     "bill_to_customer_id": "C-SE-0002",
-    "bill_to_customer": "Volvo Bank",
+    "bill_to_customer": "Svea Fordonsbank AB",
+    "bill_to_address": "Kungsportsavenyen 21, 411 36 Göteborg, Sweden",
+    "bill_to_contact": null,
     "sold_to_customer_id": "C-SE-0006",
     "sold_to_customer": "Sara Nilsson",
+    "ship_to_customer": "Sara Nilsson",
+    "ship_to_address": "Östra Hamngatan 18, 411 09 Göteborg, Sweden",
+    "payment_status": "UNPAID",
+    "payment_type": null,
+    "printed": "No",
     "customer_vat_number": "SE556051222801",
     "currency": "SEK",
     "po_number": null,
@@ -95,7 +105,7 @@
       }
     ],
     "tax": {
-      "tax_code": "SE-VAT-25",
+      "tax_code": "SE 25% VAT (25%)",
       "tax_rate": 25.0,
       "taxable_amount": 465880.0,
       "tax_amount": 116470.0
@@ -104,8 +114,25 @@
       "subtotal": 465880.0,
       "tax_amount": 116470.0,
       "total_amount": 582350.0,
+      "amount_due": 582350.0,
       "currency": "SEK"
     },
+    "process_history": [
+      {
+        "step": "Customer Invoice Event",
+        "status": "Step Completed",
+        "person": "BPO O2C Billing Desk",
+        "moment": "2026-09-15T09:15:00Z",
+        "comment": "Created from POMS order 11200003"
+      },
+      {
+        "step": "Review Customer Invoice",
+        "status": "Awaiting Action",
+        "person": "Billing Specialist",
+        "moment": "2026-09-15T16:02:00Z",
+        "comment": ""
+      }
+    ],
     "created_by": "BPO O2C Billing Desk",
     "created_on": "2026-09-15T09:15:00Z",
     "last_updated": "2026-09-15T16:02:00Z"

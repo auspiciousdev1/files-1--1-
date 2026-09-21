@@ -9,10 +9,20 @@
     "invoice_date": "2026-09-16",
     "due_date": "2026-10-16",
     "payment_terms": "Net 30",
+    "invoice_type": "Final Invoice",
+    "customer": "Øresund Fleet A/S",
+    "customer_id": "C-DK-0301",
     "bill_to_customer_id": "C-DK-0301",
     "bill_to_customer": "Øresund Fleet A/S",
+    "bill_to_address": "Vesterbrogade 24, 1620 København V, Denmark",
+    "bill_to_contact": null,
     "sold_to_customer_id": "C-DK-0301",
     "sold_to_customer": "Øresund Fleet A/S",
+    "ship_to_customer": "Øresund Fleet A/S",
+    "ship_to_address": "Vesterbrogade 24, 1620 København V, Denmark",
+    "payment_status": "UNPAID",
+    "payment_type": null,
+    "printed": "No",
     "customer_vat_number": "DK36987654",
     "currency": "DKK",
     "po_number": null,
@@ -61,7 +71,7 @@
       }
     ],
     "tax": {
-      "tax_code": "DK-VAT-25",
+      "tax_code": "DK 25% VAT (25%)",
       "tax_rate": 25.0,
       "taxable_amount": 467490.0,
       "tax_amount": 116872.5
@@ -70,8 +80,25 @@
       "subtotal": 467490.0,
       "tax_amount": 116872.5,
       "total_amount": 584362.5,
+      "amount_due": 584362.5,
       "currency": "DKK"
     },
+    "process_history": [
+      {
+        "step": "Customer Invoice Event",
+        "status": "Step Completed",
+        "person": "BPO O2C Billing Desk",
+        "moment": "2026-09-15T09:15:00Z",
+        "comment": "Created from POMS order 11400003"
+      },
+      {
+        "step": "Review Customer Invoice",
+        "status": "Awaiting Action",
+        "person": "Billing Specialist",
+        "moment": "2026-09-15T16:02:00Z",
+        "comment": ""
+      }
+    ],
     "created_by": "BPO O2C Billing Desk",
     "created_on": "2026-09-15T09:15:00Z",
     "last_updated": "2026-09-15T16:02:00Z"

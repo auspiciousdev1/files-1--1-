@@ -7,11 +7,19 @@
     "customer_type": "PRIVATE",
     "country": "SE",
     "vat_number": null,
+    "address": {
+      "street": "Fleminggatan 20",
+      "postal_code": "112 26",
+      "city": "Stockholm",
+      "country": "SE"
+    },
+    "address_text": "Fleminggatan 20, 112 26 Stockholm, Sweden",
+    "contact": null,
     "related_party": false,
     "nga_customer": false,
     "leasing_plate_required": false,
     "loan_provider": false,
-    "bpi_exception": false,
+    "bank_sold_to_exception": false,
     "sharepoint_tracker": false
   }
 }

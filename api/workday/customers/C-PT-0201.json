@@ -2,16 +2,24 @@
   "source_system": "Workday",
   "data": {
     "customer_id": "C-PT-0201",
-    "customer_name": "LeasePlan Portugal",
+    "customer_name": "Atlântico Renting SA",
     "company": "PT21",
     "customer_type": "LEASING",
     "country": "PT",
     "vat_number": "PT502062468",
+    "address": {
+      "street": "Avenida da Liberdade 110",
+      "postal_code": "1250-146",
+      "city": "Lisboa",
+      "country": "PT"
+    },
+    "address_text": "Avenida da Liberdade 110, 1250-146 Lisboa, Portugal",
+    "contact": null,
     "related_party": false,
     "nga_customer": false,
     "leasing_plate_required": true,
     "loan_provider": false,
-    "bpi_exception": false,
+    "bank_sold_to_exception": false,
     "sharepoint_tracker": false
   }
 }

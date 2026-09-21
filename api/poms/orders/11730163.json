@@ -10,7 +10,8 @@
     "model_year": 2025,
     "exterior_colour": "Space",
     "buyer_customer_id": "0014J00000TM4rXQAT",
-    "buyer_name": "LeasePlan Deutschland GmbH",
+    "buyer_name": "Hanse Leasing GmbH",
+    "buyer_address": "Speicherstadt 12, 20457 Hamburg, Germany",
     "buyer_contact": "Clara Neumann",
     "financing_type": "CASH",
     "financing_partner_id": null,
@@ -40,6 +41,28 @@
     "total_price": 46637.95,
     "payment_status": "UNPAID",
     "poms_last_updated": "07/26/2026, 12:29 AM UTC",
+    "deliveries": [
+      {
+        "delivery_id": "DLV-11730163",
+        "planned_date": "2026-08-15",
+        "location": "München Delivery Hub",
+        "status": "planned"
+      }
+    ],
+    "events": [
+      {
+        "timestamp": "2026-07-25 07:29 UTC",
+        "event": "order_created"
+      },
+      {
+        "timestamp": "2026-07-25 07:29 UTC",
+        "event": "order_confirmed"
+      },
+      {
+        "timestamp": "2026-07-26 00:29 UTC",
+        "event": "delivery_planning_started"
+      }
+    ],
     "workday_invoices": [
       "DE21-CI058553"
     ]

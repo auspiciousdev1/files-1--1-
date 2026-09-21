@@ -11,6 +11,10 @@
     "exterior_colour": "Snow",
     "buyer_customer_id": "C-NO-0106",
     "buyer_name": "Trondheim Auto Finans AS",
+    "buyer_address": "Markens gate 8, 4611 Kristiansand, Norway",
+    "order_type": "new_car",
+    "sales_type": "B2B",
+    "sales_channel": "Fleet & Business",
     "financing_type": "LEASING",
     "financing_partner_id": null,
     "financing_partner": null,
@@ -41,6 +45,36 @@
     "total_price": 578862.5,
     "payment_status": "FINANCED",
     "poms_last_updated": "2026-09-17T18:40:00Z",
+    "deliveries": [
+      {
+        "delivery_id": "DLV-11100009",
+        "planned_date": "2026-09-12",
+        "location": "Oslo Delivery Hub",
+        "status": "completed"
+      }
+    ],
+    "events": [
+      {
+        "timestamp": "2026-08-09 10:12 UTC",
+        "event": "order_created"
+      },
+      {
+        "timestamp": "2026-08-09 10:14 UTC",
+        "event": "order_confirmed"
+      },
+      {
+        "timestamp": "2026-08-11 08:30 UTC",
+        "event": "payment_financing_approved"
+      },
+      {
+        "timestamp": "2026-09-05 09:00 UTC",
+        "event": "delivery_planning_started"
+      },
+      {
+        "timestamp": "2026-09-12 14:00 UTC",
+        "event": "handover_completed"
+      }
+    ],
     "workday_invoices": [
       "CI-NO21-200309"
     ]

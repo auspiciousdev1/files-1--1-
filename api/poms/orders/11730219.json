@@ -10,7 +10,8 @@
     "model_year": 2025,
     "exterior_colour": "Space",
     "buyer_customer_id": "0014J00000TP1nDQAT",
-    "buyer_name": "Athlon Germany GmbH",
+    "buyer_name": "Isar Flottenmanagement GmbH",
+    "buyer_address": "Theresienhöhe 30, 80339 München, Germany",
     "buyer_contact": "Sofia Lindqvist",
     "financing_type": "LOAN",
     "financing_partner_id": null,
@@ -34,6 +35,28 @@
     "total_price": 60538.35,
     "payment_status": "UNPAID",
     "poms_last_updated": "07/17/2026, 08:59 PM UTC",
+    "deliveries": [
+      {
+        "delivery_id": "DLV-11730219",
+        "planned_date": "2026-08-07",
+        "location": "Remarketing Center Leipzig",
+        "status": "planned"
+      }
+    ],
+    "events": [
+      {
+        "timestamp": "2026-07-17 03:59 UTC",
+        "event": "order_created"
+      },
+      {
+        "timestamp": "2026-07-17 03:59 UTC",
+        "event": "order_confirmed"
+      },
+      {
+        "timestamp": "2026-07-17 20:59 UTC",
+        "event": "delivery_planning_started"
+      }
+    ],
     "workday_invoices": [
       "DE21-CI058561"
     ]

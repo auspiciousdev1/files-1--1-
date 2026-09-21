@@ -10,8 +10,9 @@
     "model_year": 2025,
     "exterior_colour": "Magnesium",
     "buyer_customer_id": "0014J00000TN8kLQAV",
-    "buyer_name": "Ayvens Germany GmbH",
-    "buyer_contact": "Ravi Menon",
+    "buyer_name": "Elbe Fuhrpark GmbH",
+    "buyer_address": "Friedrichstraße 88, 10117 Berlin, Germany",
+    "buyer_contact": "Ravi Schuster",
     "financing_type": "LEASING",
     "financing_partner_id": null,
     "financing_partner": null,
@@ -34,6 +35,28 @@
     "total_price": 48375.5,
     "payment_status": "UNPAID",
     "poms_last_updated": "07/24/2026, 09:18 PM UTC",
+    "deliveries": [
+      {
+        "delivery_id": "DLV-11730170",
+        "planned_date": "2026-08-14",
+        "location": "Remarketing Center Leipzig",
+        "status": "planned"
+      }
+    ],
+    "events": [
+      {
+        "timestamp": "2026-07-24 04:18 UTC",
+        "event": "order_created"
+      },
+      {
+        "timestamp": "2026-07-24 04:18 UTC",
+        "event": "order_confirmed"
+      },
+      {
+        "timestamp": "2026-07-24 21:18 UTC",
+        "event": "delivery_planning_started"
+      }
+    ],
     "workday_invoices": [
       "DE21-CI058554"
     ]

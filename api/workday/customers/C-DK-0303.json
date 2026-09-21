@@ -7,11 +7,19 @@
     "customer_type": "PRIVATE",
     "country": "DK",
     "vat_number": null,
+    "address": {
+      "street": "Algade 16",
+      "postal_code": "9000",
+      "city": "Aalborg",
+      "country": "DK"
+    },
+    "address_text": "Algade 16, 9000 Aalborg, Denmark",
+    "contact": null,
     "related_party": false,
     "nga_customer": false,
     "leasing_plate_required": false,
     "loan_provider": false,
-    "bpi_exception": false,
+    "bank_sold_to_exception": false,
     "sharepoint_tracker": false
   }
 }

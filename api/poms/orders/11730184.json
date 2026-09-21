@@ -10,8 +10,9 @@
     "model_year": 2025,
     "exterior_colour": "Snow",
     "buyer_customer_id": "0014J00000TJ7kxQAD",
-    "buyer_name": "FINN GmbH",
-    "buyer_contact": "Tim Hartdegen",
+    "buyer_name": "Rheinmobil Fleet GmbH",
+    "buyer_address": "Kaiserswerther Straße 115, 40474 Düsseldorf, Germany",
+    "buyer_contact": "Tim Brauer",
     "financing_type": "CASH",
     "financing_partner_id": null,
     "financing_partner": null,
@@ -40,6 +41,28 @@
     "total_price": 51850.6,
     "payment_status": "UNPAID",
     "poms_last_updated": "07/22/2026, 03:55 PM UTC",
+    "deliveries": [
+      {
+        "delivery_id": "DLV-11730184",
+        "planned_date": "2026-08-11",
+        "location": "Remarketing Center Leipzig",
+        "status": "planned"
+      }
+    ],
+    "events": [
+      {
+        "timestamp": "2026-07-21 22:55 UTC",
+        "event": "order_created"
+      },
+      {
+        "timestamp": "2026-07-21 22:55 UTC",
+        "event": "order_confirmed"
+      },
+      {
+        "timestamp": "2026-07-22 15:55 UTC",
+        "event": "delivery_planning_started"
+      }
+    ],
     "workday_invoices": [
       "DE21-CI058556"
     ]

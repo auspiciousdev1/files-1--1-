@@ -9,10 +9,20 @@
     "invoice_date": "2026-09-16",
     "due_date": "2026-10-16",
     "payment_terms": "Net 30",
+    "invoice_type": "Final Invoice",
+    "customer": "København Byggeri A/S",
+    "customer_id": "C-DK-0304",
     "bill_to_customer_id": "C-DK-0304",
     "bill_to_customer": "København Byggeri A/S",
+    "bill_to_address": "Østergade 5, 5000 Odense C, Denmark",
+    "bill_to_contact": null,
     "sold_to_customer_id": "C-DK-0304",
     "sold_to_customer": "København Byggeri A/S",
+    "ship_to_customer": "København Byggeri A/S",
+    "ship_to_address": "Østergade 5, 5000 Odense C, Denmark",
+    "payment_status": "UNPAID",
+    "payment_type": null,
+    "printed": "No",
     "customer_vat_number": "DK25123456",
     "currency": "DKK",
     "po_number": "KB-2026-0554",
@@ -61,7 +71,7 @@
       }
     ],
     "tax": {
-      "tax_code": "DK-VAT-25",
+      "tax_code": "DK 25% VAT (25%)",
       "tax_rate": 25.0,
       "taxable_amount": 467990.0,
       "tax_amount": 116997.5
@@ -70,8 +80,25 @@
       "subtotal": 467990.0,
       "tax_amount": 116997.5,
       "total_amount": 584987.5,
+      "amount_due": 584987.5,
       "currency": "DKK"
     },
+    "process_history": [
+      {
+        "step": "Customer Invoice Event",
+        "status": "Step Completed",
+        "person": "BPO O2C Billing Desk",
+        "moment": "2026-09-15T09:15:00Z",
+        "comment": "Created from POMS order 11400004"
+      },
+      {
+        "step": "Review Customer Invoice",
+        "status": "Awaiting Action",
+        "person": "Billing Specialist",
+        "moment": "2026-09-15T16:02:00Z",
+        "comment": ""
+      }
+    ],
     "created_by": "BPO O2C Billing Desk",
     "created_on": "2026-09-15T09:15:00Z",
     "last_updated": "2026-09-15T16:02:00Z"

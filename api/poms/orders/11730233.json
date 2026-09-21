@@ -10,7 +10,8 @@
     "model_year": 2026,
     "exterior_colour": "Thunder",
     "buyer_customer_id": "0014J00000TK2mAQAT",
-    "buyer_name": "ViveLaCar GmbH",
+    "buyer_name": "AutoAbo Nord GmbH",
+    "buyer_address": "Große Elbstraße 47, 22767 Hamburg, Germany",
     "buyer_contact": "Nadia Rustam",
     "financing_type": "LEASING",
     "financing_partner_id": null,
@@ -34,6 +35,28 @@
     "total_price": 64013.45,
     "payment_status": "UNPAID",
     "poms_last_updated": "07/15/2026, 02:37 PM UTC",
+    "deliveries": [
+      {
+        "delivery_id": "DLV-11730233",
+        "planned_date": "2026-08-04",
+        "location": "München Delivery Hub",
+        "status": "planned"
+      }
+    ],
+    "events": [
+      {
+        "timestamp": "2026-07-14 21:37 UTC",
+        "event": "order_created"
+      },
+      {
+        "timestamp": "2026-07-14 21:37 UTC",
+        "event": "order_confirmed"
+      },
+      {
+        "timestamp": "2026-07-15 14:37 UTC",
+        "event": "delivery_planning_started"
+      }
+    ],
     "workday_invoices": [
       "DE21-CI058563"
     ]

@@ -10,11 +10,12 @@ Two generators feed it:
                                                      POMS orders, trackers, E&Y, Salesforce,
                                                      rule catalogue and answer key
   generators/legacy_de21/                            the original DE21 dataset of this POC
-                                                     (23 invoices, 23 orders, 8 seeded mismatches)
+                                                     (23 invoices, 23 orders, 8 seeded mismatches),
+                                                     with fictional customers and addresses
 
 The DE21 records are converted into the same schema, given Revenue Categories on
 their lines, and its 8 seeded mismatches become DE21 rows of the answer key.
-Everything is written to api/ and sql/; the validator and the two UIs read only api/.
+Everything is written to api/ and sql/; the two UIs read only api/.
 """
 from __future__ import annotations
 
@@ -60,16 +61,8 @@ def iso(d: str) -> str:            # legacy dates are dd/mm/yyyy
 # ----------------------------------------------------------------------------
 os.makedirs(os.path.join(STAGE, "sql"), exist_ok=True)
 subprocess.run([sys.executable, os.path.join(STAGE, "generate_workday_poms.py")], check=True, cwd=STAGE)
-keep_runs = os.path.join(API, "validation-runs")
-tmp_runs = None
-if os.path.isdir(keep_runs):
-    tmp_runs = os.path.join(ROOT, ".runs-keep")
-    shutil.rmtree(tmp_runs, ignore_errors=True)
-    shutil.move(keep_runs, tmp_runs)
 shutil.rmtree(API, ignore_errors=True)
 shutil.copytree(os.path.join(STAGE, "api"), API)
-if tmp_runs:
-    shutil.move(tmp_runs, keep_runs)
 shutil.rmtree(SQL, ignore_errors=True)
 shutil.copytree(os.path.join(STAGE, "sql"), SQL)
 
@@ -114,6 +107,31 @@ leg_inv = [load(p)["data"] for p in sorted(glob.glob(os.path.join(LEGACY, "invoi
 leg_ord = [load(p)["data"] for p in sorted(glob.glob(os.path.join(LEGACY, "orders", "*.json")))]
 mismatches = load(os.path.join(LEGACY, "mismatches.json"))["data"]
 
+# Fictional DE21 customer master (the legacy JSON under generators/legacy_de21 already uses these names).
+DE_NAMES = {
+    "Rheinmobil Fleet GmbH": ("Kaiserswerther Straße 115", "40474", "Düsseldorf", "DE812345671"),
+    "AutoAbo Nord GmbH": ("Große Elbstraße 47", "22767", "Hamburg", "DE812345672"),
+    "Mietwagen Süd AG": ("Landsberger Straße 300", "80687", "München", "DE812345673"),
+    "Hanse Leasing GmbH": ("Speicherstadt 12", "20457", "Hamburg", "DE812345674"),
+    "Elbe Fuhrpark GmbH": ("Friedrichstraße 88", "10117", "Berlin", "DE812345675"),
+    "Isar Flottenmanagement GmbH": ("Theresienhöhe 30", "80339", "München", "DE812345676"),
+    "Polestar Automotive Germany GmbH": ("Moosacher Straße 88", "80809", "München", "DE325417612"),
+}
+
+
+def de_name(n: str) -> str:
+    return n
+
+
+def de_addr(n: str) -> str:
+    street, plz, city, _ = DE_NAMES.get(n, ("Musterstraße 1", "10115", "Berlin", None))
+    return f"{street}, {plz} {city}, Germany"
+
+
+def de_contact(first: str, last: str) -> str:
+    return f"{first} {last}"
+
+
 # customers: one per distinct (customer_id, name) seen on invoices or orders
 seen = {}
 for i in leg_inv:
@@ -122,16 +140,21 @@ for o in leg_ord:
     seen.setdefault(o["orderer"]["customer_id"], o["orderer"]["company"])
 seen.setdefault("DE21-INTERNAL", "Polestar Automotive Germany GmbH")
 for cid, name in seen.items():
+    street, plz, city, vat = DE_NAMES.get(name, ("Musterstraße 1", "10115", "Berlin", None))
     customers["data"].append({"customer_id": cid, "customer_name": name, "company": "DE21",
-                              "customer_type": "LEASING" if any(k in name for k in ("Lease", "Ayvens", "Athlon", "Vive", "FINN", "Sixt")) else "CORPORATE",
-                              "country": "DE", "vat_number": None, "related_party": name.startswith("Polestar"),
+                              "customer_type": "LEASING" if name != "Polestar Automotive Germany GmbH" else "CORPORATE",
+                              "country": "DE", "vat_number": vat,
+                              "address": {"street": street, "postal_code": plz, "city": city, "country": "DE"},
+                              "address_text": f"{street}, {plz} {city}, Germany", "contact": None,
+                              "related_party": name.startswith("Polestar"),
                               "nga_customer": False, "leasing_plate_required": False, "loan_provider": False,
-                              "bpi_exception": False, "sharepoint_tracker": False})
+                              "bank_sold_to_exception": False, "sharepoint_tracker": False})
 customers["count"] = len(customers["data"])
 for c in customers["data"]:
     if c["company"] == "DE21":
         dump(os.path.join(WD, "customers", f"{c['customer_id']}.json"), {"source_system": "Workday", "data": c})
 CUST_BY_NAME = {c["customer_name"]: c["customer_id"] for c in customers["data"] if c["company"] == "DE21"}
+CUST_BY_ID = {c["customer_id"]: c for c in customers["data"]}
 
 # ----------------------------------------------------------------------------
 # 3. DE21 — POMS orders into the unified order schema
@@ -148,12 +171,16 @@ for o in leg_ord:
     opts = [{"option_code": "PLUS-PACK", "description": l["item"], "amount": money(l["amount_incl_vat"] / (1 + vat_rate / 100))}
             for l in o["order_lines"] if not l["item"].startswith("Polestar")]
     inv_nos = [i["invoice_number"] for i in leg_inv if i["sales_order"] == o["order_no"]]
+    hub = {"remarketed": "Remarketing Center Leipzig"}.get(o["order_type"], "München Delivery Hub")
+    for d in o.get("deliveries", []):
+        d["location"] = hub
     new_orders.append({
         "order_number": o["order_no"], "market": "Germany", "company": "DE21",
         "vin": o["car"]["vin"], "model": o["car"]["model"], "model_code": "P" + o["car"]["model"][-1],
         "model_year": o["car"]["model_year"], "exterior_colour": o["car"]["colour"],
-        "buyer_customer_id": o["orderer"]["customer_id"], "buyer_name": o["orderer"]["company"],
-        "buyer_contact": f"{o['orderer']['first_name']} {o['orderer']['last_name']}",
+        "buyer_customer_id": o["orderer"]["customer_id"], "buyer_name": de_name(o["orderer"]["company"]),
+        "buyer_address": de_addr(o["orderer"]["company"]),
+        "buyer_contact": de_contact(o["orderer"]["first_name"], o["orderer"]["last_name"]),
         "financing_type": FIN.get(o["financing_option"], o["financing_option"].upper()),
         "financing_partner_id": None, "financing_partner": None, "license_plate": None,
         "order_type": o["order_type"], "sales_type": o["sales_type"], "sales_channel": o["sales_channel"],
@@ -163,6 +190,7 @@ for o in leg_ord:
         "base_price": car_net, "paint_amount": 0.0, "options": opts, "fees": [], "discount_amount": 0.0,
         "gross_taxable_amount": net, "vat_rate": vat_rate, "vat_amount": vat, "total_price": gross_incl,
         "payment_status": "UNPAID", "poms_last_updated": o["updated_at"],
+        "deliveries": o.get("deliveries", []), "events": o.get("events", []),
         "workday_invoices": inv_nos,
     })
 orders["data"].extend(new_orders)
@@ -207,16 +235,24 @@ for i in leg_inv:
         "company": "DE21", "company_name": DE21["company_name"], "status": i["status"].upper(),
         "payment_status": i["payment_status"].upper(),
         "invoice_date": iso(i["invoice_date"]), "due_date": iso(i["due_date"]), "payment_terms": i["payment_terms"],
-        "bill_to_customer_id": CUST_BY_NAME.get(i["bill_to_customer"], i["customer_id"]), "bill_to_customer": i["bill_to_customer"],
-        "sold_to_customer_id": CUST_BY_NAME.get(i["sold_to_customer"], i["customer_id"]), "sold_to_customer": i["sold_to_customer"],
-        "ship_to_customer": i["ship_to_customer"], "bill_to_address": i["bill_to_address"],
-        "customer_vat_number": None, "currency": "EUR", "po_number": i["po_number"] or None,
+        "customer": de_name(i["customer"]), "customer_id": i["customer_id"],
+        "bill_to_customer_id": CUST_BY_NAME.get(de_name(i["bill_to_customer"]), i["customer_id"]), "bill_to_customer": de_name(i["bill_to_customer"]),
+        "bill_to_address": de_addr(i["bill_to_customer"]), "bill_to_contact": None,
+        "sold_to_customer_id": CUST_BY_NAME.get(de_name(i["sold_to_customer"]), i["customer_id"]), "sold_to_customer": de_name(i["sold_to_customer"]),
+        "ship_to_customer": de_name(i["ship_to_customer"]), "ship_to_address": de_addr(i["ship_to_customer"]),
+        "payment_type": None, "printed": "No",
+        "customer_vat_number": CUST_BY_ID.get(CUST_BY_NAME.get(de_name(i["bill_to_customer"]), ""), {}).get("vat_number"),
+        "currency": "EUR", "po_number": i["po_number"] or None,
         "vin": i["vehicle_identifier_number"], "poms_order_number": i["sales_order"], "model": i["model"],
         "worktags": i["worktags"], "statutory_invoice_type": None, "statutory_invoice_number": None,
         "memo": i["memo"], "payment_application": None, "attachments": [],
         "lines": rows,
         "tax": {"tax_code": i["default_tax_code"], "tax_rate": tax_rate, "taxable_amount": subtotal, "tax_amount": money(i["tax_amount"])},
-        "totals": {"subtotal": subtotal, "tax_amount": money(i["tax_amount"]), "total_amount": money(i["total_invoice_amount"]), "currency": "EUR"},
+        "totals": {"subtotal": subtotal, "tax_amount": money(i["tax_amount"]), "total_amount": money(i["total_invoice_amount"]), "amount_due": money(i["amount_due"]), "currency": "EUR"},
+        "process_history": [
+            {"step": "Customer Invoice Event", "status": "Step Completed", "person": "BPO O2C Billing Desk", "moment": iso(i["invoice_date"]) + "T08:30:00Z", "comment": f"Created from POMS order {i['sales_order']}"},
+            {"step": "Review Customer Invoice", "status": "Awaiting Action" if i["status"] == "Draft" else "Step Completed", "person": "Billing Specialist", "moment": iso(i["invoice_date"]) + "T11:45:00Z", "comment": ""},
+        ] + ([{"step": "Approval by Finance Manager", "status": "Approved", "person": "Finance Manager", "moment": iso(i["invoice_date"]) + "T15:10:00Z", "comment": ""}] if i["status"] == "Approved" else []),
         "created_by": "BPO O2C Billing Desk", "created_on": iso(i["invoice_date"]) + "T08:30:00Z",
         "last_updated": iso(i["invoice_date"]) + "T08:30:00Z",
     }
@@ -224,7 +260,7 @@ for i in leg_inv:
 
 
 def header_row(i: dict) -> dict:
-    h = {k: v for k, v in i.items() if k not in ("lines", "tax", "totals", "attachments", "payment_application", "worktags")}
+    h = {k: v for k, v in i.items() if k not in ("lines", "tax", "totals", "attachments", "payment_application", "worktags", "process_history")}
     h.update({"line_count": len(i["lines"]), "taxable_amount": i["tax"]["taxable_amount"], "tax_rate": i["tax"]["tax_rate"],
               "tax_amount": i["tax"]["tax_amount"], "subtotal": i["totals"]["subtotal"], "total_amount": i["totals"]["total_amount"],
               "has_fee_lines": any(RC[l["revenue_category"]]["is_fee"] for l in i["lines"]), "payment_applied_as": None})
@@ -305,6 +341,8 @@ dump(os.path.join(API, "mismatches.json"), {"note": "Legacy DE21 answer key from
 index["system"] = "Workday + POMS billing validation POC (DE21, SE21, NO21, PT21, DK21)"
 index["companies"] = [c["company"] for c in companies["data"]]
 index["endpoints"]["legacy_de21_mismatches"] = "api/mismatches.json"
+index["endpoints"].pop("validation_latest_run", None)
+index["endpoints"].pop("validation_history", None)
 index["counts"] = {"customer_invoices": len(inv_headers["data"]), "invoice_lines": len(flat["data"]), "poms_orders": len(orders["data"]),
                    "customers": len(customers["data"]), "rules": len(rules["data"]), "expected": expected["summary"]}
 dump(os.path.join(WD, "index.json"), index)

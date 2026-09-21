@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Pre-billing validation POC — Workday · POMS · hourly validator</title>
+<title>Pre-billing validation POC — Workday · POMS</title>
 <style>
   :root{--ink:#14181d;--line:#dfe3e8;--blue:#0875e1;--orange:#ff5a1f;--green:#1d8a4b;--muted:#5d646c}
   *{box-sizing:border-box}
@@ -37,8 +37,8 @@
     <h1>Pre-billing invoice validation — POC</h1>
     <p>Workday holds the draft customer invoices; POMS is the commercial truth they must agree with. Five legal entities
        (DE21, SE21, NO21, PT21, DK21), every invoice line with a Sales Item and a Revenue Category, and seeded scenarios for
-       each entity exception — normal cases, passing cases and failing cases. A rule engine validates the whole dataset every
-       hour and publishes the result back here.</p>
+       each entity exception — normal cases, passing cases and failing cases. All customers, contacts and addresses are fictional.
+       The dataset is served as static JSON so an external validation agent can read both systems.</p>
   </header>
   <main>
     <div class="cards">
@@ -55,12 +55,12 @@
         <p>Vehicle orders with buyer, financing partner, VIN, licence plate, base price, fees, gross taxable amount, VAT and total.
            Each order links to the Workday invoices raised against it and their latest validation result.</p>
       </a>
-      <a class="card val" href="workday/index.html#/monitor">
-        <span class="tag">Hourly scheduler</span>
-        <h2>Validation monitor</h2>
-        <p>Latest run, run history, hits per rule, results per invoice against the POC answer key, and POMS orders that were
-           never invoiced. Fed by <code>validator/validate.py</code> — locally via <code>scheduler.py</code> or on GitHub via
-           the hourly Actions cron.</p>
+      <a class="card val" href="api/index.json">
+        <span class="tag">Integration</span>
+        <h2>API catalogue</h2>
+        <p>Every endpoint, join key and record count. Includes the rule catalogue (<code>exception-rules.json</code>) and the
+           answer key (<code>expected-results.json</code>) that describe which seeded invoices should pass, fail or be held —
+           for the validation layer built outside this POC.</p>
       </a>
     </div>
 
@@ -69,9 +69,9 @@
       <thead><tr><th>Company</th><th>Exception scope from the entity document</th><th>Invoices</th><th>Seeded outcome</th></tr></thead>
       <tbody>
         <tr><td><b>DE21</b></td><td>Generic Workday vs POMS field checks (amount, VAT, VIN, PO, customer, model, orphan records)</td><td>23</td><td><span class="pill ok">16 pass</span><span class="pill bad">7 fail</span></td></tr>
-        <tr><td><b>SE21</b></td><td>Bill-To / Sold-To is Ziklo Bank or Volvo Bank and line description contains "Brand" → Revenue Category must be 3030</td><td>6</td><td><span class="pill ok">3 pass</span><span class="pill bad">3 fail</span></td></tr>
+        <tr><td><b>SE21</b></td><td>Bill-To / Sold-To is a related-party financing bank and line description contains "Brand" → Revenue Category must be 3030</td><td>6</td><td><span class="pill ok">3 pass</span><span class="pill bad">3 fail</span></td></tr>
         <tr><td><b>NO21</b></td><td>NGA customers: tracker capture, wait for NGA response, fee-line removal, revised gross / base, tax recalculation, POMS price match, factoring "On Account"</td><td>10</td><td><span class="pill ok">3 pass</span><span class="pill bad">6 fail</span><span class="pill hold">1 hold</span></td></tr>
-        <tr><td><b>PT21</b></td><td>Licence plate for LeasePlan / Arval / Leasys / Locarent / Kinto, Bill-To = Sold-To = Buyer (Banco BPI reversal), VAT number on extras and prepayments, E&amp;Y daily report exclusions, E&amp;Y final invoice match, gapless PT24… numbering, approve only after E&amp;Y</td><td>16</td><td><span class="pill ok">7 pass</span><span class="pill bad">9 fail</span></td></tr>
+        <tr><td><b>PT21</b></td><td>Licence plate for flagged leasing companies, Bill-To = Sold-To = Buyer (bank sold-to reversal), VAT number on extras and prepayments, E&amp;Y daily report exclusions, E&amp;Y final invoice match, gapless PT24… numbering, approve only after E&amp;Y</td><td>16</td><td><span class="pill ok">7 pass</span><span class="pill bad">9 fail</span></td></tr>
         <tr><td><b>DK21</b></td><td>Customer-specific SharePoint tracker from Sales drives PO reference, agreed price and description text</td><td>5</td><td><span class="pill ok">3 pass</span><span class="pill bad">2 fail</span></td></tr>
       </tbody>
     </table>
@@ -89,23 +89,24 @@
         <tr><td>Trackers and side systems</td><td><code>api/trackers/nga-tracker.json</code> · <code>factoring-tracker.json</code> · <code>dk21-sharepoint-tracker.json</code> · <code>api/ey/final-invoices.json</code> · <code>api/salesforce/accounts.json</code></td><td>What the entity exceptions depend on</td></tr>
         <tr><td>Rule catalogue</td><td><code>api/workday/exception-rules.json</code></td><td>23 rules</td></tr>
         <tr><td>Answer key</td><td><code>api/workday/expected-results.json</code></td><td>Expected PASS / FAIL / HOLD and rule ids per invoice (<code>api/mismatches.json</code> is the legacy DE21 key)</td></tr>
-        <tr><td>Validation runs</td><td><code>api/validation-runs/latest.json</code>, <code>history.json</code></td><td>Written by the hourly validator</td></tr>
       </tbody>
     </table>
     <p class="note">Join keys: <code>customer_invoice.poms_order_number = poms_order.order_number</code> ·
        <code>invoice_line.revenue_category = revenue_category.revenue_category</code> ·
        <code>bill_to_customer_id / sold_to_customer_id = customer.customer_id</code>.</p>
 
-    <h3>Run the validator</h3>
-<pre># against this hosted copy
-python3 validator/validate.py --base-url https://&lt;you&gt;.github.io/&lt;repo&gt; --check
+    <h3>Reading it from Python</h3>
+<pre>import requests
 
-# against the local checkout, then keep going every hour
-python3 validator/validate.py --check
-python3 validator/scheduler.py
+BASE = "https://&lt;you&gt;.github.io/&lt;repo&gt;"
+invoices = requests.get(f"{BASE}/api/workday/customer-invoices.json").json()["data"]
+orders   = {o["order_number"]: o for o in requests.get(f"{BASE}/api/poms/orders.json").json()["data"]}
 
-# rebuild the dataset after editing a generator
-python3 build.py</pre>
+for h in invoices:
+    inv   = requests.get(f"{BASE}/api/workday/customer-invoices/{h['invoice_number']}.json").json()["data"]
+    order = orders.get(inv["poms_order_number"])
+    for line in inv["lines"]:
+        print(inv["invoice_number"], line["line"], line["sales_item"], line["revenue_category"], line["extended_amount"])</pre>
   </main>
 </body>
 </html>

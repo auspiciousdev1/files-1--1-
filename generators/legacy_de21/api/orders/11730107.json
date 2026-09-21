@@ -27,11 +27,11 @@
     },
     "orderer": {
       "first_name": "Lena",
-      "last_name": "Brandt",
-      "email": "lena.brandt@vivelacar.com",
-      "company": "ViveLaCar GmbH",
+      "last_name": "Krüger",
+      "email": "lena.krüger@autoabo-nord.example",
+      "company": "AutoAbo Nord GmbH",
       "customer_id": "0014J00000TK2mAQAT",
-      "address": "Königstraße 27 70173 Stuttgart Germany"
+      "address": "Große Elbstraße 47 22767 Hamburg Germany"
     },
     "financing_option": "Leasing",
     "created_at": "08/02/2026, 11:58 AM UTC",

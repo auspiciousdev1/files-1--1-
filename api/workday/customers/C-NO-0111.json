@@ -7,11 +7,19 @@
     "customer_type": "PRIVATE",
     "country": "NO",
     "vat_number": null,
+    "address": {
+      "street": "Hegdehaugsveien 27",
+      "postal_code": "0352",
+      "city": "Oslo",
+      "country": "NO"
+    },
+    "address_text": "Hegdehaugsveien 27, 0352 Oslo, Norway",
+    "contact": null,
     "related_party": false,
     "nga_customer": false,
     "leasing_plate_required": false,
     "loan_provider": false,
-    "bpi_exception": false,
+    "bank_sold_to_exception": false,
     "sharepoint_tracker": false
   }
 }

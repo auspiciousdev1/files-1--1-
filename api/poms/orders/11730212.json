@@ -10,7 +10,8 @@
     "model_year": 2025,
     "exterior_colour": "Snow",
     "buyer_customer_id": "0014J00000TN8kLQAV",
-    "buyer_name": "Ayvens Germany GmbH",
+    "buyer_name": "Elbe Fuhrpark GmbH",
+    "buyer_address": "Friedrichstraße 88, 10117 Berlin, Germany",
     "buyer_contact": "Jonas Weidmann",
     "financing_type": "LEASING",
     "financing_partner_id": null,
@@ -34,6 +35,28 @@
     "total_price": 58800.8,
     "payment_status": "UNPAID",
     "poms_last_updated": "07/18/2026, 11:11 PM UTC",
+    "deliveries": [
+      {
+        "delivery_id": "DLV-11730212",
+        "planned_date": "2026-08-08",
+        "location": "München Delivery Hub",
+        "status": "planned"
+      }
+    ],
+    "events": [
+      {
+        "timestamp": "2026-07-18 06:11 UTC",
+        "event": "order_created"
+      },
+      {
+        "timestamp": "2026-07-18 06:11 UTC",
+        "event": "order_confirmed"
+      },
+      {
+        "timestamp": "2026-07-18 23:11 UTC",
+        "event": "delivery_planning_started"
+      }
+    ],
     "workday_invoices": [
       "DE21-CI058560"
     ]

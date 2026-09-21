@@ -7,11 +7,19 @@
     "customer_type": "BANK",
     "country": "PT",
     "vat_number": "PT508678901",
+    "address": {
+      "street": "Rua Castilho 39",
+      "postal_code": "1250-068",
+      "city": "Lisboa",
+      "country": "PT"
+    },
+    "address_text": "Rua Castilho 39, 1250-068 Lisboa, Portugal",
+    "contact": null,
     "related_party": false,
     "nga_customer": false,
     "leasing_plate_required": false,
     "loan_provider": true,
-    "bpi_exception": false,
+    "bank_sold_to_exception": false,
     "sharepoint_tracker": false
   }
 }

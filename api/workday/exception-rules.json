@@ -39,7 +39,7 @@
       "company": "SE21",
       "name": "Related party revenue category",
       "severity": "high",
-      "condition": "Bill-To or Sold-To is Ziklo Bank or Volvo Bank (customer.related_party) AND line description contains 'Brand'",
+      "condition": "Bill-To or Sold-To is a related-party financing bank (customer.related_party = true) AND line description contains 'Brand'",
       "check": "Line revenue_category = 3030",
       "source": "Workday customer master + invoice line",
       "outcome_on_fail": "FAIL",
@@ -110,7 +110,7 @@
       "company": "PT21",
       "name": "Leasing licence plate",
       "severity": "high",
-      "condition": "Bill-To is LeasePlan, Arval, Leasys, Locarent or Kinto (customer.leasing_plate_required)",
+      "condition": "Bill-To is a leasing company that requires the licence plate (customer.leasing_plate_required = true)",
       "check": "Vehicle line description contains the POMS license_plate",
       "source": "POMS order",
       "outcome_on_fail": "FAIL"
@@ -120,7 +120,7 @@
       "company": "PT21",
       "name": "Personal loan bill-to",
       "severity": "high",
-      "condition": "POMS financing_type = PERSONAL_LOAN and partner is not Banco BPI SA",
+      "condition": "POMS financing_type = PERSONAL_LOAN and the partner is not flagged bank_sold_to_exception",
       "check": "Bill-To = Sold-To = buyer",
       "source": "POMS order",
       "outcome_on_fail": "FAIL"
@@ -128,10 +128,10 @@
     {
       "rule_id": "PT21-003",
       "company": "PT21",
-      "name": "Banco BPI exception",
+      "name": "Bank sold-to exception",
       "severity": "high",
-      "condition": "POMS financing partner = Banco BPI SA",
-      "check": "Bill-To = Sold-To = Banco BPI SA",
+      "condition": "POMS financing partner is flagged bank_sold_to_exception",
+      "check": "Bill-To = Sold-To = the loan provider",
       "source": "POMS order",
       "outcome_on_fail": "FAIL"
     },

@@ -9,10 +9,20 @@
     "invoice_date": "2026-09-16",
     "due_date": "2026-10-16",
     "payment_terms": "Net 30",
+    "invoice_type": "Final Invoice",
+    "customer": "Mette Hansen",
+    "customer_id": "C-DK-0302",
     "bill_to_customer_id": "C-DK-0302",
     "bill_to_customer": "Mette Hansen",
+    "bill_to_address": "Nørregade 8, 8000 Aarhus C, Denmark",
+    "bill_to_contact": null,
     "sold_to_customer_id": "C-DK-0302",
     "sold_to_customer": "Mette Hansen",
+    "ship_to_customer": "Mette Hansen",
+    "ship_to_address": "Nørregade 8, 8000 Aarhus C, Denmark",
+    "payment_status": "UNPAID",
+    "payment_type": null,
+    "printed": "No",
     "customer_vat_number": null,
     "currency": "DKK",
     "po_number": null,
@@ -61,7 +71,7 @@
       }
     ],
     "tax": {
-      "tax_code": "DK-VAT-25",
+      "tax_code": "DK 25% VAT (25%)",
       "tax_rate": 25.0,
       "taxable_amount": 349995.0,
       "tax_amount": 87498.75
@@ -70,8 +80,25 @@
       "subtotal": 349995.0,
       "tax_amount": 87498.75,
       "total_amount": 437493.75,
+      "amount_due": 437493.75,
       "currency": "DKK"
     },
+    "process_history": [
+      {
+        "step": "Customer Invoice Event",
+        "status": "Step Completed",
+        "person": "BPO O2C Billing Desk",
+        "moment": "2026-09-15T09:15:00Z",
+        "comment": "Created from POMS order 11400001"
+      },
+      {
+        "step": "Review Customer Invoice",
+        "status": "Awaiting Action",
+        "person": "Billing Specialist",
+        "moment": "2026-09-15T16:02:00Z",
+        "comment": ""
+      }
+    ],
     "created_by": "BPO O2C Billing Desk",
     "created_on": "2026-09-15T09:15:00Z",
     "last_updated": "2026-09-15T16:02:00Z"

@@ -20,7 +20,7 @@
     {
       "invoice_number": "CI-SE21-100202",
       "company": "SE21",
-      "scenario": "SE21 exception PASS: bill-to Ziklo Bank, Brand line already on 3030",
+      "scenario": "SE21 exception PASS: bill-to Nordkredit Bank AB (related party), Brand line already on 3030",
       "expected_status": "PASS",
       "expected_findings": [],
       "remediation": null
@@ -28,7 +28,7 @@
     {
       "invoice_number": "CI-SE21-100203",
       "company": "SE21",
-      "scenario": "SE21 exception FAIL: bill-to Volvo Bank, Brand line left on 3022 (the screenshot case)",
+      "scenario": "SE21 exception FAIL: bill-to Svea Fordonsbank AB (related party), Brand line left on 3022 (the screenshot case)",
       "expected_status": "FAIL",
       "expected_findings": [
         "SE21-001"
@@ -38,7 +38,7 @@
     {
       "invoice_number": "CI-SE21-100204",
       "company": "SE21",
-      "scenario": "SE21 exception FAIL: Ziklo Bank is sold-to, Brand line on 3027",
+      "scenario": "SE21 exception FAIL: Nordkredit Bank AB (related party) is sold-to, Brand line on 3027",
       "expected_status": "FAIL",
       "expected_findings": [
         "SE21-001"
@@ -170,7 +170,7 @@
     {
       "invoice_number": "CI-PT21-300402",
       "company": "PT21",
-      "scenario": "PT21 leasing PASS: LeasePlan, licence plate from POMS present in the line description",
+      "scenario": "PT21 leasing PASS: Atlântico Renting, licence plate from POMS present in the line description",
       "expected_status": "PASS",
       "expected_findings": [],
       "remediation": null
@@ -178,7 +178,7 @@
     {
       "invoice_number": "CI-PT21-300403",
       "company": "PT21",
-      "scenario": "PT21 leasing FAIL: Arval, licence plate BH-44-LQ missing from the description",
+      "scenario": "PT21 leasing FAIL: Lusoleasing, licence plate BH-44-LQ missing from the description",
       "expected_status": "FAIL",
       "expected_findings": [
         "PT21-001"
@@ -188,7 +188,7 @@
     {
       "invoice_number": "CI-PT21-300404",
       "company": "PT21",
-      "scenario": "PT21 leasing FAIL: Kinto, plate on invoice CJ-10-MN, POMS has CJ-01-MN",
+      "scenario": "PT21 leasing FAIL: Mobilease, plate on invoice CJ-10-MN, POMS has CJ-01-MN",
       "expected_status": "FAIL",
       "expected_findings": [
         "PT21-001"
@@ -216,7 +216,7 @@
     {
       "invoice_number": "CI-PT21-300407",
       "company": "PT21",
-      "scenario": "PT21 Banco BPI PASS: sold-to changed to Banco BPI SA so bill-to = sold-to = loan provider",
+      "scenario": "PT21 bank exception PASS: sold-to changed to Banco Meridional SA so bill-to = sold-to = loan provider",
       "expected_status": "PASS",
       "expected_findings": [],
       "remediation": null
@@ -224,12 +224,12 @@
     {
       "invoice_number": "CI-PT21-300408",
       "company": "PT21",
-      "scenario": "PT21 Banco BPI FAIL: sold-to is still the buyer Rui Martins",
+      "scenario": "PT21 bank exception FAIL: sold-to is still the buyer Rui Martins",
       "expected_status": "FAIL",
       "expected_findings": [
         "PT21-003"
       ],
-      "remediation": "Change Sold-To from Rui Martins to Banco BPI SA."
+      "remediation": "Change Sold-To from Rui Martins to Banco Meridional SA."
     },
     {
       "invoice_number": "CI-PT21-300409",

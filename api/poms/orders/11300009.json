@@ -11,6 +11,10 @@
     "exterior_colour": "Snow",
     "buyer_customer_id": "C-PT-0217",
     "buyer_name": "Douro Consultores Lda",
+    "buyer_address": "Rua Ferreira Borges 27, 3000-180 Coimbra, Portugal",
+    "order_type": "new_car",
+    "sales_type": "B2B",
+    "sales_channel": "Fleet & Business",
     "financing_type": "COMPANY",
     "financing_partner_id": null,
     "financing_partner": null,
@@ -30,6 +34,32 @@
     "total_price": 77367.0,
     "payment_status": "PAID",
     "poms_last_updated": "2026-09-17T18:40:00Z",
+    "deliveries": [
+      {
+        "delivery_id": "DLV-11300009",
+        "planned_date": "2026-10-09",
+        "location": "Lisboa Delivery Hub",
+        "status": "planned"
+      }
+    ],
+    "events": [
+      {
+        "timestamp": "2026-08-09 10:12 UTC",
+        "event": "order_created"
+      },
+      {
+        "timestamp": "2026-08-09 10:14 UTC",
+        "event": "order_confirmed"
+      },
+      {
+        "timestamp": "2026-08-11 08:30 UTC",
+        "event": "payment_financing_approved"
+      },
+      {
+        "timestamp": "2026-10-02 09:00 UTC",
+        "event": "delivery_planning_started"
+      }
+    ],
     "workday_invoices": [
       "CI-PT21-300409"
     ]

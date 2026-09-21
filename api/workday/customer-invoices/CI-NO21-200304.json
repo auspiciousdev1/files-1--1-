@@ -9,10 +9,20 @@
     "invoice_date": "2026-09-16",
     "due_date": "2026-10-16",
     "payment_terms": "Net 30",
+    "invoice_type": "Final Invoice",
+    "customer": "Viking Fleet AS",
+    "customer_id": "C-NO-0103",
     "bill_to_customer_id": "C-NO-0103",
     "bill_to_customer": "Viking Fleet AS",
+    "bill_to_address": "Munkegata 20, 7013 Trondheim, Norway",
+    "bill_to_contact": null,
     "sold_to_customer_id": "C-NO-0103",
     "sold_to_customer": "Viking Fleet AS",
+    "ship_to_customer": "Viking Fleet AS",
+    "ship_to_address": "Munkegata 20, 7013 Trondheim, Norway",
+    "payment_status": "UNPAID",
+    "payment_type": null,
+    "printed": "No",
     "customer_vat_number": "NO912345673MVA",
     "currency": "NOK",
     "po_number": null,
@@ -95,7 +105,7 @@
       }
     ],
     "tax": {
-      "tax_code": "NO-VAT-25",
+      "tax_code": "NO 25% VAT (25%)",
       "tax_rate": 25.0,
       "taxable_amount": 463090.0,
       "tax_amount": 115772.5
@@ -104,8 +114,25 @@
       "subtotal": 463090.0,
       "tax_amount": 115772.5,
       "total_amount": 578862.5,
+      "amount_due": 578862.5,
       "currency": "NOK"
     },
+    "process_history": [
+      {
+        "step": "Customer Invoice Event",
+        "status": "Step Completed",
+        "person": "BPO O2C Billing Desk",
+        "moment": "2026-09-15T09:15:00Z",
+        "comment": "Created from POMS order 11100004"
+      },
+      {
+        "step": "Review Customer Invoice",
+        "status": "Awaiting Action",
+        "person": "Billing Specialist",
+        "moment": "2026-09-15T16:02:00Z",
+        "comment": ""
+      }
+    ],
     "created_by": "BPO O2C Billing Desk",
     "created_on": "2026-09-15T09:15:00Z",
     "last_updated": "2026-09-15T16:02:00Z"

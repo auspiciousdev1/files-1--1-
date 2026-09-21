@@ -7,11 +7,19 @@
     "customer_type": "CORPORATE",
     "country": "NO",
     "vat_number": "NO987654321MVA",
+    "address": {
+      "street": "Rådhusgata 5",
+      "postal_code": "0151",
+      "city": "Oslo",
+      "country": "NO"
+    },
+    "address_text": "Rådhusgata 5, 0151 Oslo, Norway",
+    "contact": null,
     "related_party": false,
     "nga_customer": false,
     "leasing_plate_required": false,
     "loan_provider": false,
-    "bpi_exception": false,
+    "bank_sold_to_exception": false,
     "sharepoint_tracker": false
   }
 }

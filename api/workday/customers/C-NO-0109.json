@@ -7,11 +7,19 @@
     "customer_type": "LEASING",
     "country": "NO",
     "vat_number": "NO912345679MVA",
+    "address": {
+      "street": "Prinsens gate 33",
+      "postal_code": "7011",
+      "city": "Trondheim",
+      "country": "NO"
+    },
+    "address_text": "Prinsens gate 33, 7011 Trondheim, Norway",
+    "contact": null,
     "related_party": false,
     "nga_customer": true,
     "leasing_plate_required": false,
     "loan_provider": false,
-    "bpi_exception": false,
+    "bank_sold_to_exception": false,
     "sharepoint_tracker": false
   }
 }

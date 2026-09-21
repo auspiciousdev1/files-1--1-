@@ -11,13 +11,19 @@
     "invoice_date": "2026-07-23",
     "due_date": "2026-07-29",
     "payment_terms": "Net 6 days",
+    "customer": "Isar Flottenmanagement GmbH",
+    "customer_id": "0014J00000TP1nDQAT",
     "bill_to_customer_id": "0014J00000TP1nDQAT",
-    "bill_to_customer": "Athlon Germany GmbH",
+    "bill_to_customer": "Isar Flottenmanagement GmbH",
+    "bill_to_address": "Theresienhöhe 30, 80339 München, Germany",
+    "bill_to_contact": null,
     "sold_to_customer_id": "0014J00000TP1nDQAT",
-    "sold_to_customer": "Athlon Germany GmbH",
-    "ship_to_customer": "Athlon Germany GmbH",
-    "bill_to_address": "Herriotstraße 1 60528 Frankfurt Germany",
-    "customer_vat_number": null,
+    "sold_to_customer": "Isar Flottenmanagement GmbH",
+    "ship_to_customer": "Isar Flottenmanagement GmbH",
+    "ship_to_address": "Theresienhöhe 30, 80339 München, Germany",
+    "payment_type": null,
+    "printed": "No",
+    "customer_vat_number": "DE812345676",
     "currency": "EUR",
     "po_number": "11730177",
     "vin": "YSM4ZPBA1SF407282",
@@ -100,8 +106,25 @@
       "subtotal": 42111.81,
       "tax_amount": 8001.24,
       "total_amount": 50113.05,
+      "amount_due": 50113.05,
       "currency": "EUR"
     },
+    "process_history": [
+      {
+        "step": "Customer Invoice Event",
+        "status": "Step Completed",
+        "person": "BPO O2C Billing Desk",
+        "moment": "2026-07-23T08:30:00Z",
+        "comment": "Created from POMS order 11730177"
+      },
+      {
+        "step": "Review Customer Invoice",
+        "status": "Awaiting Action",
+        "person": "Billing Specialist",
+        "moment": "2026-07-23T11:45:00Z",
+        "comment": ""
+      }
+    ],
     "created_by": "BPO O2C Billing Desk",
     "created_on": "2026-07-23T08:30:00Z",
     "last_updated": "2026-07-23T08:30:00Z"

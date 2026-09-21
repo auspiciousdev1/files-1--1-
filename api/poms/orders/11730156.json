@@ -10,7 +10,8 @@
     "model_year": 2025,
     "exterior_colour": "Snow",
     "buyer_customer_id": "0014J00000TL9pQQAV",
-    "buyer_name": "Sixt SE",
+    "buyer_name": "Mietwagen Süd AG",
+    "buyer_address": "Landsberger Straße 300, 80687 München, Germany",
     "buyer_contact": "Felix Wagner",
     "financing_type": "LOAN",
     "financing_partner_id": null,
@@ -34,6 +35,28 @@
     "total_price": 44900.4,
     "payment_status": "UNPAID",
     "poms_last_updated": "07/27/2026, 03:40 AM UTC",
+    "deliveries": [
+      {
+        "delivery_id": "DLV-11730156",
+        "planned_date": "2026-08-16",
+        "location": "München Delivery Hub",
+        "status": "planned"
+      }
+    ],
+    "events": [
+      {
+        "timestamp": "2026-07-26 10:40 UTC",
+        "event": "order_created"
+      },
+      {
+        "timestamp": "2026-07-26 10:40 UTC",
+        "event": "order_confirmed"
+      },
+      {
+        "timestamp": "2026-07-27 03:40 UTC",
+        "event": "delivery_planning_started"
+      }
+    ],
     "workday_invoices": [
       "DE21-CI058552"
     ]

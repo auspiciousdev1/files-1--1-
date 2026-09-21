@@ -26,8 +26,6 @@
     "salesforce_accounts": "api/salesforce/accounts.json",
     "exception_rules": "api/workday/exception-rules.json",
     "expected_results": "api/workday/expected-results.json",
-    "validation_latest_run": "api/validation-runs/latest.json",
-    "validation_history": "api/validation-runs/history.json",
     "legacy_de21_mismatches": "api/mismatches.json"
   },
   "join_keys": {

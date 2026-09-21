@@ -10,7 +10,11 @@
     "model_year": 2027,
     "exterior_colour": "Snow",
     "buyer_customer_id": "C-PT-0203",
-    "buyer_name": "Leasys Portugal",
+    "buyer_name": "Iberfrota Leasing Lda",
+    "buyer_address": "Avenida da República 25, 1050-186 Lisboa, Portugal",
+    "order_type": "new_car",
+    "sales_type": "B2B",
+    "sales_channel": "Fleet & Business",
     "financing_type": "LEASING",
     "financing_partner_id": null,
     "financing_partner": null,
@@ -30,6 +34,36 @@
     "total_price": 77367.0,
     "payment_status": "FINANCED",
     "poms_last_updated": "2026-09-17T18:40:00Z",
+    "deliveries": [
+      {
+        "delivery_id": "DLV-11300012",
+        "planned_date": "2026-09-12",
+        "location": "Lisboa Delivery Hub",
+        "status": "completed"
+      }
+    ],
+    "events": [
+      {
+        "timestamp": "2026-08-09 10:12 UTC",
+        "event": "order_created"
+      },
+      {
+        "timestamp": "2026-08-09 10:14 UTC",
+        "event": "order_confirmed"
+      },
+      {
+        "timestamp": "2026-08-11 08:30 UTC",
+        "event": "payment_financing_approved"
+      },
+      {
+        "timestamp": "2026-09-05 09:00 UTC",
+        "event": "delivery_planning_started"
+      },
+      {
+        "timestamp": "2026-09-12 14:00 UTC",
+        "event": "handover_completed"
+      }
+    ],
     "workday_invoices": [
       "CI-PT21-300412"
     ]

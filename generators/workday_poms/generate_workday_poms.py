@@ -56,7 +56,7 @@ COMPANIES = [
     {"company": "SE21", "company_name": "SE21 Polestar Automotive Sweden AB", "country": "SE",
      "currency": "SEK", "vat_rate": 25.0, "vat_registration": "SE559123456701",
      "statutory_invoicing": "Workday", "market": "Sweden",
-     "exception_scope": "Related-party revenue category (Ziklo Bank, Volvo Bank)"},
+     "exception_scope": "Related-party revenue category (related-party financing banks)"},
     {"company": "NO21", "company_name": "NO21 Polestar Automotive Norway AS", "country": "NO",
      "currency": "NOK", "vat_rate": 25.0, "vat_registration": "NO923456789MVA",
      "statutory_invoicing": "Workday", "market": "Norway",
@@ -112,19 +112,44 @@ SI = {s["sales_item"]: s for s in SALES_ITEMS}
 # =========================================================================== #
 # 3. CUSTOMER MASTER (Workday)
 # =========================================================================== #
+ADDR_POOL = {
+    "SE21": [("Sveavägen 44", "111 34", "Stockholm"), ("Kungsportsavenyen 21", "411 36", "Göteborg"), ("Storgatan 12", "211 42", "Malmö"),
+             ("Drottninggatan 7", "753 10", "Uppsala"), ("Hamngatan 3", "582 26", "Linköping"), ("Östra Hamngatan 18", "411 09", "Göteborg"),
+             ("Fleminggatan 20", "112 26", "Stockholm")],
+    "NO21": [("Karl Johans gate 12", "0154", "Oslo"), ("Bryggen 5", "5003", "Bergen"), ("Munkegata 20", "7013", "Trondheim"),
+             ("Kirkegata 14", "4006", "Stavanger"), ("Storgata 60", "9008", "Tromsø"), ("Markens gate 8", "4611", "Kristiansand"),
+             ("Dronningens gate 22", "0154", "Oslo"), ("Strandgaten 18", "5013", "Bergen"), ("Prinsens gate 33", "7011", "Trondheim"),
+             ("Bogstadveien 11", "0355", "Oslo"), ("Hegdehaugsveien 27", "0352", "Oslo"), ("Rådhusgata 5", "0151", "Oslo")],
+    "PT21": [("Avenida da Liberdade 110", "1250-146", "Lisboa"), ("Rua de Santa Catarina 320", "4000-443", "Porto"), ("Avenida da República 25", "1050-186", "Lisboa"),
+             ("Rua Júlio Dinis 728", "4050-012", "Porto"), ("Avenida Fontes Pereira de Melo 14", "1050-121", "Lisboa"), ("Rua Dr. Roberto Frias 300", "4200-465", "Porto"),
+             ("Avenida Dom Afonso Henriques 1462", "4450-013", "Matosinhos"), ("Rua Castilho 39", "1250-068", "Lisboa"), ("Rua Augusta 78", "1100-053", "Lisboa"),
+             ("Praça da Batalha 12", "4000-101", "Porto"), ("Avenida 5 de Outubro 200", "1050-065", "Lisboa"), ("Rua do Comércio 45", "3000-115", "Coimbra"),
+             ("Rua da Boavista 88", "4050-107", "Porto"), ("Avenida de Roma 33", "1700-342", "Lisboa"), ("Rua Formosa 250", "4000-249", "Porto"),
+             ("Alameda dos Oceanos 60", "1990-207", "Lisboa"), ("Rua Ferreira Borges 27", "3000-180", "Coimbra")],
+    "DK21": [("Vesterbrogade 24", "1620", "København V"), ("Nørregade 8", "8000", "Aarhus C"), ("Algade 16", "9000", "Aalborg"),
+             ("Østergade 5", "5000", "Odense C")],
+}
+ADDR_SEQ = {c: 0 for c in CO}
+
+
 def cust(cid, name, company, ctype, vat=None, **flags):
+    street, postal, city = ADDR_POOL[company][ADDR_SEQ[company] % len(ADDR_POOL[company])]
+    ADDR_SEQ[company] += 1
     base = {"customer_id": cid, "customer_name": name, "company": company, "customer_type": ctype,
             "country": CO[company]["country"], "vat_number": vat,
+            "address": {"street": street, "postal_code": postal, "city": city, "country": CO[company]["country"]},
+            "address_text": f"{street}, {postal} {city}, {CO[company]['market']}",
+            "contact": None,
             "related_party": False, "nga_customer": False, "leasing_plate_required": False,
-            "loan_provider": False, "bpi_exception": False, "sharepoint_tracker": False}
+            "loan_provider": False, "bank_sold_to_exception": False, "sharepoint_tracker": False}
     base.update(flags)
     return base
 
 
 CUSTOMERS = [
     # ---- SE21 ------------------------------------------------------------
-    cust("C-SE-0001", "Ziklo Bank", "SE21", "BANK", "SE556069045401", related_party=True),
-    cust("C-SE-0002", "Volvo Bank", "SE21", "BANK", "SE556051222801", related_party=True),
+    cust("C-SE-0001", "Nordkredit Bank AB", "SE21", "BANK", "SE556069045401", related_party=True),
+    cust("C-SE-0002", "Svea Fordonsbank AB", "SE21", "BANK", "SE556051222801", related_party=True),
     cust("C-SE-0003", "Anna Lindqvist", "SE21", "PRIVATE"),
     cust("C-SE-0004", "Erik Johansson", "SE21", "PRIVATE"),
     cust("C-SE-0005", "Nordic Fleet Solutions AB", "SE21", "CORPORATE", "SE559312345601"),
@@ -144,12 +169,12 @@ CUSTOMERS = [
     cust("C-NO-0111", "Lars Berg", "NO21", "PRIVATE"),
     cust("C-NO-0112", "Nordic Consulting AS", "NO21", "CORPORATE", "NO987654321MVA"),
     # ---- PT21 --------------------------------------------------------------
-    cust("C-PT-0201", "LeasePlan Portugal", "PT21", "LEASING", "PT502062468", leasing_plate_required=True),
-    cust("C-PT-0202", "Arval Service Lease Portugal", "PT21", "LEASING", "PT503123456", leasing_plate_required=True),
-    cust("C-PT-0203", "Leasys Portugal", "PT21", "LEASING", "PT504234567", leasing_plate_required=True),
-    cust("C-PT-0204", "Locarent", "PT21", "LEASING", "PT505345678", leasing_plate_required=True),
-    cust("C-PT-0205", "Kinto Portugal", "PT21", "LEASING", "PT506456789", leasing_plate_required=True),
-    cust("C-PT-0206", "Banco BPI SA", "PT21", "BANK", "PT501214534", loan_provider=True, bpi_exception=True),
+    cust("C-PT-0201", "Atlântico Renting SA", "PT21", "LEASING", "PT502062468", leasing_plate_required=True),
+    cust("C-PT-0202", "Lusoleasing SA", "PT21", "LEASING", "PT503123456", leasing_plate_required=True),
+    cust("C-PT-0203", "Iberfrota Leasing Lda", "PT21", "LEASING", "PT504234567", leasing_plate_required=True),
+    cust("C-PT-0204", "Rentalis Portugal SA", "PT21", "LEASING", "PT505345678", leasing_plate_required=True),
+    cust("C-PT-0205", "Mobilease Portugal Lda", "PT21", "LEASING", "PT506456789", leasing_plate_required=True),
+    cust("C-PT-0206", "Banco Meridional SA", "PT21", "BANK", "PT501214534", loan_provider=True, bank_sold_to_exception=True),
     cust("C-PT-0207", "Lusitânia Crédito SA", "PT21", "BANK", "PT507567890", loan_provider=True),
     cust("C-PT-0208", "Crédito Ibérico SA", "PT21", "BANK", "PT508678901", loan_provider=True),
     cust("C-PT-0209", "João Ferreira", "PT21", "PRIVATE", "PT231456789"),
@@ -176,7 +201,7 @@ SALESFORCE_ACCOUNTS = [
      "vat_number": "PT509876543", "billing_country": "PT", "owner": "Market Portugal"},
     {"sf_account_id": "001PT00000A1B2D", "account_name": "Tejo Logística Lda", "workday_customer_id": "C-PT-0216",
      "vat_number": "PT501234567", "billing_country": "PT", "owner": "Market Portugal"},
-    {"sf_account_id": "001PT00000A1B2E", "account_name": "LeasePlan Portugal", "workday_customer_id": "C-PT-0201",
+    {"sf_account_id": "001PT00000A1B2E", "account_name": "Atlântico Renting SA", "workday_customer_id": "C-PT-0201",
      "vat_number": "PT502062468", "billing_country": "PT", "owner": "Market Portugal"},
     {"sf_account_id": "001SE00000B7C8D", "account_name": "Nordic Fleet Solutions AB", "workday_customer_id": "C-SE-0005",
      "vat_number": "SE559312345601", "billing_country": "SE", "owner": "Market Sweden"},
@@ -243,7 +268,9 @@ def poms_order(company, buyer_id, model_item, colour="Snow", financing="CASH", p
         "order_number": str(n), "market": CO[company]["market"], "company": company,
         "vin": vin(company, n), "model": MODEL[model_item][0], "model_code": MODEL[model_item][1],
         "model_year": 2027, "exterior_colour": colour,
-        "buyer_customer_id": buyer_id, "buyer_name": buyer["customer_name"],
+        "buyer_customer_id": buyer_id, "buyer_name": buyer["customer_name"], "buyer_address": buyer["address_text"],
+        "order_type": "new_car", "sales_type": "B2C" if buyer["customer_type"] == "PRIVATE" else "B2B",
+        "sales_channel": "Online" if buyer["customer_type"] == "PRIVATE" else "Fleet & Business",
         "financing_type": financing,
         "financing_partner_id": partner_id, "financing_partner": partner["customer_name"] if partner else None,
         "license_plate": plate,
@@ -259,6 +286,16 @@ def poms_order(company, buyer_id, model_item, colour="Snow", financing="CASH", p
                            else "FINANCED"),
         "poms_last_updated": (TODAY - timedelta(days=1)).isoformat() + "T18:40:00Z",
     }
+    hub = {"SE21": "Göteborg Delivery Hub", "NO21": "Oslo Delivery Hub", "PT21": "Lisboa Delivery Hub", "DK21": "København Delivery Hub"}[company]
+    order["deliveries"] = [{"delivery_id": f"DLV-{n}", "planned_date": order["handover_date"], "location": hub,
+                            "status": "completed" if handover_offset <= 0 else "planned"}]
+    od = TODAY + timedelta(days=order_offset)
+    order["events"] = [{"timestamp": od.isoformat() + " 10:12 UTC", "event": "order_created"},
+                       {"timestamp": od.isoformat() + " 10:14 UTC", "event": "order_confirmed"},
+                       {"timestamp": (od + timedelta(days=2)).isoformat() + " 08:30 UTC", "event": "payment_" + ("financing_approved" if financing != "CASH" else "received")},
+                       {"timestamp": (TODAY + timedelta(days=handover_offset - 7)).isoformat() + " 09:00 UTC", "event": "delivery_planning_started"}]
+    if handover_offset <= 0:
+        order["events"].append({"timestamp": order["handover_date"] + " 14:00 UTC", "event": "handover_completed"})
     poms_orders.append(order)
     return order
 
@@ -299,9 +336,13 @@ def invoice(company, order, bill_to, sold_to, lines, *, status="DRAFT", invoice_
         "invoice_number": number, "document_kind": document_kind, "company": company,
         "company_name": co["company_name"], "status": status,
         "invoice_date": inv_date.isoformat(), "due_date": (inv_date + timedelta(days=30)).isoformat(),
-        "payment_terms": "Net 30",
-        "bill_to_customer_id": bill_to, "bill_to_customer": bt["customer_name"],
+        "payment_terms": "Net 30", "invoice_type": ("Credit Note" if "credit" in document_kind.lower() else "Prepayment" if "prepay" in document_kind.lower() else "Final Invoice"),
+        "customer": bt["customer_name"], "customer_id": bill_to,
+        "bill_to_customer_id": bill_to, "bill_to_customer": bt["customer_name"], "bill_to_address": bt["address_text"],
+        "bill_to_contact": None,
         "sold_to_customer_id": sold_to, "sold_to_customer": st["customer_name"],
+        "ship_to_customer": st["customer_name"], "ship_to_address": st["address_text"],
+        "payment_status": "UNPAID", "payment_type": None, "printed": "No",
         "customer_vat_number": (bt["vat_number"] if vat_number == "AUTO" else vat_number),
         "currency": co["currency"], "po_number": po_number,
         "vin": vin_override or order["vin"] if order else vin_override,
@@ -312,9 +353,13 @@ def invoice(company, order, bill_to, sold_to, lines, *, status="DRAFT", invoice_
         "payment_application": payment_application,
         "attachments": list(attachments),
         "lines": rows,
-        "tax": {"tax_code": f"{co['country']}-VAT-{int(co['vat_rate'])}", "tax_rate": co["vat_rate"],
+        "tax": {"tax_code": f"{co['country']} {int(co['vat_rate'])}% VAT ({int(co['vat_rate'])}%)", "tax_rate": co["vat_rate"],
                 "taxable_amount": taxable, "tax_amount": tax_amount},
-        "totals": {"subtotal": subtotal, "tax_amount": tax_amount, "total_amount": total, "currency": co["currency"]},
+        "totals": {"subtotal": subtotal, "tax_amount": tax_amount, "total_amount": total, "amount_due": total, "currency": co["currency"]},
+        "process_history": [
+            {"step": "Customer Invoice Event", "status": "Step Completed", "person": "BPO O2C Billing Desk", "moment": (inv_date - timedelta(days=1)).isoformat() + "T09:15:00Z", "comment": "Created from POMS order " + (order["order_number"] if order else "")},
+            {"step": "Review Customer Invoice", "status": "Awaiting Action" if status == "DRAFT" else "Step Completed", "person": "Billing Specialist", "moment": (inv_date - timedelta(days=1)).isoformat() + "T16:02:00Z", "comment": ""},
+        ] + ([{"step": "Approval by Finance Manager", "status": "Approved", "person": "Finance Manager", "moment": inv_date.isoformat() + "T10:30:00Z", "comment": ""}] if status == "APPROVED" else []),
         "created_by": "BPO O2C Billing Desk", "created_on": (inv_date - timedelta(days=1)).isoformat() + "T09:15:00Z",
         "last_updated": (inv_date - timedelta(days=1)).isoformat() + "T16:02:00Z",
     }
@@ -343,7 +388,7 @@ invoice("SE21", o, "C-SE-0001", "C-SE-0004", [
     line("P2-CAR", "3030", brand_desc("P2-CAR"), 1, P["P2-CAR"]),
     line("P2-CAR", "3022", "Midnight", 1, P["PAINT"]),
     line("DISC-FSP", "3033", "FSP-SE-PS2-MY27-CY26", 1, -12000),
-], scenario="SE21 exception PASS: bill-to Ziklo Bank, Brand line already on 3030",
+], scenario="SE21 exception PASS: bill-to Nordkredit Bank AB (related party), Brand line already on 3030",
    expected_status="PASS")
 
 o = poms_order("SE21", "C-SE-0006", "P2-CAR", financing="PERSONAL_LOAN", partner_id="C-SE-0002",
@@ -353,7 +398,7 @@ invoice("SE21", o, "C-SE-0002", "C-SE-0006", [
     line("DISC-FSP", "3033", "FSP-SE-PS2-MY27-CY26", 1, -15000),
     line("P2-CAR", "3022", "Snow", 1, 0),
     line("P2-CAR", "3022", brand_desc("P2-CAR"), 1, P["P2-CAR"]),
-], scenario="SE21 exception FAIL: bill-to Volvo Bank, Brand line left on 3022 (the screenshot case)",
+], scenario="SE21 exception FAIL: bill-to Svea Fordonsbank AB (related party), Brand line left on 3022 (the screenshot case)",
    expected_status="FAIL", expected_findings=["SE21-001"],
    remediation="Change revenue category on line 4 from 3022 to 3030 (related party).")
 
@@ -361,7 +406,7 @@ o = poms_order("SE21", "C-SE-0001", "P4-CAR", colour="Storm", financing="LEASING
 invoice("SE21", o, "C-SE-0001", "C-SE-0001", [
     line("P4-CAR", "3027", brand_desc("P4-CAR"), 1, P["P4-CAR"]),
     line("P4-CAR", "3022", "Storm", 1, P["PAINT"]),
-], scenario="SE21 exception FAIL: Ziklo Bank is sold-to, Brand line on 3027",
+], scenario="SE21 exception FAIL: Nordkredit Bank AB (related party) is sold-to, Brand line on 3027",
    expected_status="FAIL", expected_findings=["SE21-001"],
    remediation="Change revenue category on line 1 from 3027 to 3030 (related party).")
 
@@ -561,7 +606,7 @@ inv["attachments"].append({"name": f"{inv['statutory_invoice_number']}.pdf", "ty
 o = poms_order("PT21", "C-PT-0201", "P2-CAR", financing="LEASING", plate="AF-23-XR")
 inv = invoice("PT21", o, "C-PT-0201", "C-PT-0201", [line("P2-CAR", "3022", pt_car("P2-CAR", "AF-23-XR"), 1, P["P2-CAR"])],
               po_number="LP-PT-77812", statutory_type=EY_INV,
-              scenario="PT21 leasing PASS: LeasePlan, licence plate from POMS present in the line description",
+              scenario="PT21 leasing PASS: Atlântico Renting, licence plate from POMS present in the line description",
               expected_status="PASS")
 inv["statutory_invoice_number"] = ey(inv)
 
@@ -570,7 +615,7 @@ o = poms_order("PT21", "C-PT-0202", "P4-CAR", colour="Storm", financing="LEASING
 inv = invoice("PT21", o, "C-PT-0202", "C-PT-0202",
               [line("P4-CAR", "3022", pt_car("P4-CAR"), 1, P["P4-CAR"]), line("P4-CAR", "3022", "Storm", 1, P["PAINT"])],
               po_number="ARV-2026-3310", statutory_type=EY_INV,
-              scenario="PT21 leasing FAIL: Arval, licence plate BH-44-LQ missing from the description",
+              scenario="PT21 leasing FAIL: Lusoleasing, licence plate BH-44-LQ missing from the description",
               expected_status="FAIL", expected_findings=["PT21-001"],
               remediation="Append ' - Matrícula BH-44-LQ' (from POMS) to the vehicle line description.")
 inv["statutory_invoice_number"] = ey(inv)
@@ -579,7 +624,7 @@ inv["statutory_invoice_number"] = ey(inv)
 o_p4 = o = poms_order("PT21", "C-PT-0205", "P2-CAR", financing="LEASING", plate="CJ-01-MN")
 inv = invoice("PT21", o, "C-PT-0205", "C-PT-0205", [line("P2-CAR", "3022", pt_car("P2-CAR", "CJ-10-MN"), 1, P["P2-CAR"])],
               po_number="KIN-PT-0091", statutory_type=EY_INV,
-              scenario="PT21 leasing FAIL: Kinto, plate on invoice CJ-10-MN, POMS has CJ-01-MN",
+              scenario="PT21 leasing FAIL: Mobilease, plate on invoice CJ-10-MN, POMS has CJ-01-MN",
               expected_status="FAIL", expected_findings=["PT21-001"],
               remediation="Correct the plate in the description to CJ-01-MN as recorded in POMS.")
 inv["statutory_invoice_number"] = ey(inv)
@@ -601,22 +646,22 @@ inv = invoice("PT21", o, "C-PT-0208", "C-PT-0211", [line("P4-CAR", "3022", pt_ca
               remediation="Change Bill-To from Crédito Ibérico SA to Pedro Almeida (Bill-To = Sold-To = Buyer).")
 inv["statutory_invoice_number"] = ey(inv)
 
-# P7 BPI pass — order 11300007 as in the exception document
+# P7 bank sold-to exception pass — order 11300007 as in the exception document
 o = poms_order("PT21", "C-PT-0212", "P2-CAR", colour="Midnight", financing="PERSONAL_LOAN", partner_id="C-PT-0206")
 inv = invoice("PT21", o, "C-PT-0206", "C-PT-0206",
               [line("P2-CAR", "3022", pt_car("P2-CAR"), 1, P["P2-CAR"]), line("P2-CAR", "3022", "Midnight", 1, P["PAINT"])],
               statutory_type=EY_INV,
-              scenario="PT21 Banco BPI PASS: sold-to changed to Banco BPI SA so bill-to = sold-to = loan provider",
+              scenario="PT21 bank exception PASS: sold-to changed to Banco Meridional SA so bill-to = sold-to = loan provider",
               expected_status="PASS")
 inv["statutory_invoice_number"] = ey(inv)
 
-# P8 BPI fail — sold-to left as the buyer
+# P8 bank sold-to exception fail — sold-to left as the buyer
 o = poms_order("PT21", "C-PT-0213", "P2-CAR", financing="PERSONAL_LOAN", partner_id="C-PT-0206")
 inv = invoice("PT21", o, "C-PT-0206", "C-PT-0213", [line("P2-CAR", "3022", pt_car("P2-CAR"), 1, P["P2-CAR"])],
               statutory_type=EY_INV,
-              scenario="PT21 Banco BPI FAIL: sold-to is still the buyer Rui Martins",
+              scenario="PT21 bank exception FAIL: sold-to is still the buyer Rui Martins",
               expected_status="FAIL", expected_findings=["PT21-003"],
-              remediation="Change Sold-To from Rui Martins to Banco BPI SA.")
+              remediation="Change Sold-To from Rui Martins to Banco Meridional SA.")
 inv["statutory_invoice_number"] = ey(inv)
 
 # P9 extras prepayment — VAT number missing in Workday, present in Salesforce
@@ -679,7 +724,7 @@ inv = invoice("PT21", o_p1, "C-PT-0209", "C-PT-0209", [line("DN-INT", "9000", "G
               expected_status="PASS")
 
 # P16 credit note — matches E&Y, memo per process
-o = o_p4   # Kinto order re-billed
+o = o_p4   # Mobilease order re-billed
 inv = invoice("PT21", o, "C-PT-0205", "C-PT-0205", [line("P2-CAR", "3022", pt_car("P2-CAR", "CJ-01-MN"), 1, -P["P2-CAR"])],
               po_number="KIN-PT-0091", statutory_type=EY_CN, document_kind="Credit Note",
               memo="Manual credit and rebill due to E&Y error.",
@@ -765,7 +810,7 @@ RULES = [
      "condition": "Invoice references a POMS order", "check": "Invoice VIN equals POMS VIN",
      "source": "POMS order", "outcome_on_fail": "FAIL"},
     {"rule_id": "SE21-001", "company": "SE21", "name": "Related party revenue category", "severity": "high",
-     "condition": "Bill-To or Sold-To is Ziklo Bank or Volvo Bank (customer.related_party) AND line description contains 'Brand'",
+     "condition": "Bill-To or Sold-To is a related-party financing bank (customer.related_party = true) AND line description contains 'Brand'",
      "check": "Line revenue_category = 3030", "source": "Workday customer master + invoice line",
      "outcome_on_fail": "FAIL", "remediation": "Manually correct the revenue category to 3030."},
     {"rule_id": "NO21-001", "company": "NO21", "name": "NGA tracker captured", "severity": "high",
@@ -787,13 +832,13 @@ RULES = [
      "condition": "A payment is applied to the invoice as ON_ACCOUNT", "check": "payment_id exists in the factoring tracker",
      "source": "Factoring tracker", "outcome_on_fail": "FAIL"},
     {"rule_id": "PT21-001", "company": "PT21", "name": "Leasing licence plate", "severity": "high",
-     "condition": "Bill-To is LeasePlan, Arval, Leasys, Locarent or Kinto (customer.leasing_plate_required)",
+     "condition": "Bill-To is a leasing company that requires the licence plate (customer.leasing_plate_required = true)",
      "check": "Vehicle line description contains the POMS license_plate", "source": "POMS order", "outcome_on_fail": "FAIL"},
     {"rule_id": "PT21-002", "company": "PT21", "name": "Personal loan bill-to", "severity": "high",
-     "condition": "POMS financing_type = PERSONAL_LOAN and partner is not Banco BPI SA",
+     "condition": "POMS financing_type = PERSONAL_LOAN and the partner is not flagged bank_sold_to_exception",
      "check": "Bill-To = Sold-To = buyer", "source": "POMS order", "outcome_on_fail": "FAIL"},
-    {"rule_id": "PT21-003", "company": "PT21", "name": "Banco BPI exception", "severity": "high",
-     "condition": "POMS financing partner = Banco BPI SA", "check": "Bill-To = Sold-To = Banco BPI SA",
+    {"rule_id": "PT21-003", "company": "PT21", "name": "Bank sold-to exception", "severity": "high",
+     "condition": "POMS financing partner is flagged bank_sold_to_exception", "check": "Bill-To = Sold-To = the loan provider",
      "source": "POMS order", "outcome_on_fail": "FAIL"},
     {"rule_id": "PT21-004", "company": "PT21", "name": "VAT number on extras / prepayment", "severity": "medium",
      "condition": "document_kind is Sales Invoice Extra or prepayment", "check": "customer_vat_number populated (fallback source: Salesforce)",
@@ -829,11 +874,11 @@ for c in CUSTOMERS:
 
 
 def header_row(i: dict) -> dict:
-    h = {k: v for k, v in i.items() if k not in ("lines", "tax", "totals", "attachments", "payment_application")}
+    h = {k: v for k, v in i.items() if k not in ("lines", "tax", "totals", "attachments", "payment_application", "process_history")}
     h.update({
         "line_count": len(i["lines"]), "taxable_amount": i["tax"]["taxable_amount"],
         "tax_rate": i["tax"]["tax_rate"], "tax_amount": i["tax"]["tax_amount"],
-        "subtotal": i["totals"]["subtotal"], "total_amount": i["totals"]["total_amount"],
+        "subtotal": i["totals"]["subtotal"], "total_amount": i["totals"]["total_amount"], "amount_due": i["totals"].get("amount_due", i["totals"]["total_amount"]),
         "has_fee_lines": any(RC[l["revenue_category"]]["is_fee"] for l in i["lines"]),
         "payment_applied_as": i["payment_application"]["applied_as"] if i["payment_application"] else None,
     })

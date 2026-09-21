@@ -6,30 +6,46 @@
   "data": [
     {
       "customer_id": "C-SE-0001",
-      "customer_name": "Ziklo Bank",
+      "customer_name": "Nordkredit Bank AB",
       "company": "SE21",
       "customer_type": "BANK",
       "country": "SE",
       "vat_number": "SE556069045401",
+      "address": {
+        "street": "Sveavägen 44",
+        "postal_code": "111 34",
+        "city": "Stockholm",
+        "country": "SE"
+      },
+      "address_text": "Sveavägen 44, 111 34 Stockholm, Sweden",
+      "contact": null,
       "related_party": true,
       "nga_customer": false,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
       "customer_id": "C-SE-0002",
-      "customer_name": "Volvo Bank",
+      "customer_name": "Svea Fordonsbank AB",
       "company": "SE21",
       "customer_type": "BANK",
       "country": "SE",
       "vat_number": "SE556051222801",
+      "address": {
+        "street": "Kungsportsavenyen 21",
+        "postal_code": "411 36",
+        "city": "Göteborg",
+        "country": "SE"
+      },
+      "address_text": "Kungsportsavenyen 21, 411 36 Göteborg, Sweden",
+      "contact": null,
       "related_party": true,
       "nga_customer": false,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
@@ -39,11 +55,19 @@
       "customer_type": "PRIVATE",
       "country": "SE",
       "vat_number": null,
+      "address": {
+        "street": "Storgatan 12",
+        "postal_code": "211 42",
+        "city": "Malmö",
+        "country": "SE"
+      },
+      "address_text": "Storgatan 12, 211 42 Malmö, Sweden",
+      "contact": null,
       "related_party": false,
       "nga_customer": false,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
@@ -53,11 +77,19 @@
       "customer_type": "PRIVATE",
       "country": "SE",
       "vat_number": null,
+      "address": {
+        "street": "Drottninggatan 7",
+        "postal_code": "753 10",
+        "city": "Uppsala",
+        "country": "SE"
+      },
+      "address_text": "Drottninggatan 7, 753 10 Uppsala, Sweden",
+      "contact": null,
       "related_party": false,
       "nga_customer": false,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
@@ -67,11 +99,19 @@
       "customer_type": "CORPORATE",
       "country": "SE",
       "vat_number": "SE559312345601",
+      "address": {
+        "street": "Hamngatan 3",
+        "postal_code": "582 26",
+        "city": "Linköping",
+        "country": "SE"
+      },
+      "address_text": "Hamngatan 3, 582 26 Linköping, Sweden",
+      "contact": null,
       "related_party": false,
       "nga_customer": false,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
@@ -81,11 +121,19 @@
       "customer_type": "PRIVATE",
       "country": "SE",
       "vat_number": null,
+      "address": {
+        "street": "Östra Hamngatan 18",
+        "postal_code": "411 09",
+        "city": "Göteborg",
+        "country": "SE"
+      },
+      "address_text": "Östra Hamngatan 18, 411 09 Göteborg, Sweden",
+      "contact": null,
       "related_party": false,
       "nga_customer": false,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
@@ -95,11 +143,19 @@
       "customer_type": "PRIVATE",
       "country": "SE",
       "vat_number": null,
+      "address": {
+        "street": "Fleminggatan 20",
+        "postal_code": "112 26",
+        "city": "Stockholm",
+        "country": "SE"
+      },
+      "address_text": "Fleminggatan 20, 112 26 Stockholm, Sweden",
+      "contact": null,
       "related_party": false,
       "nga_customer": false,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
@@ -109,11 +165,19 @@
       "customer_type": "LEASING",
       "country": "NO",
       "vat_number": "NO912345671MVA",
+      "address": {
+        "street": "Karl Johans gate 12",
+        "postal_code": "0154",
+        "city": "Oslo",
+        "country": "NO"
+      },
+      "address_text": "Karl Johans gate 12, 0154 Oslo, Norway",
+      "contact": null,
       "related_party": false,
       "nga_customer": true,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
@@ -123,11 +187,19 @@
       "customer_type": "LEASING",
       "country": "NO",
       "vat_number": "NO912345672MVA",
+      "address": {
+        "street": "Bryggen 5",
+        "postal_code": "5003",
+        "city": "Bergen",
+        "country": "NO"
+      },
+      "address_text": "Bryggen 5, 5003 Bergen, Norway",
+      "contact": null,
       "related_party": false,
       "nga_customer": true,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
@@ -137,11 +209,19 @@
       "customer_type": "LEASING",
       "country": "NO",
       "vat_number": "NO912345673MVA",
+      "address": {
+        "street": "Munkegata 20",
+        "postal_code": "7013",
+        "city": "Trondheim",
+        "country": "NO"
+      },
+      "address_text": "Munkegata 20, 7013 Trondheim, Norway",
+      "contact": null,
       "related_party": false,
       "nga_customer": true,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
@@ -151,11 +231,19 @@
       "customer_type": "LEASING",
       "country": "NO",
       "vat_number": "NO912345674MVA",
+      "address": {
+        "street": "Kirkegata 14",
+        "postal_code": "4006",
+        "city": "Stavanger",
+        "country": "NO"
+      },
+      "address_text": "Kirkegata 14, 4006 Stavanger, Norway",
+      "contact": null,
       "related_party": false,
       "nga_customer": true,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
@@ -165,11 +253,19 @@
       "customer_type": "LEASING",
       "country": "NO",
       "vat_number": "NO912345675MVA",
+      "address": {
+        "street": "Storgata 60",
+        "postal_code": "9008",
+        "city": "Tromsø",
+        "country": "NO"
+      },
+      "address_text": "Storgata 60, 9008 Tromsø, Norway",
+      "contact": null,
       "related_party": false,
       "nga_customer": true,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
@@ -179,11 +275,19 @@
       "customer_type": "LEASING",
       "country": "NO",
       "vat_number": "NO912345676MVA",
+      "address": {
+        "street": "Markens gate 8",
+        "postal_code": "4611",
+        "city": "Kristiansand",
+        "country": "NO"
+      },
+      "address_text": "Markens gate 8, 4611 Kristiansand, Norway",
+      "contact": null,
       "related_party": false,
       "nga_customer": true,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
@@ -193,11 +297,19 @@
       "customer_type": "LEASING",
       "country": "NO",
       "vat_number": "NO912345677MVA",
+      "address": {
+        "street": "Dronningens gate 22",
+        "postal_code": "0154",
+        "city": "Oslo",
+        "country": "NO"
+      },
+      "address_text": "Dronningens gate 22, 0154 Oslo, Norway",
+      "contact": null,
       "related_party": false,
       "nga_customer": true,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
@@ -207,11 +319,19 @@
       "customer_type": "LEASING",
       "country": "NO",
       "vat_number": "NO912345678MVA",
+      "address": {
+        "street": "Strandgaten 18",
+        "postal_code": "5013",
+        "city": "Bergen",
+        "country": "NO"
+      },
+      "address_text": "Strandgaten 18, 5013 Bergen, Norway",
+      "contact": null,
       "related_party": false,
       "nga_customer": true,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
@@ -221,11 +341,19 @@
       "customer_type": "LEASING",
       "country": "NO",
       "vat_number": "NO912345679MVA",
+      "address": {
+        "street": "Prinsens gate 33",
+        "postal_code": "7011",
+        "city": "Trondheim",
+        "country": "NO"
+      },
+      "address_text": "Prinsens gate 33, 7011 Trondheim, Norway",
+      "contact": null,
       "related_party": false,
       "nga_customer": true,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
@@ -235,11 +363,19 @@
       "customer_type": "PRIVATE",
       "country": "NO",
       "vat_number": null,
+      "address": {
+        "street": "Bogstadveien 11",
+        "postal_code": "0355",
+        "city": "Oslo",
+        "country": "NO"
+      },
+      "address_text": "Bogstadveien 11, 0355 Oslo, Norway",
+      "contact": null,
       "related_party": false,
       "nga_customer": false,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
@@ -249,11 +385,19 @@
       "customer_type": "PRIVATE",
       "country": "NO",
       "vat_number": null,
+      "address": {
+        "street": "Hegdehaugsveien 27",
+        "postal_code": "0352",
+        "city": "Oslo",
+        "country": "NO"
+      },
+      "address_text": "Hegdehaugsveien 27, 0352 Oslo, Norway",
+      "contact": null,
       "related_party": false,
       "nga_customer": false,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
@@ -263,95 +407,151 @@
       "customer_type": "CORPORATE",
       "country": "NO",
       "vat_number": "NO987654321MVA",
+      "address": {
+        "street": "Rådhusgata 5",
+        "postal_code": "0151",
+        "city": "Oslo",
+        "country": "NO"
+      },
+      "address_text": "Rådhusgata 5, 0151 Oslo, Norway",
+      "contact": null,
       "related_party": false,
       "nga_customer": false,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
       "customer_id": "C-PT-0201",
-      "customer_name": "LeasePlan Portugal",
+      "customer_name": "Atlântico Renting SA",
       "company": "PT21",
       "customer_type": "LEASING",
       "country": "PT",
       "vat_number": "PT502062468",
+      "address": {
+        "street": "Avenida da Liberdade 110",
+        "postal_code": "1250-146",
+        "city": "Lisboa",
+        "country": "PT"
+      },
+      "address_text": "Avenida da Liberdade 110, 1250-146 Lisboa, Portugal",
+      "contact": null,
       "related_party": false,
       "nga_customer": false,
       "leasing_plate_required": true,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
       "customer_id": "C-PT-0202",
-      "customer_name": "Arval Service Lease Portugal",
+      "customer_name": "Lusoleasing SA",
       "company": "PT21",
       "customer_type": "LEASING",
       "country": "PT",
       "vat_number": "PT503123456",
+      "address": {
+        "street": "Rua de Santa Catarina 320",
+        "postal_code": "4000-443",
+        "city": "Porto",
+        "country": "PT"
+      },
+      "address_text": "Rua de Santa Catarina 320, 4000-443 Porto, Portugal",
+      "contact": null,
       "related_party": false,
       "nga_customer": false,
       "leasing_plate_required": true,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
       "customer_id": "C-PT-0203",
-      "customer_name": "Leasys Portugal",
+      "customer_name": "Iberfrota Leasing Lda",
       "company": "PT21",
       "customer_type": "LEASING",
       "country": "PT",
       "vat_number": "PT504234567",
+      "address": {
+        "street": "Avenida da República 25",
+        "postal_code": "1050-186",
+        "city": "Lisboa",
+        "country": "PT"
+      },
+      "address_text": "Avenida da República 25, 1050-186 Lisboa, Portugal",
+      "contact": null,
       "related_party": false,
       "nga_customer": false,
       "leasing_plate_required": true,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
       "customer_id": "C-PT-0204",
-      "customer_name": "Locarent",
+      "customer_name": "Rentalis Portugal SA",
       "company": "PT21",
       "customer_type": "LEASING",
       "country": "PT",
       "vat_number": "PT505345678",
+      "address": {
+        "street": "Rua Júlio Dinis 728",
+        "postal_code": "4050-012",
+        "city": "Porto",
+        "country": "PT"
+      },
+      "address_text": "Rua Júlio Dinis 728, 4050-012 Porto, Portugal",
+      "contact": null,
       "related_party": false,
       "nga_customer": false,
       "leasing_plate_required": true,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
       "customer_id": "C-PT-0205",
-      "customer_name": "Kinto Portugal",
+      "customer_name": "Mobilease Portugal Lda",
       "company": "PT21",
       "customer_type": "LEASING",
       "country": "PT",
       "vat_number": "PT506456789",
+      "address": {
+        "street": "Avenida Fontes Pereira de Melo 14",
+        "postal_code": "1050-121",
+        "city": "Lisboa",
+        "country": "PT"
+      },
+      "address_text": "Avenida Fontes Pereira de Melo 14, 1050-121 Lisboa, Portugal",
+      "contact": null,
       "related_party": false,
       "nga_customer": false,
       "leasing_plate_required": true,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
       "customer_id": "C-PT-0206",
-      "customer_name": "Banco BPI SA",
+      "customer_name": "Banco Meridional SA",
       "company": "PT21",
       "customer_type": "BANK",
       "country": "PT",
       "vat_number": "PT501214534",
+      "address": {
+        "street": "Rua Dr. Roberto Frias 300",
+        "postal_code": "4200-465",
+        "city": "Porto",
+        "country": "PT"
+      },
+      "address_text": "Rua Dr. Roberto Frias 300, 4200-465 Porto, Portugal",
+      "contact": null,
       "related_party": false,
       "nga_customer": false,
       "leasing_plate_required": false,
       "loan_provider": true,
-      "bpi_exception": true,
+      "bank_sold_to_exception": true,
       "sharepoint_tracker": false
     },
     {
@@ -361,11 +561,19 @@
       "customer_type": "BANK",
       "country": "PT",
       "vat_number": "PT507567890",
+      "address": {
+        "street": "Avenida Dom Afonso Henriques 1462",
+        "postal_code": "4450-013",
+        "city": "Matosinhos",
+        "country": "PT"
+      },
+      "address_text": "Avenida Dom Afonso Henriques 1462, 4450-013 Matosinhos, Portugal",
+      "contact": null,
       "related_party": false,
       "nga_customer": false,
       "leasing_plate_required": false,
       "loan_provider": true,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
@@ -375,11 +583,19 @@
       "customer_type": "BANK",
       "country": "PT",
       "vat_number": "PT508678901",
+      "address": {
+        "street": "Rua Castilho 39",
+        "postal_code": "1250-068",
+        "city": "Lisboa",
+        "country": "PT"
+      },
+      "address_text": "Rua Castilho 39, 1250-068 Lisboa, Portugal",
+      "contact": null,
       "related_party": false,
       "nga_customer": false,
       "leasing_plate_required": false,
       "loan_provider": true,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
@@ -389,11 +605,19 @@
       "customer_type": "PRIVATE",
       "country": "PT",
       "vat_number": "PT231456789",
+      "address": {
+        "street": "Rua Augusta 78",
+        "postal_code": "1100-053",
+        "city": "Lisboa",
+        "country": "PT"
+      },
+      "address_text": "Rua Augusta 78, 1100-053 Lisboa, Portugal",
+      "contact": null,
       "related_party": false,
       "nga_customer": false,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
@@ -403,11 +627,19 @@
       "customer_type": "PRIVATE",
       "country": "PT",
       "vat_number": "PT232567890",
+      "address": {
+        "street": "Praça da Batalha 12",
+        "postal_code": "4000-101",
+        "city": "Porto",
+        "country": "PT"
+      },
+      "address_text": "Praça da Batalha 12, 4000-101 Porto, Portugal",
+      "contact": null,
       "related_party": false,
       "nga_customer": false,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
@@ -417,11 +649,19 @@
       "customer_type": "PRIVATE",
       "country": "PT",
       "vat_number": "PT233678901",
+      "address": {
+        "street": "Avenida 5 de Outubro 200",
+        "postal_code": "1050-065",
+        "city": "Lisboa",
+        "country": "PT"
+      },
+      "address_text": "Avenida 5 de Outubro 200, 1050-065 Lisboa, Portugal",
+      "contact": null,
       "related_party": false,
       "nga_customer": false,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
@@ -431,11 +671,19 @@
       "customer_type": "PRIVATE",
       "country": "PT",
       "vat_number": "PT234789012",
+      "address": {
+        "street": "Rua do Comércio 45",
+        "postal_code": "3000-115",
+        "city": "Coimbra",
+        "country": "PT"
+      },
+      "address_text": "Rua do Comércio 45, 3000-115 Coimbra, Portugal",
+      "contact": null,
       "related_party": false,
       "nga_customer": false,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
@@ -445,11 +693,19 @@
       "customer_type": "PRIVATE",
       "country": "PT",
       "vat_number": "PT235890123",
+      "address": {
+        "street": "Rua da Boavista 88",
+        "postal_code": "4050-107",
+        "city": "Porto",
+        "country": "PT"
+      },
+      "address_text": "Rua da Boavista 88, 4050-107 Porto, Portugal",
+      "contact": null,
       "related_party": false,
       "nga_customer": false,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
@@ -459,11 +715,19 @@
       "customer_type": "PRIVATE",
       "country": "PT",
       "vat_number": "PT236901234",
+      "address": {
+        "street": "Avenida de Roma 33",
+        "postal_code": "1700-342",
+        "city": "Lisboa",
+        "country": "PT"
+      },
+      "address_text": "Avenida de Roma 33, 1700-342 Lisboa, Portugal",
+      "contact": null,
       "related_party": false,
       "nga_customer": false,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
@@ -473,11 +737,19 @@
       "customer_type": "PRIVATE",
       "country": "PT",
       "vat_number": "PT237012345",
+      "address": {
+        "street": "Rua Formosa 250",
+        "postal_code": "4000-249",
+        "city": "Porto",
+        "country": "PT"
+      },
+      "address_text": "Rua Formosa 250, 4000-249 Porto, Portugal",
+      "contact": null,
       "related_party": false,
       "nga_customer": false,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
@@ -487,11 +759,19 @@
       "customer_type": "CORPORATE",
       "country": "PT",
       "vat_number": "PT501234567",
+      "address": {
+        "street": "Alameda dos Oceanos 60",
+        "postal_code": "1990-207",
+        "city": "Lisboa",
+        "country": "PT"
+      },
+      "address_text": "Alameda dos Oceanos 60, 1990-207 Lisboa, Portugal",
+      "contact": null,
       "related_party": false,
       "nga_customer": false,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
@@ -501,11 +781,19 @@
       "customer_type": "CORPORATE",
       "country": "PT",
       "vat_number": null,
+      "address": {
+        "street": "Rua Ferreira Borges 27",
+        "postal_code": "3000-180",
+        "city": "Coimbra",
+        "country": "PT"
+      },
+      "address_text": "Rua Ferreira Borges 27, 3000-180 Coimbra, Portugal",
+      "contact": null,
       "related_party": false,
       "nga_customer": false,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
@@ -515,11 +803,19 @@
       "customer_type": "LEASING",
       "country": "DK",
       "vat_number": "DK36987654",
+      "address": {
+        "street": "Vesterbrogade 24",
+        "postal_code": "1620",
+        "city": "København V",
+        "country": "DK"
+      },
+      "address_text": "Vesterbrogade 24, 1620 København V, Denmark",
+      "contact": null,
       "related_party": false,
       "nga_customer": false,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": true
     },
     {
@@ -529,11 +825,19 @@
       "customer_type": "PRIVATE",
       "country": "DK",
       "vat_number": null,
+      "address": {
+        "street": "Nørregade 8",
+        "postal_code": "8000",
+        "city": "Aarhus C",
+        "country": "DK"
+      },
+      "address_text": "Nørregade 8, 8000 Aarhus C, Denmark",
+      "contact": null,
       "related_party": false,
       "nga_customer": false,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
@@ -543,11 +847,19 @@
       "customer_type": "PRIVATE",
       "country": "DK",
       "vat_number": null,
+      "address": {
+        "street": "Algade 16",
+        "postal_code": "9000",
+        "city": "Aalborg",
+        "country": "DK"
+      },
+      "address_text": "Algade 16, 9000 Aalborg, Denmark",
+      "contact": null,
       "related_party": false,
       "nga_customer": false,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
@@ -557,95 +869,151 @@
       "customer_type": "CORPORATE",
       "country": "DK",
       "vat_number": "DK25123456",
+      "address": {
+        "street": "Østergade 5",
+        "postal_code": "5000",
+        "city": "Odense C",
+        "country": "DK"
+      },
+      "address_text": "Østergade 5, 5000 Odense C, Denmark",
+      "contact": null,
       "related_party": false,
       "nga_customer": false,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
       "customer_id": "0014J00000TJ7kxQAD",
-      "customer_name": "FINN GmbH",
+      "customer_name": "Rheinmobil Fleet GmbH",
       "company": "DE21",
       "customer_type": "LEASING",
       "country": "DE",
-      "vat_number": null,
+      "vat_number": "DE812345671",
+      "address": {
+        "street": "Kaiserswerther Straße 115",
+        "postal_code": "40474",
+        "city": "Düsseldorf",
+        "country": "DE"
+      },
+      "address_text": "Kaiserswerther Straße 115, 40474 Düsseldorf, Germany",
+      "contact": null,
       "related_party": false,
       "nga_customer": false,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
       "customer_id": "0014J00000TK2mAQAT",
-      "customer_name": "ViveLaCar GmbH",
+      "customer_name": "AutoAbo Nord GmbH",
       "company": "DE21",
       "customer_type": "LEASING",
       "country": "DE",
-      "vat_number": null,
+      "vat_number": "DE812345672",
+      "address": {
+        "street": "Große Elbstraße 47",
+        "postal_code": "22767",
+        "city": "Hamburg",
+        "country": "DE"
+      },
+      "address_text": "Große Elbstraße 47, 22767 Hamburg, Germany",
+      "contact": null,
       "related_party": false,
       "nga_customer": false,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
       "customer_id": "0014J00000TL9pQQAV",
-      "customer_name": "Sixt SE",
+      "customer_name": "Mietwagen Süd AG",
       "company": "DE21",
       "customer_type": "LEASING",
       "country": "DE",
-      "vat_number": null,
+      "vat_number": "DE812345673",
+      "address": {
+        "street": "Landsberger Straße 300",
+        "postal_code": "80687",
+        "city": "München",
+        "country": "DE"
+      },
+      "address_text": "Landsberger Straße 300, 80687 München, Germany",
+      "contact": null,
       "related_party": false,
       "nga_customer": false,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
       "customer_id": "0014J00000TM4rXQAT",
-      "customer_name": "LeasePlan Deutschland GmbH",
+      "customer_name": "Hanse Leasing GmbH",
       "company": "DE21",
       "customer_type": "LEASING",
       "country": "DE",
-      "vat_number": null,
+      "vat_number": "DE812345674",
+      "address": {
+        "street": "Speicherstadt 12",
+        "postal_code": "20457",
+        "city": "Hamburg",
+        "country": "DE"
+      },
+      "address_text": "Speicherstadt 12, 20457 Hamburg, Germany",
+      "contact": null,
       "related_party": false,
       "nga_customer": false,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
       "customer_id": "0014J00000TN8kLQAV",
-      "customer_name": "Ayvens Germany GmbH",
+      "customer_name": "Elbe Fuhrpark GmbH",
       "company": "DE21",
       "customer_type": "LEASING",
       "country": "DE",
-      "vat_number": null,
+      "vat_number": "DE812345675",
+      "address": {
+        "street": "Friedrichstraße 88",
+        "postal_code": "10117",
+        "city": "Berlin",
+        "country": "DE"
+      },
+      "address_text": "Friedrichstraße 88, 10117 Berlin, Germany",
+      "contact": null,
       "related_party": false,
       "nga_customer": false,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
       "customer_id": "0014J00000TP1nDQAT",
-      "customer_name": "Athlon Germany GmbH",
+      "customer_name": "Isar Flottenmanagement GmbH",
       "company": "DE21",
       "customer_type": "LEASING",
       "country": "DE",
-      "vat_number": null,
+      "vat_number": "DE812345676",
+      "address": {
+        "street": "Theresienhöhe 30",
+        "postal_code": "80339",
+        "city": "München",
+        "country": "DE"
+      },
+      "address_text": "Theresienhöhe 30, 80339 München, Germany",
+      "contact": null,
       "related_party": false,
       "nga_customer": false,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
@@ -654,12 +1022,20 @@
       "company": "DE21",
       "customer_type": "CORPORATE",
       "country": "DE",
-      "vat_number": null,
+      "vat_number": "DE325417612",
+      "address": {
+        "street": "Moosacher Straße 88",
+        "postal_code": "80809",
+        "city": "München",
+        "country": "DE"
+      },
+      "address_text": "Moosacher Straße 88, 80809 München, Germany",
+      "contact": null,
       "related_party": true,
       "nga_customer": false,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     },
     {
@@ -668,12 +1044,20 @@
       "company": "DE21",
       "customer_type": "CORPORATE",
       "country": "DE",
-      "vat_number": null,
+      "vat_number": "DE325417612",
+      "address": {
+        "street": "Moosacher Straße 88",
+        "postal_code": "80809",
+        "city": "München",
+        "country": "DE"
+      },
+      "address_text": "Moosacher Straße 88, 80809 München, Germany",
+      "contact": null,
       "related_party": true,
       "nga_customer": false,
       "leasing_plate_required": false,
       "loan_provider": false,
-      "bpi_exception": false,
+      "bank_sold_to_exception": false,
       "sharepoint_tracker": false
     }
   ]

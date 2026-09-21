@@ -9,10 +9,20 @@
     "invoice_date": "2026-09-16",
     "due_date": "2026-10-16",
     "payment_terms": "Net 30",
+    "invoice_type": "Final Invoice",
+    "customer": "Mobilease Portugal Lda",
+    "customer_id": "C-PT-0205",
     "bill_to_customer_id": "C-PT-0205",
-    "bill_to_customer": "Kinto Portugal",
+    "bill_to_customer": "Mobilease Portugal Lda",
+    "bill_to_address": "Avenida Fontes Pereira de Melo 14, 1050-121 Lisboa, Portugal",
+    "bill_to_contact": null,
     "sold_to_customer_id": "C-PT-0205",
-    "sold_to_customer": "Kinto Portugal",
+    "sold_to_customer": "Mobilease Portugal Lda",
+    "ship_to_customer": "Mobilease Portugal Lda",
+    "ship_to_address": "Avenida Fontes Pereira de Melo 14, 1050-121 Lisboa, Portugal",
+    "payment_status": "UNPAID",
+    "payment_type": null,
+    "printed": "No",
     "customer_vat_number": "PT506456789",
     "currency": "EUR",
     "po_number": "KIN-PT-0091",
@@ -44,7 +54,7 @@
       }
     ],
     "tax": {
-      "tax_code": "PT-VAT-23",
+      "tax_code": "PT 23% VAT (23%)",
       "tax_rate": 23.0,
       "taxable_amount": 45900.0,
       "tax_amount": 10557.0
@@ -53,8 +63,25 @@
       "subtotal": 45900.0,
       "tax_amount": 10557.0,
       "total_amount": 56457.0,
+      "amount_due": 56457.0,
       "currency": "EUR"
     },
+    "process_history": [
+      {
+        "step": "Customer Invoice Event",
+        "status": "Step Completed",
+        "person": "BPO O2C Billing Desk",
+        "moment": "2026-09-15T09:15:00Z",
+        "comment": "Created from POMS order 11300004"
+      },
+      {
+        "step": "Review Customer Invoice",
+        "status": "Awaiting Action",
+        "person": "Billing Specialist",
+        "moment": "2026-09-15T16:02:00Z",
+        "comment": ""
+      }
+    ],
     "created_by": "BPO O2C Billing Desk",
     "created_on": "2026-09-15T09:15:00Z",
     "last_updated": "2026-09-15T16:02:00Z"

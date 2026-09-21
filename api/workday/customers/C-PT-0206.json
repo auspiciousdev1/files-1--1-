@@ -2,16 +2,24 @@
   "source_system": "Workday",
   "data": {
     "customer_id": "C-PT-0206",
-    "customer_name": "Banco BPI SA",
+    "customer_name": "Banco Meridional SA",
     "company": "PT21",
     "customer_type": "BANK",
     "country": "PT",
     "vat_number": "PT501214534",
+    "address": {
+      "street": "Rua Dr. Roberto Frias 300",
+      "postal_code": "4200-465",
+      "city": "Porto",
+      "country": "PT"
+    },
+    "address_text": "Rua Dr. Roberto Frias 300, 4200-465 Porto, Portugal",
+    "contact": null,
     "related_party": false,
     "nga_customer": false,
     "leasing_plate_required": false,
     "loan_provider": true,
-    "bpi_exception": true,
+    "bank_sold_to_exception": true,
     "sharepoint_tracker": false
   }
 }

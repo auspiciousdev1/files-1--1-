@@ -1,39 +1,32 @@
-# Pre-billing invoice validation POC — Workday · POMS · hourly validator
+# Pre-billing invoice validation POC — Workday · POMS
 
-Two mock systems over one static JSON API (hostable on GitHub Pages) plus a rule-based validator that
-runs every hour. Five legal entities: **DE21** (the original dataset of this POC) and **SE21, NO21, PT21,
-DK21** with the exceptions from the entity document. Every invoice line carries a **Sales Item** and a
-**Revenue Category**; every exception is seeded at least once as a normal case, a passing case and a
-failing case.
+Two mock systems over one static JSON API, hostable on GitHub Pages. Five legal entities: **DE21** (the
+original dataset of this POC) and **SE21, NO21, PT21, DK21** with the exceptions from the entity document.
+Every invoice line carries a **Sales Item** and a **Revenue Category**; every exception is seeded at least
+once as a normal case, a passing case and a failing case. All customers, contacts and addresses are
+fictional. Validation itself is out of scope here — the systems expose the data and the answer key, and a
+separate validation layer reads them.
 
 | Path | What it is |
 |---|---|
-| `workday/` | **Workday** — Find Customer Invoices worklist (company and PASS / FAIL / HOLD filters), View Customer Invoice with the *Invoice Lines* tab (Sales Item, Revenue Category, Line Item Description, Quantity, UoM, Unit Price, Extended Amount), Tax, Attachments, Notes, **Validation** tab (finding → expected / actual / fix, flagged cells highlighted) and *Related systems*; customers, revenue categories, sales items, trackers, rules and the **Hourly validation monitor** (`#/monitor`) |
-| `poms/` | **POMS** — the order management system the invoice must agree with (buyer, financing partner, VIN, licence plate, base price, fees, gross taxable, VAT, total), linked to its Workday invoices |
-| `validator/` | `rules.py` (one function per exception), `validate.py` (one run → `api/validation-runs/latest.json`), `scheduler.py` (hourly loop) |
-| `.github/workflows/hourly-validation.yml` | Cron `0 * * * *` — runs the validator on GitHub and commits the results so the hosted UI updates |
+| `workday/` | **Workday** — *Find Customer Invoices - OTC* (prompt filters: Company, Customer, Invoice Status, Payment Status, Invoice Type, date range), *View Customer Invoice* (Invoice / Additional / Amount Information, tabs: Invoice Lines with Sales Item and Revenue Category, Currency Rate, Tax, Attachments, Notes, Process History), *Customer Invoice Lines - OTC*, *Find Customers*, Revenue Categories, Sales Items |
+| `poms/` | **POMS** — order management: filterable order list; order detail with Order, Customer, Vehicle, Financing & payment, Order lines, Price information, Deliveries, Events and Billing documents (Workday references); Customers and Deliveries views |
+| `api/` | Static JSON for both systems plus the side systems the exceptions depend on (`api/index.json` lists every endpoint) |
+| `sql/` | MySQL schema + seed for the Workday / POMS layer |
 | `build.py` | Rebuilds `api/` and `sql/` from the two generators below |
 | `generators/workday_poms/generate_workday_poms.py` | SE21 / NO21 / PT21 / DK21 invoices, orders, trackers, rule catalogue and answer key — deterministic; edit the scenario list to add cases |
-| `generators/legacy_de21/` | The original DE21 dataset (23 invoices, 23 orders, 8 seeded mismatches) — converted by `build.py` into the same schema, with Revenue Categories added to its lines |
-| `api/` | Static JSON for everything above (`api/index.json` lists every endpoint) |
-| `sql/` | MySQL schema + seed for the Workday / POMS layer |
+| `generators/legacy_de21/` | The original DE21 dataset (23 invoices, 23 orders, 8 seeded mismatches), fictionalised; `build.py` converts it into the same schema and adds Revenue Categories to its lines |
+| `tools/reference-validator/` | Reference rule implementation used only to prove the seeded data matches the answer key (`python3 tools/reference-validator/validate.py --check` → 60/60). Not part of either system; nothing in the UIs reads it |
 
 ## Run it
 
 ```bash
 python3 -m http.server 8080          # then open http://localhost:8080  (file:// will not work — the apps fetch JSON)
-python3 validator/validate.py --check   # one validation run, graded against the answer key
-python3 validator/scheduler.py          # run now, then at the top of every hour
-python3 validator/scheduler.py --interval 5   # demo pace
+python3 build.py                     # rebuild api/ and sql/ after editing a generator
+python3 tools/reference-validator/validate.py --check   # optional: confirm the seeded data matches the answer key
 ```
 
-Rebuild the data after editing a generator with `python3 build.py`.
-
-Deploy to GitHub Pages (`main` / root, see *Hosting* below). Enable Actions and the hourly workflow keeps
-`api/validation-runs/` current; the Workday UI reads `latest.json` on every page load, so the *Validation*
-column, the per-invoice *Validation* tab and the monitor page always show the most recent run.
-
-To validate a hosted copy from anywhere: `python3 validator/validate.py --base-url https://<you>.github.io/<repo>`.
+Deploy to GitHub Pages (`main` / root, see *Hosting* below).
 
 ## Data model (Workday / POMS layer)
 
@@ -51,7 +44,10 @@ customer ──< customer_invoice ──< invoice_line (sales_item, revenue_cate
 
 Join keys are listed in `api/workday/index.json`.
 
-## Rules (from the entity exception notes)
+## Rule catalogue (`api/workday/exception-rules.json`)
+
+The rules below describe the checks the seeded data was built for. They are documented as data for the
+external validation layer; the systems themselves do not evaluate them.
 
 | Rule | Company | Name | Severity | On fail |
 |---|---|---|---|---|
@@ -67,7 +63,7 @@ Join keys are listed in `api/workday/index.json`.
 | `NO21-007` | NO21 | Factoring payment captured | medium | FAIL |
 | `PT21-001` | PT21 | Leasing licence plate | high | FAIL |
 | `PT21-002` | PT21 | Personal loan bill-to | high | FAIL |
-| `PT21-003` | PT21 | Banco BPI exception | high | FAIL |
+| `PT21-003` | PT21 | Bank sold-to exception | high | FAIL |
 | `PT21-004` | PT21 | VAT number on extras / prepayment | medium | FAIL |
 | `PT21-005` | PT21 | E&Y final invoice match | critical | FAIL |
 | `PT21-006` | PT21 | Gapless numbering and approval order | critical | FAIL |
@@ -96,9 +92,9 @@ input arrives (NGA response) — it is neither a data error nor a pass.
 | Invoice | Expected | Rules | Scenario |
 |---|---|---|---|
 | `CI-SE21-100201` | PASS | — | SE21 normal: private cash buyer, bill-to = sold-to, no related party |
-| `CI-SE21-100202` | PASS | — | SE21 exception PASS: bill-to Ziklo Bank, Brand line already on 3030 |
-| `CI-SE21-100203` | FAIL | SE21-001 | SE21 exception FAIL: bill-to Volvo Bank, Brand line left on 3022 (the screenshot case) |
-| `CI-SE21-100204` | FAIL | SE21-001 | SE21 exception FAIL: Ziklo Bank is sold-to, Brand line on 3027 |
+| `CI-SE21-100202` | PASS | — | SE21 exception PASS: bill-to Nordkredit Bank AB, Brand line already on 3030 |
+| `CI-SE21-100203` | FAIL | SE21-001 | SE21 exception FAIL: bill-to Svea Fordonsbank AB, Brand line left on 3022 (the screenshot case) |
+| `CI-SE21-100204` | FAIL | SE21-001 | SE21 exception FAIL: Nordkredit Bank AB is sold-to, Brand line on 3027 |
 | `CI-SE21-100205` | PASS | — | SE21 normal: corporate fleet buyer with PO |
 | `CI-SE21-100206` | FAIL | GEN-001, GEN-002 | SE21 generic FAIL: extended amount does not equal quantity × unit price |
 | `CI-NO21-200301` | PASS | — | NO21 normal: private buyer, not NGA, fees chargeable, matches POMS |
@@ -112,13 +108,13 @@ input arrives (NGA response) — it is neither a data error nor a pass.
 | `CI-NO21-200309` | PASS | — | NO21 NGA PASS: tracker confirms fees are chargeable; fee lines retained, amounts unchanged |
 | `CI-NO21-200310` | FAIL | NO21-001 | NO21 NGA FAIL: tracker row exists but Model Number and Base Price were not captured |
 | `CI-PT21-300401` | PASS | — | PT21 normal: private cash buyer; E&Y final invoice matches on date, amount, name, PO |
-| `CI-PT21-300402` | PASS | — | PT21 leasing PASS: LeasePlan, licence plate from POMS present in the line description |
-| `CI-PT21-300403` | FAIL | PT21-001 | PT21 leasing FAIL: Arval, licence plate BH-44-LQ missing from the description |
-| `CI-PT21-300404` | FAIL | PT21-001 | PT21 leasing FAIL: Kinto, plate on invoice CJ-10-MN, POMS has CJ-01-MN |
+| `CI-PT21-300402` | PASS | — | PT21 leasing PASS: Atlântico Renting, licence plate from POMS present in the line description |
+| `CI-PT21-300403` | FAIL | PT21-001 | PT21 leasing FAIL: Lusoleasing, licence plate BH-44-LQ missing from the description |
+| `CI-PT21-300404` | FAIL | PT21-001 | PT21 leasing FAIL: Mobilease, plate on invoice CJ-10-MN, POMS has CJ-01-MN |
 | `CI-PT21-300405` | PASS | — | PT21 personal loan PASS: Lusitânia Crédito finances; bill-to changed to buyer so bill-to = sold-to = buyer |
 | `CI-PT21-300406` | FAIL | PT21-002 | PT21 personal loan FAIL: bill-to still Crédito Ibérico SA instead of the buyer |
-| `CI-PT21-300407` | PASS | — | PT21 Banco BPI PASS: sold-to changed to Banco BPI SA so bill-to = sold-to = loan provider |
-| `CI-PT21-300408` | FAIL | PT21-003 | PT21 Banco BPI FAIL: sold-to is still the buyer Rui Martins |
+| `CI-PT21-300407` | PASS | — | PT21 bank exception PASS: sold-to changed to Banco Meridional SA so bill-to = sold-to = loan provider |
+| `CI-PT21-300408` | FAIL | PT21-003 | PT21 bank exception FAIL: sold-to is still the buyer Rui Martins |
 | `CI-PT21-300409` | FAIL | PT21-004 | PT21 prepayment FAIL: customer VAT number blank on the draft; Salesforce holds PT509876543 |
 | `CI-PT21-300410` | PASS | — | PT21 prepayment PASS: VAT number populated |
 | `CI-PT21-300411` | FAIL | PT21-005 | PT21 E&Y FAIL: E&Y final invoice amount 47,900.00 excl. VAT vs Workday 45,900.00 |
@@ -133,16 +129,7 @@ input arrives (NGA response) — it is neither a data error nor a pass.
 | `CI-DK21-400504` | PASS | — | DK21 normal: corporate buyer with accessory line |
 | `CI-DK21-400505` | FAIL | GEN-003 | DK21 generic FAIL: VIN on the invoice does not match the POMS order |
 
-`validate.py --check` grades the validator against this table (currently 60/60, orphan orders OK).
-
-## Validation run shape
-
-`api/validation-runs/latest.json`: `run_id`, `started_at`, `schedule.next_run_at`, `summary {PASS, FAIL, HOLD}`,
-`by_company`, `by_rule`, and `results[]` — one row per invoice with `status`, `rules_failed[]` and
-`findings[]` (`rule_id`, `severity`, `outcome`, `field`, `expected`, `actual`, `message`, `remediation`, `line`).
-The Workday invoice screen highlights the exact cell a finding points at (the yellow Revenue Category cell
-on `CI-SE21-100203` is the screenshot case).
-
+`tools/reference-validator/validate.py --check` confirms the seeded data reproduces this table (60/60).
 
 ## Hosting on GitHub Pages
 
@@ -151,8 +138,6 @@ on `CI-SE21-100203` is the screenshot case).
    (if the repo already has a README: `git pull origin main --allow-unrelated-histories --no-edit` first, or `git push --force`).
 3. Repo → **Settings → Pages** → *Deploy from a branch* → `main` / **`/ (root)`** → Save. Do **not** pick `/docs`.
 4. Wait for the *pages build and deployment* action to go green, then open `https://<you>.github.io/<repo>/`.
-5. **Settings → Actions → General → Workflow permissions → Read and write**, then Actions → *Hourly ERP validation* →
-   *Run workflow*. Results are committed to `api/validation-runs/` and the monitor page updates on the next deploy.
 
 Nothing in the site uses absolute URLs, so it works at any repo name or custom domain. `.nojekyll` keeps
 GitHub from running Jekyll over the folders.

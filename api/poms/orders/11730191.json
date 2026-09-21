@@ -10,8 +10,9 @@
     "model_year": 2025,
     "exterior_colour": "Space",
     "buyer_customer_id": "0014J00000TK2mAQAT",
-    "buyer_name": "ViveLaCar GmbH",
-    "buyer_contact": "Lena Brandt",
+    "buyer_name": "AutoAbo Nord GmbH",
+    "buyer_address": "Große Elbstraße 47, 22767 Hamburg, Germany",
+    "buyer_contact": "Lena Krüger",
     "financing_type": "LEASING",
     "financing_partner_id": null,
     "financing_partner": null,
@@ -34,6 +35,28 @@
     "total_price": 53588.15,
     "payment_status": "UNPAID",
     "poms_last_updated": "07/21/2026, 12:44 PM UTC",
+    "deliveries": [
+      {
+        "delivery_id": "DLV-11730191",
+        "planned_date": "2026-08-10",
+        "location": "München Delivery Hub",
+        "status": "planned"
+      }
+    ],
+    "events": [
+      {
+        "timestamp": "2026-07-20 19:44 UTC",
+        "event": "order_created"
+      },
+      {
+        "timestamp": "2026-07-20 19:44 UTC",
+        "event": "order_confirmed"
+      },
+      {
+        "timestamp": "2026-07-21 12:44 UTC",
+        "event": "delivery_planning_started"
+      }
+    ],
     "workday_invoices": [
       "DE21-CI058557"
     ]

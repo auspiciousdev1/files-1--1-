@@ -7,11 +7,19 @@
     "customer_type": "PRIVATE",
     "country": "PT",
     "vat_number": "PT233678901",
+    "address": {
+      "street": "Avenida 5 de Outubro 200",
+      "postal_code": "1050-065",
+      "city": "Lisboa",
+      "country": "PT"
+    },
+    "address_text": "Avenida 5 de Outubro 200, 1050-065 Lisboa, Portugal",
+    "contact": null,
     "related_party": false,
     "nga_customer": false,
     "leasing_plate_required": false,
     "loan_provider": false,
-    "bpi_exception": false,
+    "bank_sold_to_exception": false,
     "sharepoint_tracker": false
   }
 }

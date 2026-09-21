@@ -2,3 +2,4 @@ __pycache__/
 *.pyc
 /generators/workday_poms/api/
 /generators/workday_poms/sql/
+/tools/reference-validator/runs/

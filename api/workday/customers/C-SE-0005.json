@@ -7,11 +7,19 @@
     "customer_type": "CORPORATE",
     "country": "SE",
     "vat_number": "SE559312345601",
+    "address": {
+      "street": "Hamngatan 3",
+      "postal_code": "582 26",
+      "city": "Linköping",
+      "country": "SE"
+    },
+    "address_text": "Hamngatan 3, 582 26 Linköping, Sweden",
+    "contact": null,
     "related_party": false,
     "nga_customer": false,
     "leasing_plate_required": false,
     "loan_provider": false,
-    "bpi_exception": false,
+    "bank_sold_to_exception": false,
     "sharepoint_tracker": false
   }
 }

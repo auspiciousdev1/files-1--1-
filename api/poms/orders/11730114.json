@@ -10,7 +10,8 @@
     "model_year": 2025,
     "exterior_colour": "Magnesium",
     "buyer_customer_id": "0014J00000TL9pQQAV",
-    "buyer_name": "Sixt SE",
+    "buyer_name": "Mietwagen Süd AG",
+    "buyer_address": "Landsberger Straße 300, 80687 München, Germany",
     "buyer_contact": "Marco Seiler",
     "financing_type": "LOAN",
     "financing_partner_id": null,
@@ -34,6 +35,28 @@
     "total_price": 34475.1,
     "payment_status": "UNPAID",
     "poms_last_updated": "08/02/2026, 01:47 AM UTC",
+    "deliveries": [
+      {
+        "delivery_id": "DLV-11730114",
+        "planned_date": "2026-08-22",
+        "location": "Remarketing Center Leipzig",
+        "status": "planned"
+      }
+    ],
+    "events": [
+      {
+        "timestamp": "2026-08-01 08:47 UTC",
+        "event": "order_created"
+      },
+      {
+        "timestamp": "2026-08-01 08:47 UTC",
+        "event": "order_confirmed"
+      },
+      {
+        "timestamp": "2026-08-02 01:47 UTC",
+        "event": "delivery_planning_started"
+      }
+    ],
     "workday_invoices": [
       "DE21-CI058546"
     ]

@@ -9,10 +9,20 @@
     "invoice_date": "2026-09-16",
     "due_date": "2026-10-16",
     "payment_terms": "Net 30",
+    "invoice_type": "Final Invoice",
+    "customer": "Johan Ek",
+    "customer_id": "C-SE-0007",
     "bill_to_customer_id": "C-SE-0007",
     "bill_to_customer": "Johan Ek",
+    "bill_to_address": "Fleminggatan 20, 112 26 Stockholm, Sweden",
+    "bill_to_contact": null,
     "sold_to_customer_id": "C-SE-0007",
     "sold_to_customer": "Johan Ek",
+    "ship_to_customer": "Johan Ek",
+    "ship_to_address": "Fleminggatan 20, 112 26 Stockholm, Sweden",
+    "payment_status": "UNPAID",
+    "payment_type": null,
+    "printed": "No",
     "customer_vat_number": null,
     "currency": "SEK",
     "po_number": null,
@@ -61,7 +71,7 @@
       }
     ],
     "tax": {
-      "tax_code": "SE-VAT-25",
+      "tax_code": "SE 25% VAT (25%)",
       "tax_rate": 25.0,
       "taxable_amount": 497200.0,
       "tax_amount": 124300.0
@@ -70,8 +80,25 @@
       "subtotal": 497200.0,
       "tax_amount": 124300.0,
       "total_amount": 621500.0,
+      "amount_due": 621500.0,
       "currency": "SEK"
     },
+    "process_history": [
+      {
+        "step": "Customer Invoice Event",
+        "status": "Step Completed",
+        "person": "BPO O2C Billing Desk",
+        "moment": "2026-09-15T09:15:00Z",
+        "comment": "Created from POMS order 11200006"
+      },
+      {
+        "step": "Review Customer Invoice",
+        "status": "Awaiting Action",
+        "person": "Billing Specialist",
+        "moment": "2026-09-15T16:02:00Z",
+        "comment": ""
+      }
+    ],
     "created_by": "BPO O2C Billing Desk",
     "created_on": "2026-09-15T09:15:00Z",
     "last_updated": "2026-09-15T16:02:00Z"

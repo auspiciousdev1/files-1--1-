@@ -11,13 +11,19 @@
     "invoice_date": "2026-07-20",
     "due_date": "2026-07-26",
     "payment_terms": "Net 6 days",
+    "customer": "Mietwagen Süd AG",
+    "customer_id": "0014J00000TL9pQQAV",
     "bill_to_customer_id": "0014J00000TL9pQQAV",
-    "bill_to_customer": "Sixt SE",
+    "bill_to_customer": "Mietwagen Süd AG",
+    "bill_to_address": "Landsberger Straße 300, 80687 München, Germany",
+    "bill_to_contact": null,
     "sold_to_customer_id": "0014J00000TL9pQQAV",
-    "sold_to_customer": "Sixt SE",
-    "ship_to_customer": "Sixt SE",
-    "bill_to_address": "Zugspitzstraße 1 82049 Pullach Germany",
-    "customer_vat_number": null,
+    "sold_to_customer": "Mietwagen Süd AG",
+    "ship_to_customer": "Mietwagen Süd AG",
+    "ship_to_address": "Landsberger Straße 300, 80687 München, Germany",
+    "payment_type": null,
+    "printed": "No",
+    "customer_vat_number": "DE812345673",
     "currency": "EUR",
     "po_number": null,
     "vin": "YSM4ZPBA1SF407321",
@@ -100,8 +106,25 @@
       "subtotal": 46492.18,
       "tax_amount": 8833.52,
       "total_amount": 55325.7,
+      "amount_due": 55325.7,
       "currency": "EUR"
     },
+    "process_history": [
+      {
+        "step": "Customer Invoice Event",
+        "status": "Step Completed",
+        "person": "BPO O2C Billing Desk",
+        "moment": "2026-07-20T08:30:00Z",
+        "comment": "Created from POMS order 11730198"
+      },
+      {
+        "step": "Review Customer Invoice",
+        "status": "Awaiting Action",
+        "person": "Billing Specialist",
+        "moment": "2026-07-20T11:45:00Z",
+        "comment": ""
+      }
+    ],
     "created_by": "BPO O2C Billing Desk",
     "created_on": "2026-07-20T08:30:00Z",
     "last_updated": "2026-07-20T08:30:00Z"

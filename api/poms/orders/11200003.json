@@ -11,9 +11,13 @@
     "exterior_colour": "Snow",
     "buyer_customer_id": "C-SE-0006",
     "buyer_name": "Sara Nilsson",
+    "buyer_address": "Östra Hamngatan 18, 411 09 Göteborg, Sweden",
+    "order_type": "new_car",
+    "sales_type": "B2C",
+    "sales_channel": "Online",
     "financing_type": "PERSONAL_LOAN",
     "financing_partner_id": "C-SE-0002",
-    "financing_partner": "Volvo Bank",
+    "financing_partner": "Svea Fordonsbank AB",
     "license_plate": null,
     "order_date": "2026-08-09",
     "handover_date": "2026-09-12",
@@ -36,6 +40,36 @@
     "total_price": 582350.0,
     "payment_status": "FINANCED",
     "poms_last_updated": "2026-09-17T18:40:00Z",
+    "deliveries": [
+      {
+        "delivery_id": "DLV-11200003",
+        "planned_date": "2026-09-12",
+        "location": "Göteborg Delivery Hub",
+        "status": "completed"
+      }
+    ],
+    "events": [
+      {
+        "timestamp": "2026-08-09 10:12 UTC",
+        "event": "order_created"
+      },
+      {
+        "timestamp": "2026-08-09 10:14 UTC",
+        "event": "order_confirmed"
+      },
+      {
+        "timestamp": "2026-08-11 08:30 UTC",
+        "event": "payment_financing_approved"
+      },
+      {
+        "timestamp": "2026-09-05 09:00 UTC",
+        "event": "delivery_planning_started"
+      },
+      {
+        "timestamp": "2026-09-12 14:00 UTC",
+        "event": "handover_completed"
+      }
+    ],
     "workday_invoices": [
       "CI-SE21-100203"
     ]

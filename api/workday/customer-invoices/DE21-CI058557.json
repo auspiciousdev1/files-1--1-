@@ -11,13 +11,19 @@
     "invoice_date": "2026-07-20",
     "due_date": "2026-07-26",
     "payment_terms": "Net 6 days",
+    "customer": "AutoAbo Nord GmbH",
+    "customer_id": "0014J00000TK2mAQAT",
     "bill_to_customer_id": "0014J00000TK2mAQAT",
-    "bill_to_customer": "ViveLaCar GmbH",
+    "bill_to_customer": "AutoAbo Nord GmbH",
+    "bill_to_address": "Große Elbstraße 47, 22767 Hamburg, Germany",
+    "bill_to_contact": null,
     "sold_to_customer_id": "0014J00000TK2mAQAT",
-    "sold_to_customer": "ViveLaCar GmbH",
-    "ship_to_customer": "ViveLaCar GmbH",
-    "bill_to_address": "Königstraße 27 70173 Stuttgart Germany",
-    "customer_vat_number": null,
+    "sold_to_customer": "AutoAbo Nord GmbH",
+    "ship_to_customer": "AutoAbo Nord GmbH",
+    "ship_to_address": "Große Elbstraße 47, 22767 Hamburg, Germany",
+    "payment_type": null,
+    "printed": "No",
+    "customer_vat_number": "DE812345672",
     "currency": "EUR",
     "po_number": "11730191",
     "vin": "YSM4ZPBA1SF407308",
@@ -100,8 +106,25 @@
       "subtotal": 45032.06,
       "tax_amount": 8556.09,
       "total_amount": 53588.15,
+      "amount_due": 53588.15,
       "currency": "EUR"
     },
+    "process_history": [
+      {
+        "step": "Customer Invoice Event",
+        "status": "Step Completed",
+        "person": "BPO O2C Billing Desk",
+        "moment": "2026-07-20T08:30:00Z",
+        "comment": "Created from POMS order 11730191"
+      },
+      {
+        "step": "Review Customer Invoice",
+        "status": "Awaiting Action",
+        "person": "Billing Specialist",
+        "moment": "2026-07-20T11:45:00Z",
+        "comment": ""
+      }
+    ],
     "created_by": "BPO O2C Billing Desk",
     "created_on": "2026-07-20T08:30:00Z",
     "last_updated": "2026-07-20T08:30:00Z"
