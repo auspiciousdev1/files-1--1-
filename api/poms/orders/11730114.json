@@ -1,0 +1,41 @@
+{
+  "source_system": "POMS",
+  "data": {
+    "order_number": "11730114",
+    "market": "Germany",
+    "company": "DE21",
+    "vin": "YSM4ZPBA1SF407165",
+    "model": "Polestar 4",
+    "model_code": "P4",
+    "model_year": 2025,
+    "exterior_colour": "Magnesium",
+    "buyer_customer_id": "0014J00000TL9pQQAV",
+    "buyer_name": "Sixt SE",
+    "buyer_contact": "Marco Seiler",
+    "financing_type": "LOAN",
+    "financing_partner_id": null,
+    "financing_partner": null,
+    "license_plate": null,
+    "order_type": "remarketed",
+    "sales_type": "B2B",
+    "sales_channel": "Fleet Direct",
+    "order_date": "2026-08-01",
+    "handover_date": "2026-08-22",
+    "order_status": "IN_PRODUCTION",
+    "currency": "EUR",
+    "base_price": 28970.67,
+    "paint_amount": 0.0,
+    "options": [],
+    "fees": [],
+    "discount_amount": 0.0,
+    "gross_taxable_amount": 28970.67,
+    "vat_rate": 19.0,
+    "vat_amount": 5504.43,
+    "total_price": 34475.1,
+    "payment_status": "UNPAID",
+    "poms_last_updated": "08/02/2026, 01:47 AM UTC",
+    "workday_invoices": [
+      "DE21-CI058546"
+    ]
+  }
+}

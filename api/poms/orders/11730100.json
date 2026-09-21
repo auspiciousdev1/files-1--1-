@@ -1,0 +1,47 @@
+{
+  "source_system": "POMS",
+  "data": {
+    "order_number": "11730100",
+    "market": "Germany",
+    "company": "DE21",
+    "vin": "YSM4ZPBA1SF407139",
+    "model": "Polestar 2",
+    "model_code": "P2",
+    "model_year": 2025,
+    "exterior_colour": "Snow",
+    "buyer_customer_id": "0014J00000TJ7kxQAD",
+    "buyer_name": "FINN GmbH",
+    "buyer_contact": "Tim Hartdegen",
+    "financing_type": "CASH",
+    "financing_partner_id": null,
+    "financing_partner": null,
+    "license_plate": null,
+    "order_type": "remarketed",
+    "sales_type": "B2B",
+    "sales_channel": "In Store Retail",
+    "order_date": "2026-08-03",
+    "handover_date": "2026-08-24",
+    "order_status": "DELIVERY_PLANNING",
+    "currency": "EUR",
+    "base_price": 25302.52,
+    "paint_amount": 0.0,
+    "options": [
+      {
+        "option_code": "PLUS-PACK",
+        "description": "Plus Pack",
+        "amount": 747.9
+      }
+    ],
+    "fees": [],
+    "discount_amount": 0.0,
+    "gross_taxable_amount": 26050.42,
+    "vat_rate": 19.0,
+    "vat_amount": 4949.58,
+    "total_price": 31000.0,
+    "payment_status": "UNPAID",
+    "poms_last_updated": "08/04/2026, 08:09 AM UTC",
+    "workday_invoices": [
+      "DE21-CI058544"
+    ]
+  }
+}

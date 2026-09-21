@@ -1,178 +1,68 @@
-const API = '../api';
-const view = document.getElementById('view');
-
-const esc = s => String(s ?? '').replace(/[&<>"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
-const num = n => (n === null || n === undefined ? '—' :
-  new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n));
-const dash = v => (v === null || v === undefined || v === '' ? '<span class="v dash">—</span>' : null);
-
-async function getJSON(url) {
-  const r = await fetch(url, { cache: 'no-store' });
-  if (!r.ok) throw new Error(`${r.status} ${url}`);
-  return r.json();
+/* POMS — static client over ../api/poms and ../api/workday (to show linked invoices). */
+const API = '../api'
+const view = document.getElementById('view')
+const cache = new Map()
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]))
+const num = (n, dp = 2) => (n == null || n === '' ? '' : Number(n).toLocaleString('en-US', { minimumFractionDigits: dp, maximumFractionDigits: dp }))
+const title = (s) => String(s ?? '').replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
+const pill = (t, k = '') => `<span class="pill ${k}">${esc(t)}</span>`
+const wd = (i) => `<a href="../workday/index.html#/invoice/${encodeURIComponent(i)}" target="_blank" rel="noopener">${esc(i)} ↗</a>`
+async function get(p, optional = false) {
+  if (cache.has(p)) return cache.get(p)
+  const r = await fetch(`${API}/${p}`, { cache: 'no-store' })
+  if (!r.ok) { if (optional) return null; throw new Error(`${r.status} ${p}`) }
+  const j = await r.json(); cache.set(p, j); return j
 }
-
-/* ---------------------------------- list ---------------------------------- */
-let all = [];
-
-async function renderList() {
-  document.title = 'POMS — Orders';
-  view.innerHTML = '<div class="dark"><div class="loading">Loading orders…</div></div>';
-  all = (await getJSON(`${API}/orders.json`)).data;
-
-  view.innerHTML = '';
-  view.appendChild(document.getElementById('tpl-list').content.cloneNode(true));
-  view.querySelector('.banner-close').addEventListener('click', e => e.target.closest('.banner').remove());
-
-  const search = view.querySelector('#search');
-  const params = new URLSearchParams(location.hash.split('?')[1] || '');
-  search.value = params.get('q') || '';
-  search.addEventListener('input', () => paint(search.value.trim().toLowerCase()));
-  paint(search.value.trim().toLowerCase());
+const card = (h, body, c = '') => `<div class="card"><h2>${h}${c ? `<span class="c">${c}</span>` : ''}</h2>${body}</div>`
+const kv = (rows) => `<div class="kv">${rows.map(([l, v]) => `<div><label>${l}</label><div class="v">${v === '' || v == null ? '<span style="color:#b5b0a9">—</span>' : v}</div></div>`).join('')}</div>`
+function table(cols, rows) {
+  if (!rows.length) return '<div class="empty">Nothing to show.</div>'
+  return `<div class="scroll"><table><thead><tr>${cols.map((c) => `<th class="${c.num ? 'num' : ''}">${c.label}</th>`).join('')}</tr></thead><tbody>${rows.map((r) => `<tr>${cols.map((c) => `<td class="${c.num ? 'num' : ''}">${c.render ? c.render(r) : esc(r[c.key] ?? '')}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`
 }
-
-function paint(q) {
-  const list = q ? all.filter(o => JSON.stringify(o).toLowerCase().includes(q)) : all;
-  view.querySelector('#ordersHeading').textContent = `Orders (${list.length})`;
-  view.querySelector('.orders tbody').innerHTML = list.map(o => `
-    <tr>
-      <td><a href="#/order/${encodeURIComponent(o.order_no)}">${esc(o.order_no)}</a></td>
-      <td>${esc(o.order_type.replace(/_/g, ' '))}</td>
-      <td><span class="dot">&#9679;</span><span class="status">${esc(o.delivery_status_label)}</span></td>
-      <td>${esc(o.market)}</td>
-      <td>${esc(o.created_at.replace(' UTC', ''))}</td>
-      <td>${esc(o.model)}</td>
-      <td>${esc(o.model_year)}</td>
-      <td>${esc(o.vin)}</td>
-      <td>${esc(o.financing_option)}</td>
-      <td>${esc(o.company)}</td>
-      <td>${esc(o.first_name)}</td>
-      <td>${esc(o.last_name)}</td>
-      <td>${esc(o.email)}</td>
-      <td><a class="go" href="#/order/${encodeURIComponent(o.order_no)}">&#8594;</a></td>
-    </tr>`).join('') ||
-    `<tr><td colspan="14" style="color:#999;padding:26px 12px">No orders match that search. Clear the box to see all orders.</td></tr>`;
+const statusPill = (s) => pill(title(s), { HANDOVER_COMPLETED: 'ok', AWAITING_HANDOVER: 'warn', DELIVERY_PLANNING: 'warn', PAID: 'ok', UNPAID: 'warn', ON_ACCOUNT: 'acc', FINANCED: '' }[s] || '')
+const COLS = (byInv) => [
+  { label: 'Order', key: 'order_number', render: (r) => `<a href="#/order/${r.order_number}">${esc(r.order_number)}</a>` },
+  { label: 'Market', key: 'market' }, { label: 'Company', key: 'company' }, { label: 'Model', key: 'model' }, { label: 'MY', key: 'model_year' }, { label: 'Colour', key: 'exterior_colour' },
+  { label: 'VIN', key: 'vin', render: (r) => `<span class="mono">${esc(r.vin)}</span>` },
+  { label: 'Buyer', key: 'buyer_name' }, { label: 'Financing', key: 'financing_type', render: (r) => title(r.financing_type) }, { label: 'Financing partner', key: 'financing_partner' },
+  { label: 'Plate', key: 'license_plate' }, { label: 'Status', key: 'order_status', render: (r) => statusPill(r.order_status) }, { label: 'Handover', key: 'handover_date' },
+  { label: 'Base price', key: 'base_price', num: true, render: (r) => num(r.base_price) }, { label: 'Fees', key: 'f', num: true, render: (r) => num(r.fees.reduce((s, f) => s + f.amount, 0)) },
+  { label: 'Gross taxable', key: 'gross_taxable_amount', num: true, render: (r) => num(r.gross_taxable_amount) }, { label: 'VAT', key: 'vat_amount', num: true, render: (r) => num(r.vat_amount) },
+  { label: 'Total', key: 'total_price', num: true, render: (r) => `<b>${num(r.total_price)}</b>` }, { label: 'Ccy', key: 'currency' }, { label: 'Payment', key: 'payment_status', render: (r) => statusPill(r.payment_status) },
+  { label: 'Workday invoices', key: 'w', render: (r) => r.workday_invoices.map((i) => `${wd(i)} ${byInv.get(i) ? pill(byInv.get(i).status, { PASS: 'ok', FAIL: 'bad', HOLD: 'warn' }[byInv.get(i).status]) : ''}`).join('<br>') },
+]
+let market = 'ALL'
+async function list() {
+  const [o, run] = await Promise.all([get('poms/orders.json'), get('validation-runs/latest.json', true)])
+  const byInv = new Map((run?.results ?? []).map((r) => [r.invoice_number, r]))
+  const rows = o.data.filter((r) => market === 'ALL' || r.company === market)
+  const id = 'q' + Math.random().toString(36).slice(2, 6)
+  setTimeout(() => {
+    view.querySelectorAll('[data-m]').forEach((b) => b.addEventListener('click', () => { market = b.dataset.m; list() }))
+    const i = document.getElementById(id); i.addEventListener('input', () => { const q = i.value.toLowerCase(); const hit = q ? rows.filter((r) => JSON.stringify(r).toLowerCase().includes(q)) : rows; document.getElementById(id + 't').innerHTML = table(COLS(byInv), hit); document.getElementById(id + 'c').textContent = `${hit.length} of ${rows.length} orders` })
+  }, 0)
+  view.innerHTML = `<div class="crumbs">POMS</div><h1>Vehicle orders</h1><p class="lead">The commercial truth an invoice must agree with: buyer, financing partner, VIN, licence plate, base price, fees and the total the customer agreed to. Workday invoices link back here.</p>
+    <div class="tiles"><div class="tile"><div class="l">Orders</div><div class="v">${o.data.length}</div></div><div class="tile"><div class="l">Handover completed</div><div class="v">${o.data.filter((r) => r.order_status === 'HANDOVER_COMPLETED').length}</div></div><div class="tile"><div class="l">Leasing / loan financed</div><div class="v">${o.data.filter((r) => r.financing_partner).length}</div></div><div class="tile"><div class="l">On account payments</div><div class="v">${o.data.filter((r) => r.payment_status === 'ON_ACCOUNT').length}</div></div></div>
+    <div class="toolbar"><input id="${id}" placeholder="Search order, VIN, buyer, plate…"><div class="seg">${['ALL', 'DE21', 'SE21', 'NO21', 'PT21', 'DK21'].map((m) => `<button data-m="${m}" class="${market === m ? 'on' : ''}">${m === 'ALL' ? 'All markets' : m}</button>`).join('')}</div><span class="count" id="${id}c">${rows.length} orders</span></div>
+    ${card('Orders', `<div id="${id}t">${table(COLS(byInv), rows)}</div>`)}`
 }
-
-/* --------------------------------- detail --------------------------------- */
-async function renderDetail(id) {
-  document.title = `POMS — Order ${id}`;
-  view.innerHTML = '<div class="light"><div class="loading">Loading order…</div></div>';
-  let d;
-  try {
-    d = (await getJSON(`${API}/orders/${encodeURIComponent(id)}.json`)).data;
-  } catch {
-    view.innerHTML = `<div class="light"><div class="error">No order ${esc(id)} exists in POMS. <a href="#/">Back to orders</a></div></div>`;
-    return;
-  }
-
-  const row = (label, value, cls = '') =>
-    `<div class="row"><label>${label}</label>${dash(value) || `<div class="v ${cls}">${value}</div>`}</div>`;
-  const p = d.price_information;
-
-  const overview = `
-    ${row('Order No', esc(d.order_no))}
-    ${row('Order Type', esc(d.order_type))}
-    ${row('Sales Channel', esc(d.sales_channel))}
-    ${row('Order To Delivery Flow', esc(d.order_to_delivery_flow))}
-    ${row('Logistic Flow', d.logistic_flow)}
-    ${row('Order Status', esc(d.order_status))}
-    ${row('Communicated Delivery Status', esc(d.communicated_delivery_status))}
-    ${row('Extras status', esc(d.extras_status))}
-    ${row('Protection status', esc(d.protection_status))}
-    ${row('Market', esc(d.market))}
-    ${row('Is SME Order', d.is_sme_order ? '&#10004;' : '<span class="no">&#10006;</span>')}
-    ${row('Sales Type', esc(d.sales_type))}
-    ${row('Configuration ID', esc(d.configuration_id), 'mono')}
-    ${row('Session ID', esc(d.session_id), 'mono')}
-    ${row('Car', esc(d.car.display), 'strong')}
-    ${row('VIN', esc(d.car.vin), 'mono')}
-    ${row('Colour', esc(d.car.colour))}
-    ${row('Interior', esc(d.car.interior))}
-    ${row('Orderer', `${esc(d.orderer.first_name)} ${esc(d.orderer.last_name)}`)}
-    ${row('Orderer Email', esc(d.orderer.email))}
-    ${row('Company', esc(d.orderer.company))}
-    ${row('Customer ID', esc(d.orderer.customer_id), 'mono')}
-    ${row('Financing Option', esc(d.financing_option))}
-    ${row('Lock State', esc(d.lock_state))}
-    ${row('Created At', esc(d.created_at))}
-    ${row('Updated At', esc(d.updated_at))}
-    ${row('Confirmed at', esc(d.confirmed_at))}
-    ${row('CSL Accepted At', d.csl_accepted_at)}
-    ${row('Terms And Conditions Accepted At', d.terms_and_conditions_accepted_at)}
-    <div class="section">PRICE INFORMATION</div>
-    ${row('Currency', esc(p.currency))}
-    ${row('Grand Total Price', num(p.grand_total_price))}
-    ${row('Final Payment Amount', num(d.final_payment_amount))}
-    ${row('Upfront Payment', num(d.upfront_payment))}
-    ${row('Grand Total Vat', num(p.grand_total_vat))}
-    ${row('Grand Total Tax', p.grand_total_tax)}
-    ${row('Grand Total Car Fiscal', p.grand_total_car_fiscal)}
-    ${row('Car Total Price', num(p.car_total_price))}
-    ${row('Car Total Vat', num(p.car_total_vat))}
-    ${row('Car Total Tax', p.car_total_tax)}
-    ${row('Car Total Incentive Label', p.car_total_incentive_label)}
-    ${row('Car Total Incentive Value', p.car_total_incentive_value)}
-    ${row('Car Total Incentive Excl Vat Label', p.car_total_incentive_excl_vat_label)}
-    ${row('Car Total Incentive Excl Vat Value', p.car_total_incentive_excl_vat_value)}
-    ${row('Extras Total Price', p.extras_total_price)}
-    ${row('Extras Total Vat', p.extras_total_vat)}
-  `;
-
-  const lines = `
-    <table class="ltable">
-      <thead><tr><th>Line</th><th>Item</th><th class="num">Qty</th>
-      <th class="num">Unit price incl. VAT</th><th>VAT rate</th><th class="num">Amount incl. VAT</th></tr></thead>
-      <tbody>${d.order_lines.map(l => `<tr><td>${l.line}</td><td>${esc(l.item)}</td>
-        <td class="num">${l.qty}</td><td class="num">${num(l.unit_price_incl_vat)}</td>
-        <td>${esc(l.vat_rate)}</td><td class="num">${num(l.amount_incl_vat)}</td></tr>`).join('')}</tbody>
-    </table>`;
-
-  const deliveries = `
-    <table class="ltable">
-      <thead><tr><th>Delivery ID</th><th>Planned date</th><th>Location</th><th>Status</th></tr></thead>
-      <tbody>${d.deliveries.map(x => `<tr><td>${esc(x.delivery_id)}</td><td>${esc(x.planned_date)}</td>
-        <td>${esc(x.location)}</td><td>${esc(x.status)}</td></tr>`).join('')}</tbody>
-    </table>`;
-
-  const events = `
-    <table class="ltable">
-      <thead><tr><th>Timestamp</th><th>Event</th></tr></thead>
-      <tbody>${d.events.map(e => `<tr><td>${esc(e.timestamp)}</td><td>${esc(e.event)}</td></tr>`).join('')}</tbody>
-    </table>`;
-
-  view.innerHTML = `
-    <div class="light">
-      <a class="back" href="#/">&#8592; All orders</a>
-      <div class="detail-head">
-        <h2>Order ${esc(d.order_no)}</h2>
-        <div class="actions"><span>&#8943;</span><span>&#9998;</span></div>
-      </div>
-      <div class="tabs">
-        <button class="tab active" data-t="0">Overview</button>
-        <button class="tab" data-t="1">Order Lines</button>
-        <button class="tab" data-t="2">Deliveries</button>
-        <button class="tab" data-t="3">Events</button>
-      </div>
-      <div class="rows" id="tabBody">${overview}</div>
-    </div>`;
-
-  const bodies = [overview, lines, deliveries, events];
-  const body = view.querySelector('#tabBody');
-  view.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => {
-    view.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
-    b.classList.add('active');
-    body.innerHTML = bodies[+b.dataset.t];
-  }));
+async function detail(n) {
+  const [o, run] = await Promise.all([get(`poms/orders/${n}.json`).then((x) => x.data), get('validation-runs/latest.json', true)])
+  const byInv = new Map((run?.results ?? []).map((r) => [r.invoice_number, r]))
+  const price = `<div class="price"><span>${esc(o.model)} base price</span><span>${num(o.base_price)}</span>${o.paint_amount ? `<span>Exterior colour ${esc(o.exterior_colour)}</span><span>${num(o.paint_amount)}</span>` : `<span>Exterior colour ${esc(o.exterior_colour)}</span><span>0.00</span>`}
+    ${o.options.map((x) => `<span>${esc(x.description)}</span><span>${num(x.amount)}</span>`).join('')}${o.fees.map((x) => `<span>${esc(x.description)} <span class="pill warn">fee</span></span><span>${num(x.amount)}</span>`).join('')}
+    ${o.discount_amount ? `<span>Discount</span><span>(${num(o.discount_amount)})</span>` : ''}<span class="t">Gross taxable amount</span><span class="t">${num(o.gross_taxable_amount)}</span><span>VAT ${num(o.vat_rate, 0)}%</span><span>${num(o.vat_amount)}</span><span class="t">Total price</span><span class="t">${num(o.total_price)} ${esc(o.currency)}</span></div>`
+  view.innerHTML = `<div class="crumbs"><a href="#/">POMS</a> › ${esc(o.order_number)}</div><h1>Order ${esc(o.order_number)}</h1><p class="lead">${esc(o.model)} · ${esc(o.buyer_name)} · ${esc(o.market)} · ${statusPill(o.order_status)}</p>
+    ${card('Order', kv([['Order number', `<b>${esc(o.order_number)}</b>`], ['Market / company', `${esc(o.market)} · ${esc(o.company)}`], ['Model', `${esc(o.model)} (${esc(o.model_code)}) MY${o.model_year}`], ['Exterior colour', esc(o.exterior_colour)], ['VIN', `<span class="mono">${esc(o.vin)}</span>`], ['Licence plate', o.license_plate ? `<b>${esc(o.license_plate)}</b>` : ''],
+      ['Buyer', `${esc(o.buyer_name)} <span class="mono">${esc(o.buyer_customer_id)}</span>`], ['Financing', title(o.financing_type)], ['Order type', o.order_type ? `${title(o.order_type)} · ${esc(o.sales_type ?? '')}` : ''], ['Buyer contact', o.buyer_contact ? esc(o.buyer_contact) : ''], ['Financing partner', o.financing_partner ? `${esc(o.financing_partner)} <span class="mono">${esc(o.financing_partner_id)}</span>` : ''],
+      ['Order date', esc(o.order_date)], ['Handover date', esc(o.handover_date)], ['Payment status', statusPill(o.payment_status)], ['Last updated', esc(o.poms_last_updated)]]))}
+    ${card('Price breakdown', price)}
+    ${card('Workday invoices for this order', o.workday_invoices.length ? table([{ label: 'Invoice', key: 'i', render: (r) => wd(r) }, { label: 'Validation', key: 'v', render: (r) => (byInv.get(r) ? pill(byInv.get(r).status, { PASS: 'ok', FAIL: 'bad', HOLD: 'warn' }[byInv.get(r).status]) + ' ' + (byInv.get(r).rules_failed || []).join(', ') : pill('not run')) }], o.workday_invoices) : '<div class="empty">Not yet invoiced in Workday.</div>')}`
+  window.scrollTo(0, 0)
 }
-
-/* --------------------------------- router --------------------------------- */
-function route() {
-  const h = location.hash.replace(/^#\/?/, '').split('?')[0];
-  if (h.startsWith('order/')) renderDetail(decodeURIComponent(h.slice('order/'.length)));
-  else renderList().catch(e => {
-    view.innerHTML = `<div class="dark"><div class="loading">Could not load orders: ${esc(e.message)}</div></div>`;
-  });
+async function route() {
+  const [head, arg] = location.hash.replace(/^#\/?/, '').split('/')
+  view.innerHTML = '<div class="loading">Loading…</div>'
+  try { if (head === 'order' && arg) await detail(decodeURIComponent(arg)); else await list() } catch (e) { view.innerHTML = `<div class="card"><div class="empty"><b>Could not load.</b> ${esc(e.message)} — <a href="#/">back to orders</a></div></div>` }
 }
-window.addEventListener('hashchange', route);
-route();
+window.addEventListener('hashchange', route); route()

@@ -1,1 +1,4 @@
-/prebilling-validation-poc.zip
+__pycache__/
+*.pyc
+/generators/workday_poms/api/
+/generators/workday_poms/sql/

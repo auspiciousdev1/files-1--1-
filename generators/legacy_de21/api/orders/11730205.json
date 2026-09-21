@@ -1,0 +1,100 @@
+{
+  "source_system": "POMS",
+  "object": "Order",
+  "data": {
+    "order_no": "11730205",
+    "order_type": "remarketed",
+    "sales_channel": "In Store Retail",
+    "order_to_delivery_flow": "level_1",
+    "logistic_flow": null,
+    "order_status": "ready_for_delivery",
+    "communicated_delivery_status": "Bereit zur Auslieferung",
+    "delivery_status_label": "Ready For Delivery",
+    "extras_status": "extras_added",
+    "protection_status": "no_protection_added",
+    "market": "DE",
+    "is_sme_order": false,
+    "sales_type": "B2B",
+    "configuration_id": "16195915-2d97-a9f7-fa92-cb2ee4a765b4",
+    "session_id": "3d0c1bdf-2b03-05bd-4b2a-74db2f992f38",
+    "car": {
+      "model": "Polestar 4",
+      "model_year": 2026,
+      "display": "Polestar 4 (2026)",
+      "vin": "YSM4ZPBA1SF407334",
+      "colour": "Thunder",
+      "interior": "Charcoal"
+    },
+    "orderer": {
+      "first_name": "Anja",
+      "last_name": "Köhler",
+      "email": "anja.köhler@leaseplan.de",
+      "company": "LeasePlan Deutschland GmbH",
+      "customer_id": "0014J00000TM4rXQAT",
+      "address": "Hellersbergstraße 10b 41460 Neuss Germany"
+    },
+    "financing_option": "Cash",
+    "created_at": "07/19/2026, 09:22 AM UTC",
+    "updated_at": "07/20/2026, 02:22 AM UTC",
+    "confirmed_at": "07/19/2026, 09:22 AM UTC",
+    "csl_accepted_at": null,
+    "terms_and_conditions_accepted_at": null,
+    "created_at_iso": "2026-07-19T09:22:00Z",
+    "price_information": {
+      "currency": "EUR",
+      "grand_total_price": 57063.25,
+      "grand_total_vat": 9110.94,
+      "grand_total_tax": 0,
+      "grand_total_car_fiscal": null,
+      "car_total_price": 56173.25,
+      "car_total_vat": 8968.84,
+      "car_total_tax": 0,
+      "car_total_incentive_label": null,
+      "car_total_incentive_value": null,
+      "car_total_incentive_excl_vat_label": null,
+      "car_total_incentive_excl_vat_value": null,
+      "extras_total_price": 890.0,
+      "extras_total_vat": 142.1
+    },
+    "order_lines": [
+      {
+        "line": 1,
+        "item": "Polestar 4 2026",
+        "qty": 1,
+        "unit_price_incl_vat": 56173.25,
+        "vat_rate": "19%",
+        "amount_incl_vat": 56173.25
+      },
+      {
+        "line": 2,
+        "item": "Plus Pack",
+        "qty": 1,
+        "unit_price_incl_vat": 890.0,
+        "vat_rate": "19%",
+        "amount_incl_vat": 890.0
+      }
+    ],
+    "deliveries": [
+      {
+        "delivery_id": "DLV-11730205",
+        "planned_date": "2026-08-09",
+        "location": "Frankfurt",
+        "status": "planned"
+      }
+    ],
+    "events": [
+      {
+        "timestamp": "2026-07-19 09:22 UTC",
+        "event": "order_created"
+      },
+      {
+        "timestamp": "2026-07-19 09:22 UTC",
+        "event": "order_confirmed"
+      },
+      {
+        "timestamp": "2026-07-20 02:22 UTC",
+        "event": "delivery_planning_started"
+      }
+    ]
+  }
+}

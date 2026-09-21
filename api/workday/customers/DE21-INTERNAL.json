@@ -1,0 +1,17 @@
+{
+  "source_system": "Workday",
+  "data": {
+    "customer_id": "DE21-INTERNAL",
+    "customer_name": "Polestar Automotive Germany GmbH",
+    "company": "DE21",
+    "customer_type": "CORPORATE",
+    "country": "DE",
+    "vat_number": null,
+    "related_party": true,
+    "nga_customer": false,
+    "leasing_plate_required": false,
+    "loan_provider": false,
+    "bpi_exception": false,
+    "sharepoint_tracker": false
+  }
+}

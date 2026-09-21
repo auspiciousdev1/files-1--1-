@@ -1,0 +1,41 @@
+{
+  "source_system": "POMS",
+  "data": {
+    "order_number": "11730212",
+    "market": "Germany",
+    "company": "DE21",
+    "vin": "YSM4ZPBA1SF407347",
+    "model": "Polestar 2",
+    "model_code": "P2",
+    "model_year": 2025,
+    "exterior_colour": "Snow",
+    "buyer_customer_id": "0014J00000TN8kLQAV",
+    "buyer_name": "Ayvens Germany GmbH",
+    "buyer_contact": "Jonas Weidmann",
+    "financing_type": "LEASING",
+    "financing_partner_id": null,
+    "financing_partner": null,
+    "license_plate": null,
+    "order_type": "new_car",
+    "sales_type": "B2B",
+    "sales_channel": "Online Retail",
+    "order_date": "2026-07-18",
+    "handover_date": "2026-08-08",
+    "order_status": "DELIVERY_PLANNING",
+    "currency": "EUR",
+    "base_price": 49412.44,
+    "paint_amount": 0.0,
+    "options": [],
+    "fees": [],
+    "discount_amount": 0.0,
+    "gross_taxable_amount": 49412.44,
+    "vat_rate": 19.0,
+    "vat_amount": 9388.36,
+    "total_price": 58800.8,
+    "payment_status": "UNPAID",
+    "poms_last_updated": "07/18/2026, 11:11 PM UTC",
+    "workday_invoices": [
+      "DE21-CI058560"
+    ]
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "source_system": "POMS",
+  "data": {
+    "order_number": "11730156",
+    "market": "Germany",
+    "company": "DE21",
+    "vin": "YSM4ZPBA1SF407243",
+    "model": "Polestar 2",
+    "model_code": "P2",
+    "model_year": 2025,
+    "exterior_colour": "Snow",
+    "buyer_customer_id": "0014J00000TL9pQQAV",
+    "buyer_name": "Sixt SE",
+    "buyer_contact": "Felix Wagner",
+    "financing_type": "LOAN",
+    "financing_partner_id": null,
+    "financing_partner": null,
+    "license_plate": null,
+    "order_type": "new_car",
+    "sales_type": "B2B",
+    "sales_channel": "Fleet Direct",
+    "order_date": "2026-07-26",
+    "handover_date": "2026-08-16",
+    "order_status": "DELIVERY_PLANNING",
+    "currency": "EUR",
+    "base_price": 37731.43,
+    "paint_amount": 0.0,
+    "options": [],
+    "fees": [],
+    "discount_amount": 0.0,
+    "gross_taxable_amount": 37731.43,
+    "vat_rate": 19.0,
+    "vat_amount": 7168.97,
+    "total_price": 44900.4,
+    "payment_status": "UNPAID",
+    "poms_last_updated": "07/27/2026, 03:40 AM UTC",
+    "workday_invoices": [
+      "DE21-CI058552"
+    ]
+  }
+}

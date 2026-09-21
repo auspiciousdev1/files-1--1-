@@ -1,0 +1,47 @@
+{
+  "source_system": "POMS",
+  "data": {
+    "order_number": "11730121",
+    "market": "Germany",
+    "company": "DE21",
+    "vin": "YSM4ZPBA1SF407178",
+    "model": "Polestar 4",
+    "model_code": "P4",
+    "model_year": 2026,
+    "exterior_colour": "Thunder",
+    "buyer_customer_id": "0014J00000TM4rXQAT",
+    "buyer_name": "LeasePlan Deutschland GmbH",
+    "buyer_contact": "Anja Köhler",
+    "financing_type": "CASH",
+    "financing_partner_id": null,
+    "financing_partner": null,
+    "license_plate": null,
+    "order_type": "new_car",
+    "sales_type": "B2B",
+    "sales_channel": "In Store Retail",
+    "order_date": "2026-07-31",
+    "handover_date": "2026-08-21",
+    "order_status": "READY_FOR_DELIVERY",
+    "currency": "EUR",
+    "base_price": 29682.9,
+    "paint_amount": 0.0,
+    "options": [
+      {
+        "option_code": "PLUS-PACK",
+        "description": "Plus Pack",
+        "amount": 747.9
+      }
+    ],
+    "fees": [],
+    "discount_amount": 0.0,
+    "gross_taxable_amount": 30430.8,
+    "vat_rate": 19.0,
+    "vat_amount": 5781.85,
+    "total_price": 36212.65,
+    "payment_status": "UNPAID",
+    "poms_last_updated": "07/31/2026, 10:36 PM UTC",
+    "workday_invoices": [
+      "DE21-CI058547"
+    ]
+  }
+}

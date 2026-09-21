@@ -1,0 +1,100 @@
+{
+  "source_system": "POMS",
+  "object": "Order",
+  "data": {
+    "order_no": "11730142",
+    "order_type": "new_car",
+    "sales_channel": "In Store Retail",
+    "order_to_delivery_flow": "level_1",
+    "logistic_flow": null,
+    "order_status": "in_production",
+    "communicated_delivery_status": "In Produktion",
+    "delivery_status_label": "In Production",
+    "extras_status": "extras_added",
+    "protection_status": "no_protection_added",
+    "market": "DE",
+    "is_sme_order": false,
+    "sales_type": "B2B",
+    "configuration_id": "fc501a55-9b68-820d-0380-fd8a5a3f8b5a",
+    "session_id": "6f5505b3-f46d-eb9e-5501-b15b5b717492",
+    "car": {
+      "model": "Polestar 4",
+      "model_year": 2025,
+      "display": "Polestar 4 (2025)",
+      "vin": "YSM4ZPBA1SF407217",
+      "colour": "Magnesium",
+      "interior": "Charcoal"
+    },
+    "orderer": {
+      "first_name": "Peter",
+      "last_name": "Ahlgren",
+      "email": "peter.ahlgren@finn.com",
+      "company": "FINN GmbH",
+      "customer_id": "0014J00000TJ7kxQAD",
+      "address": "Prinzregentenplatz 9 81675 München Germany"
+    },
+    "financing_option": "Cash",
+    "created_at": "07/27/2026, 09:02 PM UTC",
+    "updated_at": "07/28/2026, 02:02 PM UTC",
+    "confirmed_at": "07/27/2026, 09:02 PM UTC",
+    "csl_accepted_at": null,
+    "terms_and_conditions_accepted_at": null,
+    "created_at_iso": "2026-07-27T21:02:00Z",
+    "price_information": {
+      "currency": "EUR",
+      "grand_total_price": 41425.3,
+      "grand_total_vat": 6614.12,
+      "grand_total_tax": 0,
+      "grand_total_car_fiscal": null,
+      "car_total_price": 40535.3,
+      "car_total_vat": 6472.02,
+      "car_total_tax": 0,
+      "car_total_incentive_label": null,
+      "car_total_incentive_value": null,
+      "car_total_incentive_excl_vat_label": null,
+      "car_total_incentive_excl_vat_value": null,
+      "extras_total_price": 890.0,
+      "extras_total_vat": 142.1
+    },
+    "order_lines": [
+      {
+        "line": 1,
+        "item": "Polestar 4 2025",
+        "qty": 1,
+        "unit_price_incl_vat": 40535.3,
+        "vat_rate": "19%",
+        "amount_incl_vat": 40535.3
+      },
+      {
+        "line": 2,
+        "item": "Plus Pack",
+        "qty": 1,
+        "unit_price_incl_vat": 890.0,
+        "vat_rate": "19%",
+        "amount_incl_vat": 890.0
+      }
+    ],
+    "deliveries": [
+      {
+        "delivery_id": "DLV-11730142",
+        "planned_date": "2026-08-17",
+        "location": "Berlin",
+        "status": "planned"
+      }
+    ],
+    "events": [
+      {
+        "timestamp": "2026-07-27 21:02 UTC",
+        "event": "order_created"
+      },
+      {
+        "timestamp": "2026-07-27 21:02 UTC",
+        "event": "order_confirmed"
+      },
+      {
+        "timestamp": "2026-07-28 14:02 UTC",
+        "event": "delivery_planning_started"
+      }
+    ]
+  }
+}

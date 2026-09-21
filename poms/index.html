@@ -3,45 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>POMS — Order Management</title>
+<title>POMS — Polestar Order Management System (POC)</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="view"></div>
-
-  <template id="tpl-list">
-    <div class="dark">
-      <div class="banner">
-        <p>The order list now supports customization, filtering, and exporting.</p>
-        <button class="banner-close" aria-label="Dismiss">&times;</button>
-      </div>
-      <div class="wrap">
-        <h1 id="ordersHeading">Orders</h1>
-        <input id="search" class="search" placeholder="Search" autocomplete="off">
-        <p class="hint">Search by customer name, order number, VIN, etc.</p>
-        <p class="filters">Filters <span>+</span></p>
-
-        <div class="table-scroll">
-          <table class="orders">
-            <thead>
-              <tr class="group">
-                <th colspan="5">Order</th><th colspan="3">Car</th><th>Financing</th><th colspan="4">Orderer</th><th></th>
-              </tr>
-              <tr class="cols">
-                <th>Order no</th><th>Type</th><th>Delivery status</th><th>Market</th><th>Created at</th>
-                <th>Model</th><th>Model year</th><th>VIN</th>
-                <th>Financing option</th>
-                <th>Company</th><th>First name</th><th>Last name</th><th>Email</th><th></th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
-        <div class="pager"><span class="arrow">&#8592;</span><span class="page">01</span><span class="arrow">&#8594;</span></div>
-      </div>
-    </div>
-  </template>
-
+  <header class="bar">
+    <div class="brand"><span class="mark">POMS</span><span class="sub">Order Management System</span></div>
+    <div class="right"><span class="env">POC · SE · NO · PT · DK</span><a class="home" href="../index.html" title="System home">⌂</a></div>
+  </header>
+  <main id="view"><div class="loading">Loading…</div></main>
   <script src="app.js"></script>
 </body>
 </html>

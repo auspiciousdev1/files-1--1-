@@ -1,0 +1,41 @@
+{
+  "source_system": "POMS",
+  "data": {
+    "order_number": "11730170",
+    "market": "Germany",
+    "company": "DE21",
+    "vin": "YSM4ZPBA1SF407269",
+    "model": "Polestar 4",
+    "model_code": "P4",
+    "model_year": 2025,
+    "exterior_colour": "Magnesium",
+    "buyer_customer_id": "0014J00000TN8kLQAV",
+    "buyer_name": "Ayvens Germany GmbH",
+    "buyer_contact": "Ravi Menon",
+    "financing_type": "LEASING",
+    "financing_partner_id": null,
+    "financing_partner": null,
+    "license_plate": null,
+    "order_type": "remarketed",
+    "sales_type": "B2B",
+    "sales_channel": "Online Retail",
+    "order_date": "2026-07-24",
+    "handover_date": "2026-08-14",
+    "order_status": "IN_PRODUCTION",
+    "currency": "EUR",
+    "base_price": 40651.68,
+    "paint_amount": 0.0,
+    "options": [],
+    "fees": [],
+    "discount_amount": 0.0,
+    "gross_taxable_amount": 40651.68,
+    "vat_rate": 19.0,
+    "vat_amount": 7723.82,
+    "total_price": 48375.5,
+    "payment_status": "UNPAID",
+    "poms_last_updated": "07/24/2026, 09:18 PM UTC",
+    "workday_invoices": [
+      "DE21-CI058554"
+    ]
+  }
+}

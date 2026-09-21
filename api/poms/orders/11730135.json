@@ -1,0 +1,41 @@
+{
+  "source_system": "POMS",
+  "data": {
+    "order_number": "11730135",
+    "market": "Germany",
+    "company": "DE21",
+    "vin": "YSM4ZPBA1SF407204",
+    "model": "Polestar 3",
+    "model_code": "P3",
+    "model_year": 2025,
+    "exterior_colour": "Space",
+    "buyer_customer_id": "0014J00000TP1nDQAT",
+    "buyer_name": "Athlon Germany GmbH",
+    "buyer_contact": "Sofia Lindqvist",
+    "financing_type": "LOAN",
+    "financing_partner_id": null,
+    "financing_partner": null,
+    "license_plate": null,
+    "order_type": "remarketed",
+    "sales_type": "B2B",
+    "sales_channel": "Fleet Direct",
+    "order_date": "2026-07-28",
+    "handover_date": "2026-08-18",
+    "order_status": "CONFIRMED",
+    "currency": "EUR",
+    "base_price": 33351.05,
+    "paint_amount": 0.0,
+    "options": [],
+    "fees": [],
+    "discount_amount": 0.0,
+    "gross_taxable_amount": 33351.05,
+    "vat_rate": 19.0,
+    "vat_amount": 6336.7,
+    "total_price": 39687.75,
+    "payment_status": "UNPAID",
+    "poms_last_updated": "07/29/2026, 04:14 PM UTC",
+    "workday_invoices": [
+      "DE21-CI058549"
+    ]
+  }
+}

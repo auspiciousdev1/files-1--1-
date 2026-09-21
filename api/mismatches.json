@@ -1,5 +1,5 @@
 {
-  "note": "Answer key for the POC. POMS is the source of truth.",
+  "note": "Legacy DE21 answer key from the first version of this POC. Superseded by api/workday/expected-results.json, which covers every company.",
   "count": 8,
   "data": [
     {

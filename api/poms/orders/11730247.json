@@ -1,0 +1,47 @@
+{
+  "source_system": "POMS",
+  "data": {
+    "order_number": "11730247",
+    "market": "Germany",
+    "company": "DE21",
+    "vin": "YSM4ZPBA1SF407412",
+    "model": "Polestar 3",
+    "model_code": "P3",
+    "model_year": 2025,
+    "exterior_colour": "Space",
+    "buyer_customer_id": "0014J00000TM4rXQAT",
+    "buyer_name": "LeasePlan Deutschland GmbH",
+    "buyer_contact": "Clara Neumann",
+    "financing_type": "CASH",
+    "financing_partner_id": null,
+    "financing_partner": null,
+    "license_plate": null,
+    "order_type": "new_car",
+    "sales_type": "B2B",
+    "sales_channel": "In Store Retail",
+    "order_date": "2026-07-13",
+    "handover_date": "2026-08-03",
+    "order_status": "CONFIRMED",
+    "currency": "EUR",
+    "base_price": 55965.17,
+    "paint_amount": 0.0,
+    "options": [
+      {
+        "option_code": "PLUS-PACK",
+        "description": "Plus Pack",
+        "amount": 747.9
+      }
+    ],
+    "fees": [],
+    "discount_amount": 0.0,
+    "gross_taxable_amount": 56713.07,
+    "vat_rate": 19.0,
+    "vat_amount": 10775.48,
+    "total_price": 67488.55,
+    "payment_status": "UNPAID",
+    "poms_last_updated": "07/14/2026, 04:15 AM UTC",
+    "workday_invoices": [
+      "DE21-CI058565"
+    ]
+  }
+}

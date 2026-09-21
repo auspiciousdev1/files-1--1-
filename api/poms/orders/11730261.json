@@ -1,0 +1,41 @@
+{
+  "source_system": "POMS",
+  "data": {
+    "order_number": "11730261",
+    "market": "Germany",
+    "company": "DE21",
+    "vin": "YSM4ZPBA1SF407438",
+    "model": "Polestar 4",
+    "model_code": "P4",
+    "model_year": 2026,
+    "exterior_colour": "Thunder",
+    "buyer_customer_id": "0014J00000TP1nDQAT",
+    "buyer_name": "Athlon Germany GmbH",
+    "buyer_contact": "Erik Sundberg",
+    "financing_type": "LOAN",
+    "financing_partner_id": null,
+    "financing_partner": null,
+    "license_plate": null,
+    "order_type": "new_car",
+    "sales_type": "B2B",
+    "sales_channel": "Fleet Direct",
+    "order_date": "2026-07-11",
+    "handover_date": "2026-08-01",
+    "order_status": "READY_FOR_DELIVERY",
+    "currency": "EUR",
+    "base_price": 59633.32,
+    "paint_amount": 0.0,
+    "options": [],
+    "fees": [],
+    "discount_amount": 0.0,
+    "gross_taxable_amount": 59633.32,
+    "vat_rate": 19.0,
+    "vat_amount": 11330.33,
+    "total_price": 70963.65,
+    "payment_status": "UNPAID",
+    "poms_last_updated": "07/11/2026, 10:52 PM UTC",
+    "workday_invoices": [
+      "DE21-CI058567"
+    ]
+  }
+}

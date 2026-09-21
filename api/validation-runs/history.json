@@ -1,0 +1,16 @@
+{
+  "runs": [
+    {
+      "run_id": "run-20260918T1442Z",
+      "started_at": "2026-09-18T14:42:19Z",
+      "invoices_checked": 60,
+      "summary": {
+        "PASS": 32,
+        "FAIL": 27,
+        "HOLD": 1
+      },
+      "trigger": "manual"
+    }
+  ],
+  "count": 1
+}
