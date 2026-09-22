@@ -77,21 +77,123 @@ def gen_001_line_math(inv, ctx):
     return out
 
 
+INVOICE_TYPE_RULES = {   # mappings.yaml → invoice_type_rule (values compared case- and separator-insensitively)
+    "Early Invoice":               {"type": ["Preconfigured", "remarketed", "Order"], "order_status": ["Delivered", "Delivery Planning"], "financing_option": ["Cash"], "lock_state": ["Locked"]},
+    "Sales Invoice Fleet":         {"type": ["Fleet", "Preconfigured Fleet"], "order_status": ["Delivered", "Delivery Planning"], "financing_option": ["Cash"], "lock_state": ["Locked"]},
+    "Sales Invoice FSP":           {"type": ["Order", "Preconfigured"], "order_status": ["Delivered", "Delivery Planning"], "financing_option": ["Loan", "Lease", "Leasing", "Personal Leasing", "OperationalLease"], "lock_state": ["Locked"]},
+    "Fleet Invoice Before Handover": {"type": ["Fleet", "Preconfigured Fleet"], "order_status": ["Delivered", "Delivery Planning"], "financing_option": ["Cash"], "lock_state": ["Locked"]},
+    "Payment Receipt":             {"type": ["Preconfigured", "Preconfigured Fleet"], "order_status": ["Delivered", "Delivery Planning"], "financing_option": ["Loan", "Lease", "Leasing", "Personal Leasing", "Cash"], "lock_state": ["Locked"],
+                                    "total_field": "final_payment_amount"},
+    "Sales Invoice":               {"type": ["Order"], "order_status": ["Delivered", "Delivery Planning"], "financing_option": ["Loan", "Lease", "Leasing", "Personal Leasing"], "lock_state": ["Locked"],
+                                    "total_field": "grand_total_price", "fallback": ["final_payment_amount", "upfront_payment"]},
+    "Sales Invoice Bank":          {"type": ["Order", "Preconfigured"], "order_status": ["Delivered", "Delivery Planning"], "financing_option": ["Loan", "Lease", "Leasing", "Personal Leasing", "Loanballoon"], "lock_state": ["Locked"],
+                                    "total_field": "grand_total_price", "fallback": ["final_payment_amount", "upfront_payment"]},
+    "FSP Invoice Before Handover": {"type": ["Order", "Preconfigured"], "order_status": ["Delivered", "Delivery Planning"], "financing_option": ["Loan", "Lease", "Leasing", "Personal Leasing", "OperationalLease"], "lock_state": ["Locked"]},
+    "Bank Invoice Before Handover": {"type": ["Order", "Preconfigured"], "order_status": ["Delivered", "Delivery Planning", "Confirmed"], "financing_option": ["Loan", "Lease", "Leasing", "Personal Loan", "OperationalLoan", "Loanballoon"], "lock_state": ["Locked"]},
+}
+TOLERANCE = 0.05
+
+
+def norm(v) -> str:
+    return "".join(ch for ch in str(v or "").lower() if ch.isalnum())
+
+
+def poms_order_for(inv, ctx):
+    return ctx.poms.get(inv.get("sales_order") or inv.get("poms_order_number") or "")
+
+
+def is_mapped_document(inv):
+    return (inv.get("invoice_type") in INVOICE_TYPE_RULES) and is_true_invoice(inv) or inv.get("invoice_type") == "Payment Receipt"
+
+
 def gen_002_poms_value(inv, ctx):
-    if not is_true_invoice(inv):
+    """Total Invoice Amount ↔ POMS amount, per mappings.yaml (Grand Total Price, with per-type overrides)."""
+    kind = (inv.get("document_kind") or "").lower()
+    if "delivery note" in kind or "credit" in kind:
         return []
-    order = ctx.poms.get(inv.get("poms_order_number") or "")
+    order = poms_order_for(inv, ctx)
     if not order:
-        return [Finding("GEN-002", ctx.sev("GEN-002"), "FAIL", "poms_order_number", "existing POMS order",
-                        inv.get("poms_order_number"), "Order number not found in POMS", "Correct the POMS order reference.")]
+        return [Finding("GEN-002", ctx.sev("GEN-002"), "FAIL", "sales_order", "existing POMS order",
+                        inv.get("sales_order") or inv.get("poms_order_number"), "Sales Order not found in POMS (Order No)", "Correct the Sales Order reference.")]
     tr = ctx.nga.get(inv["invoice_number"])
     if tr and tr.get("response_status") == "RESPONDED":
         return []            # NO21-004 governs once the NGA team has revised the amounts
-    exp, act = money(order["gross_taxable_amount"]), money(inv["totals"]["subtotal"])
-    if abs(exp - act) > 0.005:
-        return [Finding("GEN-002", ctx.sev("GEN-002"), "FAIL", "totals.subtotal", exp, act,
-                        f"Workday subtotal {act:,.2f} ≠ POMS gross taxable amount {exp:,.2f} on order {order['order_number']}",
-                        "Amend the Workday lines to agree with POMS, or raise a POMS correction.")]
+    rule = INVOICE_TYPE_RULES.get(inv.get("invoice_type"), {})
+    field = rule.get("total_field", "grand_total_price")
+    act = money(inv["totals"]["total_amount"])
+    candidates = [(field, money(order.get(field, order.get("total_price"))))]
+    for fb in rule.get("fallback", []):
+        v = money(order.get(fb) or 0)
+        if v > 0:
+            candidates.append((f"grand_total_price - {fb}", money(order["grand_total_price"] - v)))
+            break
+    for label, exp in candidates:
+        if abs(exp - act) <= TOLERANCE:
+            return []
+    label, exp = candidates[0]
+    return [Finding("GEN-002", ctx.sev("GEN-002"), "FAIL", "total_invoice_amount", exp, act,
+                    f"Total Invoice Amount {act:,.2f} ≠ POMS {label.replace('_', ' ')} {exp:,.2f} on order {order['order_number']}"
+                    + (f" (fallback {candidates[1][1]:,.2f} also fails)" if len(candidates) > 1 else ""),
+                    "Amend the Workday lines to agree with POMS, or raise a POMS correction.")]
+
+
+def map_001_invoice_type(inv, ctx):
+    rule = INVOICE_TYPE_RULES.get(inv.get("invoice_type"))
+    order = poms_order_for(inv, ctx)
+    if not rule or not order:
+        return []
+    out = []
+    for fld in ("type", "order_status", "financing_option", "lock_state"):
+        allowed = rule[fld]
+        if norm(order.get(fld)) not in {norm(a) for a in allowed}:
+            out.append(Finding("MAP-001", ctx.sev("MAP-001"), "FAIL", f"poms.{fld}", " | ".join(allowed), order.get(fld),
+                               f"Invoice type '{inv['invoice_type']}' is not allowed when POMS {fld.replace('_', ' ')} is '{order.get(fld)}'",
+                               "Change the Workday invoice type to one that matches the POMS order state, or fix the order in POMS."))
+    return out
+
+
+def fuzzy_ratio(a: str, b: str) -> float:
+    from difflib import SequenceMatcher
+    a2, b2 = norm(a), norm(b)
+    if not a2 or not b2:
+        return 0.0
+    return 100.0 * SequenceMatcher(None, a2, b2).ratio()
+
+
+def map_002_customer(inv, ctx):
+    order = poms_order_for(inv, ctx)
+    if not order or not is_true_invoice(inv):
+        return []
+    wd = inv.get("customer") or inv.get("bill_to_customer")
+    owner = order.get("owner") or order.get("buyer_name")
+    # the invoice may legitimately be addressed to the financing partner instead of the car owner
+    parties = [owner, order.get("buyer_name"), (order.get("financing") or {}).get("loan_provider_name")]
+    best = max(fuzzy_ratio(a, b) for a in (wd, inv.get("sold_to_customer")) for b in parties if b)
+    if best < 85:
+        return [Finding("MAP-002", ctx.sev("MAP-002"), "FAIL", "customer", owner, wd,
+                        f"Workday customer '{wd}' does not match POMS owner '{owner}' (fuzzy {best:.0f} < 85)",
+                        "Check the Sales Order reference and the Bill-To / Sold-To customer.")]
+    return []
+
+
+def map_003_market(inv, ctx):
+    order = poms_order_for(inv, ctx)
+    if not order:
+        return []
+    codes = {c for c in str(order.get("market", "")).upper().replace("_", "-").split("-") if c}
+    if inv["company"][:2].upper() not in codes:
+        return [Finding("MAP-003", ctx.sev("MAP-003"), "FAIL", "company", f"company in market {order.get('market')}", inv["company"],
+                        f"Workday company {inv['company']} does not belong to POMS market {order.get('market')}", "Correct the Sales Order reference.")]
+    return []
+
+
+def map_004_currency(inv, ctx):
+    order = poms_order_for(inv, ctx)
+    if not order:
+        return []
+    if (inv.get("currency") or "").upper() != (order.get("currency") or "").upper():
+        return [Finding("MAP-004", ctx.sev("MAP-004"), "FAIL", "currency", order.get("currency"), inv.get("currency"),
+                        f"Invoice currency {inv.get('currency')} ≠ POMS order currency {order.get('currency')}", f"Change the invoice currency to {order.get('currency')}.")]
     return []
 
 
@@ -405,7 +507,7 @@ def de21_004_model(inv, ctx):
 
 
 RULES_BY_COMPANY = {
-    "ALL": [gen_001_line_math, gen_002_poms_value, gen_003_vin],
+    "ALL": [gen_001_line_math, gen_002_poms_value, gen_003_vin, map_001_invoice_type, map_002_customer, map_003_market, map_004_currency],
     "SE21": [se21_001_related_party],
     "NO21": [no21_001_tracker_captured, no21_002_response_received, no21_003_fees_removed,
              no21_004_revised_amounts, no21_005_tax_recalculated, no21_007_factoring],

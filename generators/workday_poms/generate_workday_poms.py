@@ -27,6 +27,7 @@ import json
 import os
 from datetime import date, datetime, timedelta
 from decimal import Decimal, ROUND_HALF_UP
+import uuid
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 API = os.path.join(ROOT, "api")
@@ -249,9 +250,15 @@ def brand_desc(model_item: str, my: int = 2027, suffix: str = "") -> str:
     return f"Brand - Model: {MODEL[model_item][0]} ({my}){suffix}"
 
 
+FIN_OPTION = {"CASH": "Cash", "PERSONAL_LOAN": "Loan", "LEASING": "Leasing", "COMPANY": "Cash"}
+MARKET_CODE = {"SE21": "SE", "NO21": "NO", "PT21": "PT", "DK21": "DK"}
+
+
 def poms_order(company, buyer_id, model_item, colour="Snow", financing="CASH", partner_id=None,
                plate=None, options=(), fees=(), discount=0.0, payment_status="PAID",
-               handover_offset=-6, order_offset=-40, price_override=None):
+               handover_offset=-6, order_offset=-40, price_override=None,
+               poms_type=None, order_status=None, financing_option=None, lock_state="locked",
+               unlock_reason=None, upfront_payment=0.0, owner_id=None, owner_name=None, final_payment_amount=None):
     ORDER_SEQ[company] += 1
     n = ORDER_SEQ[company]
     p = PRICES[company]
@@ -264,8 +271,28 @@ def poms_order(company, buyer_id, model_item, colour="Snow", financing="CASH", p
     vat = money(taxable * rate / 100)
     buyer = CUST[buyer_id]
     partner = CUST[partner_id] if partner_id else None
+    owner = CUST[owner_id] if owner_id else buyer
+    if poms_type is None:
+        poms_type = "Fleet" if (buyer["customer_type"] == "CORPORATE" and financing == "COMPANY") else "Order"
+    if order_status is None:
+        order_status = "delivered" if handover_offset <= 0 else "delivery_planning"
+    fin_opt = financing_option or FIN_OPTION.get(financing, financing.title())
+    vat_f = 1 + CO[company]["vat_rate"] / 100
     order = {
-        "order_number": str(n), "market": CO[company]["market"], "company": company,
+        "order_number": str(n), "order_no": str(n), "id": 700000 + (n % 100000),
+        "configuration_id": str(uuid.uuid5(uuid.NAMESPACE_URL, f"poms-config-{n}")),
+        "market": MARKET_CODE[company], "market_name": CO[company]["market"], "company": company,
+        "type": poms_type, "order_status": order_status, "financing_option": fin_opt,
+        "lock_state": lock_state,
+        "locked_at": (TODAY + timedelta(days=order_offset + 3)).isoformat() + "T11:06:00Z" if lock_state == "locked" or unlock_reason else None,
+        "unlock_reason": None if lock_state == "locked" else (unlock_reason or "manual"),
+        "manually_unlocked_reason": None if lock_state == "locked" else unlock_reason,
+        "manually_unlocked_note": None if lock_state == "locked" else "financial split needs to be adjusted",
+        "owner": owner_name or owner["customer_name"], "owner_customer_id": owner["customer_id"],
+        "roles": {"orderer": buyer["customer_name"], "buyer": buyer["customer_name"], "owner": owner_name or owner["customer_name"]},
+        "is_sme_order": False, "cycle_state": "new", "order_to_delivery_flow": "level_1", "logistic_flow": None,
+        "communicated_delivery_status": "Delivered" if order_status == "delivered" else "Before delivery",
+        "extras_status": "extras_added" if options else "no_extras_added", "protection_status": "no_protection_added",
         "vin": vin(company, n), "model": MODEL[model_item][0], "model_code": MODEL[model_item][1],
         "model_year": 2027, "exterior_colour": colour,
         "buyer_customer_id": buyer_id, "buyer_name": buyer["customer_name"], "buyer_address": buyer["address_text"],
@@ -276,12 +303,28 @@ def poms_order(company, buyer_id, model_item, colour="Snow", financing="CASH", p
         "license_plate": plate,
         "order_date": (TODAY + timedelta(days=order_offset)).isoformat(),
         "handover_date": (TODAY + timedelta(days=handover_offset)).isoformat(),
-        "order_status": "HANDOVER_COMPLETED" if handover_offset <= 0 else "AWAITING_HANDOVER",
         "currency": CO[company]["currency"],
         "base_price": money(base), "paint_amount": paint, "options": opt_rows, "fees": fee_rows,
         "discount_amount": money(discount),
         "gross_taxable_amount": taxable, "vat_rate": rate, "vat_amount": vat,
         "total_price": money(taxable + vat),
+        "grand_total_price": money(taxable + vat), "grand_total_vat": vat, "grand_total_tax": 0.0, "grand_total_car_fiscal": None,
+        "car_total_price": money((base + paint - discount) * vat_f), "car_total_vat": money((base + paint - discount) * (vat_f - 1)), "car_total_tax": 0.0,
+        "extras_total_price": money(sum(r["amount"] for r in opt_rows) * vat_f), "extras_total_vat": money(sum(r["amount"] for r in opt_rows) * (vat_f - 1)),
+        "delivery_total_price": money(sum(r["amount"] for r in fee_rows) * vat_f), "delivery_total_vat": money(sum(r["amount"] for r in fee_rows) * (vat_f - 1)),
+        "assurances_total_price": 0.0, "assurances_total_vat": 0.0,
+        "upfront_payment": money(upfront_payment),
+        # customer's own payment at handover: the balance for cash deals, nothing when a bank / lessor finances the car
+        "final_payment_amount": money(final_payment_amount if final_payment_amount is not None else (taxable + vat - upfront_payment if fin_opt == "Cash" else 0.0)),
+        "down_payment_to_pay": money(upfront_payment), "paid_down_payment": money(upfront_payment), "deposit_to_pay": 0.0,
+        "financing": {
+            "status": None if fin_opt == "Cash" else ("approved" if handover_offset <= 0 else "approval_requested"),
+            "financed_amount": None if fin_opt == "Cash" else money(taxable + vat - upfront_payment),
+            "currency": CO[company]["currency"],
+            "loan_provider_name": partner["customer_name"] if partner else None,
+            "loan_provider_salesforce_id": ("001" + partner["customer_id"].replace("-", "") + "AB") if partner else None,
+            "external_reference_number": None,
+        },
         "payment_status": (payment_status if payment_status != "PAID" or financing not in ("PERSONAL_LOAN", "LEASING")
                            else "FINANCED"),
         "poms_last_updated": (TODAY - timedelta(days=1)).isoformat() + "T18:40:00Z",
@@ -294,8 +337,17 @@ def poms_order(company, buyer_id, model_item, colour="Snow", financing="CASH", p
                        {"timestamp": od.isoformat() + " 10:14 UTC", "event": "order_confirmed"},
                        {"timestamp": (od + timedelta(days=2)).isoformat() + " 08:30 UTC", "event": "payment_" + ("financing_approved" if financing != "CASH" else "received")},
                        {"timestamp": (TODAY + timedelta(days=handover_offset - 7)).isoformat() + " 09:00 UTC", "event": "delivery_planning_started"}]
+    if order["lock_state"] == "locked" or unlock_reason:
+        order["events"].append({"timestamp": (od + timedelta(days=3)).isoformat() + " 11:06 UTC", "event": "order_locked"})
+    if unlock_reason:
+        order["events"].append({"timestamp": (od + timedelta(days=9)).isoformat() + " 15:40 UTC", "event": "order_manually_unlocked"})
     if handover_offset <= 0:
         order["events"].append({"timestamp": order["handover_date"] + " 14:00 UTC", "event": "handover_completed"})
+    order["events"].sort(key=lambda e: e["timestamp"])
+    order["timestamps"] = {"created_at": od.isoformat() + "T10:12:00Z", "confirmed_at": od.isoformat() + "T10:14:00Z",
+                           "locked_at": order["locked_at"],
+                           "handover_completed_at": (order["handover_date"] + "T14:00:00Z") if handover_offset <= 0 else None,
+                           "updated_at": order["poms_last_updated"]}
     poms_orders.append(order)
     return order
 
@@ -306,16 +358,46 @@ def line(sales_item, rc, desc, qty, unit_price, extended=None):
             "extended": money(extended if extended is not None else qty * unit_price)}
 
 
+LOAN_FAMILY = {"Loan", "Personal Loan", "Loanballoon", "OperationalLoan"}
+LEASE_FAMILY = {"Lease", "Leasing", "Personal Leasing", "OperationalLease"}
+
+
+def default_invoice_type(order, bill_to_customer, document_kind):
+    """Workday invoice type the billing desk would pick for this order state (see mappings.yaml)."""
+    kind = document_kind.lower()
+    if "prepay" in kind or "payment receipt" in kind:
+        return "Payment Receipt"
+    if "credit" in kind:
+        return "Credit Note"
+    if "delivery note" in kind:
+        return "Delivery Note"
+    if not order:
+        return "Sales Invoice"
+    before = order["order_status"] != "delivered"
+    if order["type"] in ("Fleet", "Preconfigured Fleet"):
+        return "Fleet Invoice Before Handover" if before else "Sales Invoice Fleet"
+    fin = order["financing_option"]
+    if fin == "Cash":
+        return "Early Invoice"
+    if bill_to_customer["customer_type"] == "BANK":
+        return "Bank Invoice Before Handover" if before else "Sales Invoice Bank"
+    if bill_to_customer["customer_type"] == "LEASING" and fin in LEASE_FAMILY:
+        return "FSP Invoice Before Handover" if before else "Sales Invoice FSP"
+    return "Sales Invoice"
+
+
 def invoice(company, order, bill_to, sold_to, lines, *, status="DRAFT", invoice_offset=-2,
             po_number=None, statutory_type=None, statutory_number=None, vat_number="AUTO",
             tax_override=None, memo="", payment_application=None, vin_override=None,
             attachments=(), document_kind="Customer Invoice", scenario=None, expected_status="PASS",
-            expected_findings=(), remediation=None):
+            expected_findings=(), remediation=None, invoice_type=None, currency=None):
     INV_SEQ[company] += 1
     number = f"CI-{company}-{INV_SEQ[company]}"
     co = CO[company]
     inv_date = TODAY + timedelta(days=invoice_offset)
     bt, st = CUST[bill_to], CUST[sold_to]
+    inv_type = invoice_type or default_invoice_type(order, bt, document_kind)
+    ccy = currency or co["currency"]
     rows = []
     for i, l in enumerate(lines, start=1):
         rows.append({
@@ -326,6 +408,9 @@ def invoice(company, order, bill_to, sold_to, lines, *, status="DRAFT", invoice_
             "quantity": l["quantity"], "unit_of_measure": "Each", "quantity_2": 0, "unit_of_measure_2": None,
             "unit_price": l["unit_price"], "extended_amount": l["extended"],
             "released_on_invoice_lines": None,
+            "transaction_date": None, "from_date": None, "to_date": None, "contract_line": None, "deferred_revenue": None,
+            "revenue_recognition_schedule_template": None,
+            "ship_from_address": None, "ship_to_customer": st["customer_name"], "ship_to_address": st["address_text"],
             "tax_applicability": "Taxable" if l["revenue_category"] not in ("9000",) else "Non-taxable",
         })
     subtotal = money(sum(r["extended_amount"] for r in rows))
@@ -336,17 +421,24 @@ def invoice(company, order, bill_to, sold_to, lines, *, status="DRAFT", invoice_
         "invoice_number": number, "document_kind": document_kind, "company": company,
         "company_name": co["company_name"], "status": status,
         "invoice_date": inv_date.isoformat(), "due_date": (inv_date + timedelta(days=30)).isoformat(),
-        "payment_terms": "Net 30", "invoice_type": ("Credit Note" if "credit" in document_kind.lower() else "Prepayment" if "prepay" in document_kind.lower() else "Final Invoice"),
+        "payment_terms": "Net 30", "invoice_type": inv_type,
+        "finalized_date": inv_date.isoformat() if status == "APPROVED" else None,
+        "delivery_type": "Email", "delivery_type_origin": "Customer", "reference_type": "Standard", "discount_date": None,
+        "latest_print_date": (inv_date.isoformat() + "T17:51:00Z") if status == "APPROVED" else None,
         "customer": bt["customer_name"], "customer_id": bill_to,
         "bill_to_customer_id": bill_to, "bill_to_customer": bt["customer_name"], "bill_to_address": bt["address_text"],
         "bill_to_contact": None,
         "sold_to_customer_id": sold_to, "sold_to_customer": st["customer_name"],
         "ship_to_customer": st["customer_name"], "ship_to_address": st["address_text"],
-        "payment_status": "UNPAID", "payment_type": None, "printed": "No",
+        "payment_status": "UNPAID", "payment_type": None, "printed": "Yes" if status == "APPROVED" else "No",
         "customer_vat_number": (bt["vat_number"] if vat_number == "AUTO" else vat_number),
-        "currency": co["currency"], "po_number": po_number,
+        "currency": ccy, "po_number": po_number,
         "vin": vin_override or order["vin"] if order else vin_override,
         "poms_order_number": order["order_number"] if order else None,
+        "sales_order": order["order_number"] if order else None,
+        "worktags": {"model": (order["model"] + " " + str(order["model_year"])) if order else None,
+                     "sales_order": order["order_number"] if order else None,
+                     "vehicle_identifier_number": vin_override or (order["vin"] if order else None)},
         "model": order["model"] if order else None,
         "statutory_invoice_type": statutory_type, "statutory_invoice_number": statutory_number,
         "memo": memo,
@@ -355,7 +447,7 @@ def invoice(company, order, bill_to, sold_to, lines, *, status="DRAFT", invoice_
         "lines": rows,
         "tax": {"tax_code": f"{co['country']} {int(co['vat_rate'])}% VAT ({int(co['vat_rate'])}%)", "tax_rate": co["vat_rate"],
                 "taxable_amount": taxable, "tax_amount": tax_amount},
-        "totals": {"subtotal": subtotal, "tax_amount": tax_amount, "total_amount": total, "amount_due": total, "currency": co["currency"]},
+        "totals": {"subtotal": subtotal, "tax_amount": tax_amount, "total_amount": total, "amount_due": total, "currency": ccy},
         "process_history": [
             {"step": "Customer Invoice Event", "status": "Step Completed", "person": "BPO O2C Billing Desk", "moment": (inv_date - timedelta(days=1)).isoformat() + "T09:15:00Z", "comment": "Created from POMS order " + (order["order_number"] if order else "")},
             {"step": "Review Customer Invoice", "status": "Awaiting Action" if status == "DRAFT" else "Step Completed", "person": "Billing Specialist", "moment": (inv_date - timedelta(days=1)).isoformat() + "T16:02:00Z", "comment": ""},
@@ -665,7 +757,7 @@ inv = invoice("PT21", o, "C-PT-0206", "C-PT-0213", [line("P2-CAR", "3022", pt_ca
 inv["statutory_invoice_number"] = ey(inv)
 
 # P9 extras prepayment — VAT number missing in Workday, present in Salesforce
-o = poms_order("PT21", "C-PT-0217", "P4-CAR", financing="COMPANY", handover_offset=+21)
+o = poms_order("PT21", "C-PT-0217", "P4-CAR", financing="COMPANY", handover_offset=+21, poms_type="Preconfigured Fleet", final_payment_amount=6150.00)
 inv = invoice("PT21", o, "C-PT-0217", "C-PT-0217", [line("PREPAY", "3055", "Sinal / pré-pagamento Polestar 4", 1, 5000)],
               vat_number=None, statutory_type=EY_INV, document_kind="Sales Invoice Extra (prepayment)",
               scenario="PT21 prepayment FAIL: customer VAT number blank on the draft; Salesforce holds PT509876543",
@@ -674,7 +766,7 @@ inv = invoice("PT21", o, "C-PT-0217", "C-PT-0217", [line("PREPAY", "3055", "Sina
 inv["statutory_invoice_number"] = ey(inv)
 
 # P10 extras prepayment pass
-o = poms_order("PT21", "C-PT-0216", "P2-CAR", financing="COMPANY", handover_offset=+14)
+o = poms_order("PT21", "C-PT-0216", "P2-CAR", financing="COMPANY", handover_offset=+14, poms_type="Preconfigured Fleet", final_payment_amount=3690.00)
 inv = invoice("PT21", o, "C-PT-0216", "C-PT-0216", [line("PREPAY", "3055", "Sinal / pré-pagamento Polestar 2", 1, 3000)],
               statutory_type=EY_INV, document_kind="Sales Invoice Extra (prepayment)",
               scenario="PT21 prepayment PASS: VAT number populated",
@@ -788,6 +880,134 @@ invoice("DK21", o, "C-DK-0303", "C-DK-0303",
         expected_status="FAIL", expected_findings=["GEN-003"],
         remediation=f"Correct VIN to {o['vin']} from POMS order {o['order_number']}.")
 
+# --------------------------------------------------------------------------- #
+# Workday ↔ POMS mapping rules (mappings.yaml): invoice type vs order state,
+# customer vs owner, company vs market, currency, total vs grand total
+# --------------------------------------------------------------------------- #
+P = PRICES["SE21"]
+# M1 PASS — Bank Invoice Before Handover: order confirmed, Personal Loan, bank is bill-to, locked
+o = poms_order("SE21", "C-SE-0004", "P2-CAR", colour="Storm", financing="PERSONAL_LOAN", partner_id="C-SE-0001",
+               financing_option="Personal Loan", order_status="confirmed", handover_offset=+12)
+invoice("SE21", o, "C-SE-0001", "C-SE-0004", [
+    line("P2-CAR", "3030", brand_desc("P2-CAR"), 1, P["P2-CAR"]),
+    line("P2-CAR", "3030", "Storm", 1, P["PAINT"]),
+], invoice_type="Bank Invoice Before Handover",
+   scenario="MAP PASS: Bank Invoice Before Handover on a confirmed, locked Personal Loan order billed to the bank",
+   expected_status="PASS")
+
+# M2 FAIL — Sales Invoice Bank issued on a Personal Loan order (only Bank Invoice Before Handover allows Personal Loan)
+o = poms_order("SE21", "C-SE-0003", "P4-CAR", financing="PERSONAL_LOAN", partner_id="C-SE-0002", financing_option="Personal Loan")
+invoice("SE21", o, "C-SE-0002", "C-SE-0003", [
+    line("P4-CAR", "3030", brand_desc("P4-CAR"), 1, P["P4-CAR"]),
+    line("P4-CAR", "3030", "Snow", 1, 0),
+], invoice_type="Sales Invoice Bank",
+   scenario="MAP FAIL: invoice type Sales Invoice Bank but POMS financing option is Personal Loan (not an allowed combination)",
+   expected_status="FAIL", expected_findings=["MAP-001"],
+   remediation="Re-type as Bank Invoice Before Handover or correct the POMS financing option to Loan.")
+
+# M3 PASS — Sales Invoice to the buyer with the upfront payment deducted (fallback: grand total − upfront)
+o = poms_order("SE21", "C-SE-0007", "P2-CAR", colour="Midnight", financing="PERSONAL_LOAN", partner_id="C-SE-0001", upfront_payment=25000)
+invoice("SE21", o, "C-SE-0007", "C-SE-0007", [
+    line("P2-CAR", "3022", brand_desc("P2-CAR"), 1, P["P2-CAR"]),
+    line("P2-CAR", "3022", "Midnight", 1, P["PAINT"]),
+    line("PREPAY", "3055", "Avgår: erlagd handpenning", 1, -20000),
+], invoice_type="Sales Invoice",
+   scenario="MAP PASS: Sales Invoice equals POMS grand total minus the upfront payment (fallback subtract_first_positive)",
+   expected_status="PASS")
+
+# M4 FAIL — invoice currency keyed as SEK on a NOK order
+P = PRICES["NO21"]
+o = poms_order("NO21", "C-NO-0110", "P2-CAR", colour="Storm", fees=NO_FEES)
+invoice("NO21", o, "C-NO-0110", "C-NO-0110", [
+    line("P2-CAR", "3022", brand_desc("P2-CAR"), 1, P["P2-CAR"]),
+    line("P2-CAR", "3022", "Storm", 1, P["PAINT"]),
+    line("FEE-DEL", "3041", "Leveringsgebyr", 1, P["FEE-DEL"]),
+    line("FEE-REG", "3042", "Registreringsavgift", 1, P["FEE-REG"]),
+], currency="SEK",
+   scenario="MAP FAIL: Workday invoice currency SEK, POMS order currency NOK",
+   expected_status="FAIL", expected_findings=["MAP-004"],
+   remediation="Change the invoice currency to NOK.")
+
+# M5 FAIL — order manually unlocked in POMS (changing financing method); no invoice may be issued
+o = poms_order("NO21", "C-NO-0111", "P4-CAR", financing="PERSONAL_LOAN", partner_id=None, lock_state="unlocked",
+               unlock_reason="Changing financing method", fees=NO_FEES)
+invoice("NO21", o, "C-NO-0111", "C-NO-0111", [
+    line("P4-CAR", "3022", brand_desc("P4-CAR"), 1, P["P4-CAR"]),
+    line("P4-CAR", "3022", "Snow", 1, 0),
+    line("FEE-DEL", "3041", "Leveringsgebyr", 1, P["FEE-DEL"]),
+    line("FEE-REG", "3042", "Registreringsavgift", 1, P["FEE-REG"]),
+], invoice_type="Sales Invoice",
+   scenario="MAP FAIL: POMS order lock state is unlocked (manually unlocked — changing financing method)",
+   expected_status="FAIL", expected_findings=["MAP-001"],
+   remediation="Hold the draft until the order is locked again in POMS, then re-check the financing option.")
+
+# M6 PASS — customer name differs only in legal-form spelling (fuzzy ≥ 85)
+o = poms_order("NO21", "C-NO-0112", "P2-CAR", financing="COMPANY", fees=NO_FEES, owner_name="Nordic Consulting A/S")
+invoice("NO21", o, "C-NO-0112", "C-NO-0112", [
+    line("P2-CAR", "3022", brand_desc("P2-CAR"), 1, P["P2-CAR"]),
+    line("P2-CAR", "3022", "Snow", 1, 0),
+    line("FEE-DEL", "3041", "Leveringsgebyr", 1, P["FEE-DEL"]),
+    line("FEE-REG", "3042", "Registreringsavgift", 1, P["FEE-REG"]),
+], po_number="NC-2026-118",
+   scenario="MAP PASS: Workday customer 'Nordic Consulting AS' vs POMS owner 'Nordic Consulting A/S' — fuzzy match above threshold",
+   expected_status="PASS")
+
+# M7 FAIL — wrong sales order keyed: customer does not match the POMS owner
+P = PRICES["PT21"]
+o = poms_order("PT21", "C-PT-0203", "P2-CAR", financing="LEASING", plate="FM-27-QP")
+inv = invoice("PT21", o, "C-PT-0204", "C-PT-0204", [line("P2-CAR", "3022", pt_car("P2-CAR", "FM-27-QP"), 1, P["P2-CAR"])],
+              statutory_type=EY_INV,
+              scenario="MAP FAIL: Workday customer Rentalis Portugal SA but POMS owner of the referenced order is Iberfrota Leasing Lda",
+              expected_status="FAIL", expected_findings=["MAP-002"],
+              remediation="Correct the Sales Order reference (or the Bill-To / Sold-To customer) so the invoice points at the right POMS order.")
+inv["statutory_invoice_number"] = ey(inv)
+
+# M8 PASS — Payment Receipt equals POMS final payment amount
+o = poms_order("PT21", "C-PT-0209", "P2-CAR", poms_type="Preconfigured", upfront_payment=2500)
+invoice("PT21", o, "C-PT-0209", "C-PT-0209", [line("PREPAY", "3055", "Recibo de pagamento final Polestar 2", 1, money(o["final_payment_amount"] / 1.23))],
+        document_kind="Payment Receipt", statutory_type=EY_INV,
+        scenario="MAP PASS: Payment Receipt total equals POMS Final Payment Amount (field override)",
+        expected_status="PASS")
+
+# M9 FAIL — Payment Receipt raised for the grand total although a deposit was already paid
+o = poms_order("PT21", "C-PT-0210", "P2-CAR", colour="Midnight", poms_type="Preconfigured", upfront_payment=2500)
+invoice("PT21", o, "C-PT-0210", "C-PT-0210", [line("PREPAY", "3055", "Recibo de pagamento final Polestar 2", 1, money(o["grand_total_price"] / 1.23))],
+        document_kind="Payment Receipt", statutory_type=EY_INV,
+        scenario="MAP FAIL: Payment Receipt total equals the grand total; POMS Final Payment Amount is lower because 2,500 was paid upfront",
+        expected_status="FAIL", expected_findings=["GEN-002"],
+        remediation="Reduce the receipt to the POMS Final Payment Amount.")
+
+# M10 FAIL — DK21 invoice references a Swedish POMS order (company ≠ market, currency ≠)
+P = PRICES["DK21"]
+o_se = poms_order("SE21", "C-SE-0006", "P2-CAR", options=("HOME-CHG",))
+invoice("DK21", o_se, "C-DK-0303", "C-DK-0303", [
+    line("P2-CAR", "3022", brand_desc("P2-CAR"), 1, PRICES["SE21"]["P2-CAR"]),
+    line("P2-CAR", "3022", "Snow", 1, 0),
+    line("HOME-CHG", "3027", "Hjemmelader", 1, PRICES["SE21"]["HOME-CHG"]),
+], scenario="MAP FAIL: DK21 invoice points at a POMS order in market SE — company/market and currency both disagree",
+   expected_status="FAIL", expected_findings=["MAP-002", "MAP-003", "MAP-004"],
+   remediation="Correct the Sales Order reference to the Danish POMS order.")
+
+# M11 FAIL — Sales Invoice Fleet on a private B2C order (POMS type Order, not Fleet)
+o = poms_order("DK21", "C-DK-0302", "P4-CAR", colour="Storm")
+invoice("DK21", o, "C-DK-0302", "C-DK-0302", [
+    line("P4-CAR", "3022", brand_desc("P4-CAR"), 1, P["P4-CAR"]),
+    line("P4-CAR", "3022", "Storm", 1, P["PAINT"]),
+], invoice_type="Sales Invoice Fleet",
+   scenario="MAP FAIL: invoice type Sales Invoice Fleet but the POMS order type is Order (private cash buyer) — should be Early Invoice",
+   expected_status="FAIL", expected_findings=["MAP-001"],
+   remediation="Change the invoice type to Early Invoice.")
+
+# M12 PASS — rounding difference inside the 0.05 tolerance
+o = poms_order("DK21", "C-DK-0304", "P2-CAR", financing="COMPANY", options=("S00002",))
+invoice("DK21", o, "C-DK-0304", "C-DK-0304", [
+    line("P2-CAR", "3022", brand_desc("P2-CAR"), 1, P["P2-CAR"]),
+    line("P2-CAR", "3022", "Snow", 1, 0),
+    line("S00002", "3027", "Servicepakke 3 år", 1, P["S00002"] + 0.02, extended=P["S00002"] + 0.02),
+], po_number="KB-PO-2026-441",
+   scenario="MAP PASS: Sales Invoice Fleet total differs from the POMS grand total by 0.03 — inside the 0.05 tolerance",
+   expected_status="PASS")
+
 # Link invoices back onto POMS orders
 inv_by_order = {}
 for i in invoices:
@@ -804,7 +1024,20 @@ RULES = [
      "condition": "Every invoice line", "check": "extended_amount = quantity × unit_price",
      "source": "Workday invoice line", "outcome_on_fail": "FAIL"},
     {"rule_id": "GEN-002", "company": "ALL", "name": "Workday vs POMS value match", "severity": "critical",
-     "condition": "Invoice references a POMS order", "check": "Order number exists in POMS and invoice subtotal (excl. VAT) equals POMS gross_taxable_amount. Skipped for prepayments, delivery notes and credit notes, and superseded by NO21-004 once an NGA tracker response exists",
+     "condition": "Invoice references a POMS order (Sales Order = Order No)", "check": "Order exists in POMS and Total Invoice Amount matches the POMS amount within a 0.05 tolerance: Grand Total Price by default; Final Payment Amount for Payment Receipt; for Sales Invoice / Sales Invoice Bank, Grand Total Price minus the first positive of Final Payment Amount / Upfront Payment is accepted as a fallback. Skipped for delivery notes and credit notes, and superseded by NO21-004 once an NGA tracker response exists",
+     "source": "POMS order (mappings.yaml: Total Invoice Amount ↔ Grand Total Price)", "outcome_on_fail": "FAIL"},
+    {"rule_id": "MAP-001", "company": "ALL", "name": "Invoice type vs POMS order state", "severity": "critical",
+     "condition": "Workday Invoice Type is one of the mapped types (Early Invoice, Sales Invoice, Sales Invoice Bank, Sales Invoice FSP, Sales Invoice Fleet, Fleet / FSP / Bank Invoice Before Handover, Payment Receipt)",
+     "check": "POMS Type, Order Status, Financing Option and Lock State are all in the allowed list for that invoice type (mappings.yaml invoice_type_rule)",
+     "source": "POMS order", "outcome_on_fail": "FAIL"},
+    {"rule_id": "MAP-002", "company": "ALL", "name": "Customer vs POMS owner", "severity": "high",
+     "condition": "Invoice references a POMS order", "check": "Workday Customer fuzzy-matches POMS Owner (token ratio ≥ 85)",
+     "source": "POMS order roles", "outcome_on_fail": "FAIL"},
+    {"rule_id": "MAP-003", "company": "ALL", "name": "Company vs POMS market", "severity": "high",
+     "condition": "Invoice references a POMS order", "check": "Workday Company country prefix equals the POMS Market code (SE21 ↔ SE, NL-BE style codes accepted)",
+     "source": "POMS order", "outcome_on_fail": "FAIL"},
+    {"rule_id": "MAP-004", "company": "ALL", "name": "Currency", "severity": "high",
+     "condition": "Invoice references a POMS order", "check": "Workday invoice currency equals POMS order currency",
      "source": "POMS order", "outcome_on_fail": "FAIL"},
     {"rule_id": "GEN-003", "company": "ALL", "name": "VIN match", "severity": "high",
      "condition": "Invoice references a POMS order", "check": "Invoice VIN equals POMS VIN",

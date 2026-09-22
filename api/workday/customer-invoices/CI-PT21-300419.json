@@ -1,0 +1,110 @@
+{
+  "source_system": "Workday",
+  "data": {
+    "invoice_number": "CI-PT21-300419",
+    "document_kind": "Payment Receipt",
+    "company": "PT21",
+    "company_name": "PT21 Polestar Automotive Portugal, Unipessoal Lda",
+    "status": "DRAFT",
+    "invoice_date": "2026-09-16",
+    "due_date": "2026-10-16",
+    "payment_terms": "Net 30",
+    "invoice_type": "Payment Receipt",
+    "finalized_date": null,
+    "delivery_type": "Email",
+    "delivery_type_origin": "Customer",
+    "reference_type": "Standard",
+    "discount_date": null,
+    "latest_print_date": null,
+    "customer": "Maria Santos",
+    "customer_id": "C-PT-0210",
+    "bill_to_customer_id": "C-PT-0210",
+    "bill_to_customer": "Maria Santos",
+    "bill_to_address": "Praça da Batalha 12, 4000-101 Porto, Portugal",
+    "bill_to_contact": null,
+    "sold_to_customer_id": "C-PT-0210",
+    "sold_to_customer": "Maria Santos",
+    "ship_to_customer": "Maria Santos",
+    "ship_to_address": "Praça da Batalha 12, 4000-101 Porto, Portugal",
+    "payment_status": "UNPAID",
+    "payment_type": null,
+    "printed": "No",
+    "customer_vat_number": "PT232567890",
+    "currency": "EUR",
+    "po_number": null,
+    "vin": "LPSKKE2AXS9100119",
+    "poms_order_number": "11300017",
+    "sales_order": "11300017",
+    "worktags": {
+      "model": "Polestar 2 2027",
+      "sales_order": "11300017",
+      "vehicle_identifier_number": "LPSKKE2AXS9100119"
+    },
+    "model": "Polestar 2",
+    "statutory_invoice_type": "PRT Invoice - EY – Portugal",
+    "statutory_invoice_number": null,
+    "memo": "",
+    "payment_application": null,
+    "attachments": [],
+    "lines": [
+      {
+        "line": 1,
+        "company": "PT21 Polestar Automotive Portugal, Unipessoal Lda",
+        "sales_item": "PREPAY",
+        "sales_item_name": "Customer prepayment",
+        "revenue_category": "3055",
+        "revenue_category_name": "Customer Prepayment",
+        "line_item_description": "Recibo de pagamento final Polestar 2",
+        "quantity": 1,
+        "unit_of_measure": "Each",
+        "quantity_2": 0,
+        "unit_of_measure_2": null,
+        "unit_price": 46890.0,
+        "extended_amount": 46890.0,
+        "released_on_invoice_lines": null,
+        "transaction_date": null,
+        "from_date": null,
+        "to_date": null,
+        "contract_line": null,
+        "deferred_revenue": null,
+        "revenue_recognition_schedule_template": null,
+        "ship_from_address": null,
+        "ship_to_customer": "Maria Santos",
+        "ship_to_address": "Praça da Batalha 12, 4000-101 Porto, Portugal",
+        "tax_applicability": "Taxable"
+      }
+    ],
+    "tax": {
+      "tax_code": "PT 23% VAT (23%)",
+      "tax_rate": 23.0,
+      "taxable_amount": 46890.0,
+      "tax_amount": 10784.7
+    },
+    "totals": {
+      "subtotal": 46890.0,
+      "tax_amount": 10784.7,
+      "total_amount": 57674.7,
+      "amount_due": 57674.7,
+      "currency": "EUR"
+    },
+    "process_history": [
+      {
+        "step": "Customer Invoice Event",
+        "status": "Step Completed",
+        "person": "BPO O2C Billing Desk",
+        "moment": "2026-09-15T09:15:00Z",
+        "comment": "Created from POMS order 11300017"
+      },
+      {
+        "step": "Review Customer Invoice",
+        "status": "Awaiting Action",
+        "person": "Billing Specialist",
+        "moment": "2026-09-15T16:02:00Z",
+        "comment": ""
+      }
+    ],
+    "created_by": "BPO O2C Billing Desk",
+    "created_on": "2026-09-15T09:15:00Z",
+    "last_updated": "2026-09-15T16:02:00Z"
+  }
+}

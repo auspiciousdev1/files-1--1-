@@ -1,0 +1,133 @@
+{
+  "source_system": "POMS",
+  "data": {
+    "order_number": "11200009",
+    "order_no": "11200009",
+    "id": 700009,
+    "configuration_id": "630950e3-0d05-574b-ae4c-c5d1024da9fc",
+    "market": "SE",
+    "market_name": "Sweden",
+    "company": "SE21",
+    "type": "Order",
+    "order_status": "delivered",
+    "financing_option": "Loan",
+    "lock_state": "locked",
+    "locked_at": "2026-08-12T11:06:00Z",
+    "unlock_reason": null,
+    "manually_unlocked_reason": null,
+    "manually_unlocked_note": null,
+    "owner": "Johan Ek",
+    "owner_customer_id": "C-SE-0007",
+    "roles": {
+      "orderer": "Johan Ek",
+      "buyer": "Johan Ek",
+      "owner": "Johan Ek"
+    },
+    "is_sme_order": false,
+    "cycle_state": "new",
+    "order_to_delivery_flow": "level_1",
+    "logistic_flow": null,
+    "communicated_delivery_status": "Delivered",
+    "extras_status": "no_extras_added",
+    "protection_status": "no_protection_added",
+    "vin": "YSMKKE2AXS8400063",
+    "model": "Polestar 2",
+    "model_code": "P2",
+    "model_year": 2027,
+    "exterior_colour": "Midnight",
+    "buyer_customer_id": "C-SE-0007",
+    "buyer_name": "Johan Ek",
+    "buyer_address": "Fleminggatan 20, 112 26 Stockholm, Sweden",
+    "order_type": "new_car",
+    "sales_type": "B2C",
+    "sales_channel": "Online",
+    "financing_type": "PERSONAL_LOAN",
+    "financing_partner_id": "C-SE-0001",
+    "financing_partner": "Nordkredit Bank AB",
+    "license_plate": null,
+    "order_date": "2026-08-09",
+    "handover_date": "2026-09-12",
+    "currency": "SEK",
+    "base_price": 479200.0,
+    "paint_amount": 9600.0,
+    "options": [],
+    "fees": [],
+    "discount_amount": 0.0,
+    "gross_taxable_amount": 488800.0,
+    "vat_rate": 25.0,
+    "vat_amount": 122200.0,
+    "total_price": 611000.0,
+    "grand_total_price": 611000.0,
+    "grand_total_vat": 122200.0,
+    "grand_total_tax": 0.0,
+    "grand_total_car_fiscal": null,
+    "car_total_price": 611000.0,
+    "car_total_vat": 122200.0,
+    "car_total_tax": 0.0,
+    "extras_total_price": 0.0,
+    "extras_total_vat": 0.0,
+    "delivery_total_price": 0.0,
+    "delivery_total_vat": 0.0,
+    "assurances_total_price": 0.0,
+    "assurances_total_vat": 0.0,
+    "upfront_payment": 25000.0,
+    "final_payment_amount": 0.0,
+    "down_payment_to_pay": 25000.0,
+    "paid_down_payment": 25000.0,
+    "deposit_to_pay": 0.0,
+    "financing": {
+      "status": "approved",
+      "financed_amount": 586000.0,
+      "currency": "SEK",
+      "loan_provider_name": "Nordkredit Bank AB",
+      "loan_provider_salesforce_id": "001CSE0001AB",
+      "external_reference_number": null
+    },
+    "payment_status": "FINANCED",
+    "poms_last_updated": "2026-09-17T18:40:00Z",
+    "deliveries": [
+      {
+        "delivery_id": "DLV-11200009",
+        "planned_date": "2026-09-12",
+        "location": "Göteborg Delivery Hub",
+        "status": "completed"
+      }
+    ],
+    "events": [
+      {
+        "timestamp": "2026-08-09 10:12 UTC",
+        "event": "order_created"
+      },
+      {
+        "timestamp": "2026-08-09 10:14 UTC",
+        "event": "order_confirmed"
+      },
+      {
+        "timestamp": "2026-08-11 08:30 UTC",
+        "event": "payment_financing_approved"
+      },
+      {
+        "timestamp": "2026-08-12 11:06 UTC",
+        "event": "order_locked"
+      },
+      {
+        "timestamp": "2026-09-05 09:00 UTC",
+        "event": "delivery_planning_started"
+      },
+      {
+        "timestamp": "2026-09-12 14:00 UTC",
+        "event": "handover_completed"
+      }
+    ],
+    "timestamps": {
+      "created_at": "2026-08-09T10:12:00Z",
+      "confirmed_at": "2026-08-09T10:14:00Z",
+      "locked_at": "2026-08-12T11:06:00Z",
+      "handover_completed_at": "2026-09-12T14:00:00Z",
+      "updated_at": "2026-09-17T18:40:00Z"
+    },
+    "workday_invoices": [
+      "CI-SE21-100209"
+    ]
+  }
+}

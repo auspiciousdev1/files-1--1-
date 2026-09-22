@@ -1,7 +1,7 @@
 {
   "source_system": "E&Y certified invoicing (Portugal)",
   "object": "Final invoice",
-  "count": 14,
+  "count": 15,
   "generated_at": "2026-09-18T07:00:00Z",
   "sequences": {
     "PRT Invoice - EY – Portugal": "PT240001…",
@@ -232,6 +232,22 @@
       "issued_on": "2026-09-16",
       "approved_by": "Margarida (Market Portugal)",
       "pdf": "docs/ey/PT2400031.pdf"
+    },
+    {
+      "ey_invoice_number": "PT240130",
+      "statutory_invoice_type": "PRT Invoice - EY – Portugal",
+      "sequence": 240130,
+      "invoice_date": "2026-09-16",
+      "customer_name": "Rentalis Portugal SA",
+      "po_number": null,
+      "vin": "LPSKKE2AXS9100105",
+      "amount_excl_vat": 45900.0,
+      "total_amount": 56457.0,
+      "currency": "EUR",
+      "workday_invoice_number": "CI-PT21-300417",
+      "issued_on": "2026-09-16",
+      "approved_by": "Margarida (Market Portugal)",
+      "pdf": "docs/ey/PT240130.pdf"
     }
   ]
 }

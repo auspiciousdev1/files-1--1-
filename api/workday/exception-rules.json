@@ -1,7 +1,7 @@
 {
   "source_system": "Validation rule catalogue",
   "object": "Rule",
-  "count": 23,
+  "count": 27,
   "generated_at": "2026-09-18T07:00:00Z",
   "data": [
     {
@@ -19,8 +19,48 @@
       "company": "ALL",
       "name": "Workday vs POMS value match",
       "severity": "critical",
+      "condition": "Invoice references a POMS order (Sales Order = Order No)",
+      "check": "Order exists in POMS and Total Invoice Amount matches the POMS amount within a 0.05 tolerance: Grand Total Price by default; Final Payment Amount for Payment Receipt; for Sales Invoice / Sales Invoice Bank, Grand Total Price minus the first positive of Final Payment Amount / Upfront Payment is accepted as a fallback. Skipped for delivery notes and credit notes, and superseded by NO21-004 once an NGA tracker response exists",
+      "source": "POMS order (mappings.yaml: Total Invoice Amount ↔ Grand Total Price)",
+      "outcome_on_fail": "FAIL"
+    },
+    {
+      "rule_id": "MAP-001",
+      "company": "ALL",
+      "name": "Invoice type vs POMS order state",
+      "severity": "critical",
+      "condition": "Workday Invoice Type is one of the mapped types (Early Invoice, Sales Invoice, Sales Invoice Bank, Sales Invoice FSP, Sales Invoice Fleet, Fleet / FSP / Bank Invoice Before Handover, Payment Receipt)",
+      "check": "POMS Type, Order Status, Financing Option and Lock State are all in the allowed list for that invoice type (mappings.yaml invoice_type_rule)",
+      "source": "POMS order",
+      "outcome_on_fail": "FAIL"
+    },
+    {
+      "rule_id": "MAP-002",
+      "company": "ALL",
+      "name": "Customer vs POMS owner",
+      "severity": "high",
       "condition": "Invoice references a POMS order",
-      "check": "Order number exists in POMS and invoice subtotal (excl. VAT) equals POMS gross_taxable_amount. Skipped for prepayments, delivery notes and credit notes, and superseded by NO21-004 once an NGA tracker response exists",
+      "check": "Workday Customer fuzzy-matches POMS Owner (token ratio ≥ 85)",
+      "source": "POMS order roles",
+      "outcome_on_fail": "FAIL"
+    },
+    {
+      "rule_id": "MAP-003",
+      "company": "ALL",
+      "name": "Company vs POMS market",
+      "severity": "high",
+      "condition": "Invoice references a POMS order",
+      "check": "Workday Company country prefix equals the POMS Market code (SE21 ↔ SE, NL-BE style codes accepted)",
+      "source": "POMS order",
+      "outcome_on_fail": "FAIL"
+    },
+    {
+      "rule_id": "MAP-004",
+      "company": "ALL",
+      "name": "Currency",
+      "severity": "high",
+      "condition": "Invoice references a POMS order",
+      "check": "Workday invoice currency equals POMS order currency",
       "source": "POMS order",
       "outcome_on_fail": "FAIL"
     },

@@ -1,0 +1,230 @@
+primary_key:
+  workday: "Sales Order"
+  poms: "Order No"
+
+invoice_type_rule:
+  workday_field: "Invoice Type"
+
+  poms_fields:
+    type: "Type"
+    order_status: "Order Status"
+    financing_option: "Financing Option"
+    lock_state: "Lock State"
+
+  rules:
+    Early Invoice:
+      type:
+        - "Preconfigured"
+        - "remarketed"
+        - "Order"
+      order_status:
+        - "Delivered"
+        - "Delivery Planning"
+        - "Delivery_Planning"
+      financing_option:
+        - "Cash"
+      lock_state:
+        - "Locked"
+
+    Sales Invoice Fleet:
+      type:
+        - "Fleet"
+        - "Preconfigured Fleet"
+        - "Preconfigured-Fleet"
+      order_status:
+        - "Delivered"
+        - "Delivery Planning"
+        - "Delivery_Planning"
+      financing_option:
+        - "Cash"
+      lock_state:
+        - "Locked"
+
+    Sales Invoice FSP:
+      type:
+        - "Order"
+        - "Preconfigured"
+      order_status:
+        - "Delivered"
+        - "Delivery Planning"
+        - "Delivery_Planning"
+      financing_option:
+        - "Loan"
+        - "Lease"
+        - "Leasing"
+        - "Personal Leasing"
+        - "OperationalLease"
+      lock_state:
+        - "Locked"
+
+    Fleet Invoice Before Handover:
+      type:
+        - "Fleet"
+        - "Preconfigured Fleet"
+        - "Preconfigured-Fleet"
+      order_status:
+        - "Delivered"
+        - "Delivery Planning"
+        - "Delivery_Planning"
+      financing_option:
+        - "Cash"
+      lock_state:
+        - "Locked"
+
+    Payment Receipt:
+      type:
+        - "Preconfigured"
+        - "Preconfigured Fleet"
+        - "Preconfigured-Fleet"
+      order_status:
+        - "Delivered"
+        - "Delivery Planning"
+        - "Delivery_Planning"
+      financing_option:
+        - "Loan"
+        - "Lease"
+        - "Leasing"
+        - "Personal Leasing"
+        - "Cash"
+      lock_state:
+        - "Locked"
+      field_overrides:
+        Total Invoice Amount:
+          poms: "Final Payment Amount"
+          match_type: "numeric"
+          tolerance: 0.05
+
+    Sales Invoice:
+      type:
+        - "Order"
+      order_status:
+        - "Delivered"
+        - "Delivery Planning"
+        - "Delivery_Planning"
+      financing_option:
+        - "Loan"
+        - "Lease"
+        - "Leasing"
+        - "Personal Leasing"
+      lock_state:
+        - "Locked"
+      field_overrides:
+        Total Invoice Amount:
+          poms: "Grand Total Price"
+          match_type: "numeric"
+          tolerance: 0.05
+          fallback:
+            operation: "subtract_first_positive"
+            candidates:
+              - "Final Payment Amount"
+              - "Upfront Payment"
+
+    Sales Invoice Bank:
+      type:
+        - "Order"
+        - "Preconfigured"
+      order_status:
+        - "Delivered"
+        - "Delivery Planning"
+        - "Delivery_Planning"
+      financing_option:
+        - "Loan"
+        - "Lease"
+        - "Leasing"
+        - "Personal Leasing"
+        - "Loanballoon"
+      lock_state:
+        - "Locked"
+      field_overrides:
+        Total Invoice Amount:
+          poms: "Grand Total Price"
+          match_type: "numeric"
+          tolerance: 0.05
+          fallback:
+            operation: "subtract_first_positive"
+            candidates:
+              - "Final Payment Amount"
+              - "Upfront Payment"
+
+    FSP Invoice Before Handover:
+      type:
+        - "Order"
+        - "Preconfigured"
+      order_status:
+        - "Delivered"
+        - "Delivery Planning"
+        - "Delivery_Planning"
+      financing_option:
+        - "Loan"
+        - "Lease"
+        - "Leasing"
+        - "Personal Leasing"
+        - "OperationalLease"
+      lock_state:
+        - "Locked"  
+
+    Bank Invoice Before Handover:
+      type:
+        - "Order"
+        - "Preconfigured"
+      order_status:
+        - "Delivered"
+        - "Delivery Planning"
+        - "Delivery_Planning"
+        - "Confirmed"
+      financing_option:
+        - "Loan"
+        - "Lease"
+        - "Leasing"
+        - "Personal Loan"
+        - "OperationalLoan"
+        - "Loanballoon"
+      lock_state:
+        - "Locked"   
+fields:
+  - workday: "Customer"
+    poms: "Owner"
+    match_type: "fuzzy"
+    fuzzy_threshold: 85
+
+  - workday: "Company"
+    poms: "Market"
+    match_type: "market"
+
+  # - workday: "Payment Status - OTC"
+  #   poms: "Final Payment Status"
+  #   match_type: "mapped"
+  #   mapping:
+  #     paid:
+  #       - "paid"
+  #       - "fully_paid"
+  #       - "partially_paid"
+  #       - "partially paid"
+  #     unpaid:
+  #       - "not paid"
+  #       - "not_paid"
+  #       - "unpaid"
+  #       - "Unpaid"
+  #       - "0"
+
+  - workday: "Total Invoice Amount"
+    poms: "Grand Total Price"
+    match_type: "numeric"
+    tolerance: 0.05
+
+output_fields:
+  - source: "poms"
+    column: "Market"
+    label: "POMS Market"
+  - source: "poms"
+    column: "Final Payment Amount"
+    label: "POMS Final Payment Amount"
+  - source: "poms"
+    column: "Upfront Payment"
+    label: "POMS Upfront Payment"
+  - source: "poms"
+    column: "Grand Total Price"
+    label: "POMS Grand Total Price"
+  - source: "workday"
+    column: "Total Invoice Amount"
+    label: "WD Total Invoice Amount"    

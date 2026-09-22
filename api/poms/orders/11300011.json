@@ -2,8 +2,34 @@
   "source_system": "POMS",
   "data": {
     "order_number": "11300011",
-    "market": "Portugal",
+    "order_no": "11300011",
+    "id": 700011,
+    "configuration_id": "c13a57a0-9b57-56c6-8564-4114696d40dd",
+    "market": "PT",
+    "market_name": "Portugal",
     "company": "PT21",
+    "type": "Order",
+    "order_status": "delivered",
+    "financing_option": "Leasing",
+    "lock_state": "locked",
+    "locked_at": "2026-08-12T11:06:00Z",
+    "unlock_reason": null,
+    "manually_unlocked_reason": null,
+    "manually_unlocked_note": null,
+    "owner": "Rentalis Portugal SA",
+    "owner_customer_id": "C-PT-0204",
+    "roles": {
+      "orderer": "Rentalis Portugal SA",
+      "buyer": "Rentalis Portugal SA",
+      "owner": "Rentalis Portugal SA"
+    },
+    "is_sme_order": false,
+    "cycle_state": "new",
+    "order_to_delivery_flow": "level_1",
+    "logistic_flow": null,
+    "communicated_delivery_status": "Delivered",
+    "extras_status": "no_extras_added",
+    "protection_status": "no_protection_added",
     "vin": "LPSKKE2AXS9100077",
     "model": "Polestar 2",
     "model_code": "P2",
@@ -21,7 +47,6 @@
     "license_plate": "DK-18-PR",
     "order_date": "2026-08-09",
     "handover_date": "2026-09-12",
-    "order_status": "HANDOVER_COMPLETED",
     "currency": "EUR",
     "base_price": 45900.0,
     "paint_amount": 0.0,
@@ -32,6 +57,32 @@
     "vat_rate": 23.0,
     "vat_amount": 10557.0,
     "total_price": 56457.0,
+    "grand_total_price": 56457.0,
+    "grand_total_vat": 10557.0,
+    "grand_total_tax": 0.0,
+    "grand_total_car_fiscal": null,
+    "car_total_price": 56457.0,
+    "car_total_vat": 10557.0,
+    "car_total_tax": 0.0,
+    "extras_total_price": 0.0,
+    "extras_total_vat": 0.0,
+    "delivery_total_price": 0.0,
+    "delivery_total_vat": 0.0,
+    "assurances_total_price": 0.0,
+    "assurances_total_vat": 0.0,
+    "upfront_payment": 0.0,
+    "final_payment_amount": 0.0,
+    "down_payment_to_pay": 0.0,
+    "paid_down_payment": 0.0,
+    "deposit_to_pay": 0.0,
+    "financing": {
+      "status": "approved",
+      "financed_amount": 56457.0,
+      "currency": "EUR",
+      "loan_provider_name": null,
+      "loan_provider_salesforce_id": null,
+      "external_reference_number": null
+    },
     "payment_status": "FINANCED",
     "poms_last_updated": "2026-09-17T18:40:00Z",
     "deliveries": [
@@ -56,6 +107,10 @@
         "event": "payment_financing_approved"
       },
       {
+        "timestamp": "2026-08-12 11:06 UTC",
+        "event": "order_locked"
+      },
+      {
         "timestamp": "2026-09-05 09:00 UTC",
         "event": "delivery_planning_started"
       },
@@ -64,6 +119,13 @@
         "event": "handover_completed"
       }
     ],
+    "timestamps": {
+      "created_at": "2026-08-09T10:12:00Z",
+      "confirmed_at": "2026-08-09T10:14:00Z",
+      "locked_at": "2026-08-12T11:06:00Z",
+      "handover_completed_at": "2026-09-12T14:00:00Z",
+      "updated_at": "2026-09-17T18:40:00Z"
+    },
     "workday_invoices": [
       "CI-PT21-300411"
     ]

@@ -3,14 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>POMS — Order Management</title>
+<title>Orders | POMS</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header class="top">
-    <a class="brand" href="#/"><span class="mark">★</span>POMS <span class="sub">Order Management</span></a>
-    <nav class="tabsnav"><a href="#/" class="active" id="nav-orders">Orders</a><a href="#/customers" id="nav-customers">Customers</a><a href="#/deliveries" id="nav-deliveries">Deliveries</a></nav>
-    <div class="right"><input id="gs" placeholder="Order no, VIN, customer, plate…"><span class="user">Order Desk · EU Markets</span></div>
+    <span class="burger">☰</span>
+    <a class="brand" href="#/">Orders | POMS</a>
+    <div class="search"><input id="gs" placeholder="Type or press tab to search orders…"></div>
+    <nav class="links"><a href="#/" id="nav-orders">Orders</a><a href="#/customers" id="nav-customers">Customers</a><a href="#/deliveries" id="nav-deliveries">Deliveries</a></nav>
   </header>
   <main id="view"><div class="loading">Loading…</div></main>
   <script src="app.js"></script>

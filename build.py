@@ -160,6 +160,7 @@ CUST_BY_ID = {c["customer_id"]: c for c in customers["data"]}
 # 3. DE21 — POMS orders into the unified order schema
 # ----------------------------------------------------------------------------
 FIN = {"Cash": "CASH", "Leasing": "LEASING", "Financing": "LOAN"}
+FIN_OPT = {"Cash": "Cash", "Leasing": "Leasing", "Financing": "Loan"}
 new_orders = []
 for o in leg_ord:
     p = o["price_information"]
@@ -174,8 +175,19 @@ for o in leg_ord:
     hub = {"remarketed": "Remarketing Center Leipzig"}.get(o["order_type"], "München Delivery Hub")
     for d in o.get("deliveries", []):
         d["location"] = hub
+    poms_type = "remarketed" if (o["order_type"] == "remarketed" and o["financing_option"] == "Cash") else "Preconfigured" if (o["order_type"] == "demo" and o["financing_option"] == "Cash") else "Order"
+    fin_opt = FIN_OPT.get(o["financing_option"], o["financing_option"])
+    delivered = o["order_status"] == "delivered"
     new_orders.append({
-        "order_number": o["order_no"], "market": "Germany", "company": "DE21",
+        "order_number": o["order_no"], "order_no": o["order_no"], "id": 600000 + int(o["order_no"][-5:]),
+        "configuration_id": o["configuration_id"], "market": "DE", "market_name": "Germany", "company": "DE21",
+        "type": poms_type, "financing_option": fin_opt, "lock_state": "locked",
+        "locked_at": o["created_at_iso"][:10] + "T16:30:00Z", "unlock_reason": None, "manually_unlocked_reason": None, "manually_unlocked_note": None,
+        "owner": de_name(o["orderer"]["company"]), "owner_customer_id": o["orderer"]["customer_id"],
+        "roles": {"orderer": de_contact(o["orderer"]["first_name"], o["orderer"]["last_name"]), "buyer": de_name(o["orderer"]["company"]), "owner": de_name(o["orderer"]["company"])},
+        "is_sme_order": o.get("is_sme_order", False), "cycle_state": "pre_owned" if o["order_type"] == "remarketed" else "new",
+        "order_to_delivery_flow": o.get("order_to_delivery_flow"), "logistic_flow": o.get("logistic_flow"),
+        "communicated_delivery_status": o.get("communicated_delivery_status"), "extras_status": o.get("extras_status"), "protection_status": o.get("protection_status"),
         "vin": o["car"]["vin"], "model": o["car"]["model"], "model_code": "P" + o["car"]["model"][-1],
         "model_year": o["car"]["model_year"], "exterior_colour": o["car"]["colour"],
         "buyer_customer_id": o["orderer"]["customer_id"], "buyer_name": de_name(o["orderer"]["company"]),
@@ -186,9 +198,19 @@ for o in leg_ord:
         "order_type": o["order_type"], "sales_type": o["sales_type"], "sales_channel": o["sales_channel"],
         "order_date": o["created_at_iso"][:10],
         "handover_date": (o["deliveries"][0]["planned_date"] if o.get("deliveries") else None),
-        "order_status": o["order_status"].upper(), "currency": "EUR",
+        "order_status": o["order_status"].lower() if o["order_status"].lower() in ("delivered", "delivery_planning") else "delivery_planning", "currency": "EUR",
         "base_price": car_net, "paint_amount": 0.0, "options": opts, "fees": [], "discount_amount": 0.0,
         "gross_taxable_amount": net, "vat_rate": vat_rate, "vat_amount": vat, "total_price": gross_incl,
+        "grand_total_price": gross_incl, "grand_total_vat": vat, "grand_total_tax": 0.0, "grand_total_car_fiscal": None,
+        "car_total_price": money(p["car_total_price"]), "car_total_vat": money(p["car_total_vat"]), "car_total_tax": 0.0,
+        "extras_total_price": money(p["extras_total_price"]), "extras_total_vat": money(p["extras_total_vat"]),
+        "delivery_total_price": 0.0, "delivery_total_vat": 0.0, "assurances_total_price": 0.0, "assurances_total_vat": 0.0,
+        "upfront_payment": 0.0, "final_payment_amount": gross_incl if fin_opt == "Cash" else 0.0, "down_payment_to_pay": 0.0, "paid_down_payment": 0.0, "deposit_to_pay": 0.0,
+        "financing": {"status": None if fin_opt == "Cash" else "approved", "financed_amount": None if fin_opt == "Cash" else gross_incl, "currency": "EUR",
+                      "loan_provider_name": None, "loan_provider_salesforce_id": None, "external_reference_number": None},
+        "timestamps": {"created_at": o["created_at_iso"], "confirmed_at": o["created_at_iso"], "locked_at": o["created_at_iso"][:10] + "T16:30:00Z",
+                       "handover_completed_at": (o["deliveries"][0]["planned_date"] + "T14:00:00Z") if (delivered and o.get("deliveries")) else None,
+                       "updated_at": o["updated_at"]},
         "payment_status": "UNPAID", "poms_last_updated": o["updated_at"],
         "deliveries": o.get("deliveries", []), "events": o.get("events", []),
         "workday_invoices": inv_nos,
@@ -230,8 +252,18 @@ for i in leg_inv:
                      "released_on_invoice_lines": None, "tax_applicability": "Taxable", "tax_code": l["tax_code"]})
     tax_rate = 0.0 if "0%" in i["default_tax_code"] else 19.0
     subtotal = money(i["net_invoice_amount"])
+    fin_opt = order["financing_option"] if order else "Cash"
+    inv_type = "Early Invoice" if fin_opt == "Cash" else "Sales Invoice FSP" if fin_opt == "Leasing" else "Sales Invoice"
+    for l in rows:
+        l.update({"transaction_date": None, "from_date": None, "to_date": None, "contract_line": None, "deferred_revenue": None,
+                  "revenue_recognition_schedule_template": None, "ship_from_address": None,
+                  "ship_to_customer": de_name(i["ship_to_customer"]), "ship_to_address": de_addr(i["ship_to_customer"])})
     inv = {
-        "invoice_number": i["invoice_number"], "document_kind": "Customer Invoice", "invoice_type": i["invoice_type"],
+        "invoice_number": i["invoice_number"], "document_kind": "Customer Invoice", "invoice_type": inv_type,
+        "finalized_date": iso(i["invoice_date"]) if i["status"] == "Approved" else None,
+        "delivery_type": "Email", "delivery_type_origin": "Customer", "reference_type": "Standard", "discount_date": None,
+        "latest_print_date": (iso(i["invoice_date"]) + "T17:51:00Z") if i["status"] == "Approved" else None,
+        "sales_order": i["sales_order"],
         "company": "DE21", "company_name": DE21["company_name"], "status": i["status"].upper(),
         "payment_status": i["payment_status"].upper(),
         "invoice_date": iso(i["invoice_date"]), "due_date": iso(i["due_date"]), "payment_terms": i["payment_terms"],
@@ -240,11 +272,11 @@ for i in leg_inv:
         "bill_to_address": de_addr(i["bill_to_customer"]), "bill_to_contact": None,
         "sold_to_customer_id": CUST_BY_NAME.get(de_name(i["sold_to_customer"]), i["customer_id"]), "sold_to_customer": de_name(i["sold_to_customer"]),
         "ship_to_customer": de_name(i["ship_to_customer"]), "ship_to_address": de_addr(i["ship_to_customer"]),
-        "payment_type": None, "printed": "No",
+        "payment_type": None, "printed": "Yes" if i["status"] == "Approved" else "No",
         "customer_vat_number": CUST_BY_ID.get(CUST_BY_NAME.get(de_name(i["bill_to_customer"]), ""), {}).get("vat_number"),
         "currency": "EUR", "po_number": i["po_number"] or None,
         "vin": i["vehicle_identifier_number"], "poms_order_number": i["sales_order"], "model": i["model"],
-        "worktags": i["worktags"], "statutory_invoice_type": None, "statutory_invoice_number": None,
+        "worktags": {"model": i["model"], "sales_order": i["sales_order"], "vehicle_identifier_number": i["vehicle_identifier_number"]}, "statutory_invoice_type": None, "statutory_invoice_number": None,
         "memo": i["memo"], "payment_application": None, "attachments": [],
         "lines": rows,
         "tax": {"tax_code": i["default_tax_code"], "tax_rate": tax_rate, "taxable_amount": subtotal, "tax_amount": money(i["tax_amount"])},
@@ -300,11 +332,11 @@ rules["data"].extend(DE_RULES)
 rules["count"] = len(rules["data"])
 
 MAP = {"total_amount": ("FAIL", ["GEN-002"], "Workday total lower than POMS grand total — net value disagrees with POMS."),
-       "vat_amount": ("FAIL", ["DE21-001", "GEN-002"], "0% intra-EU tax code applied; POMS expects 19% VAT (net grossed up to the incl.-VAT price)."),
+       "vat_amount": ("FAIL", ["DE21-001"], "0% intra-EU tax code applied; POMS expects 19% VAT."),
        "vin": ("FAIL", ["GEN-003"], "VIN on the invoice differs from the POMS order."),
        "missing_in_poms": ("FAIL", ["GEN-002"], "Invoice references an order number that does not exist in POMS."),
        "po_number_missing": ("FAIL", ["DE21-002"], "PO number blank on a B2B invoice."),
-       "customer_mismatch": ("FAIL", ["DE21-003"], "Sold-To customer differs from the POMS ordering company."),
+       "customer_mismatch": ("FAIL", ["DE21-003", "MAP-002"], "Sold-To customer differs from the POMS ordering company / owner."),
        "model_mismatch": ("FAIL", ["DE21-004"], "Model year on the invoice differs from the ordered car.")}
 mm_by_inv = {m["invoice_number"]: m for m in mismatches if m["invoice_number"]}
 for inv in new_invoices:

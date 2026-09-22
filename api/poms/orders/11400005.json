@@ -2,8 +2,34 @@
   "source_system": "POMS",
   "data": {
     "order_number": "11400005",
-    "market": "Denmark",
+    "order_no": "11400005",
+    "id": 700005,
+    "configuration_id": "6390f819-0914-507e-a9c7-b139dfdda9e7",
+    "market": "DK",
+    "market_name": "Denmark",
     "company": "DK21",
+    "type": "Order",
+    "order_status": "delivered",
+    "financing_option": "Cash",
+    "lock_state": "locked",
+    "locked_at": "2026-08-12T11:06:00Z",
+    "unlock_reason": null,
+    "manually_unlocked_reason": null,
+    "manually_unlocked_note": null,
+    "owner": "Søren Nielsen",
+    "owner_customer_id": "C-DK-0303",
+    "roles": {
+      "orderer": "Søren Nielsen",
+      "buyer": "Søren Nielsen",
+      "owner": "Søren Nielsen"
+    },
+    "is_sme_order": false,
+    "cycle_state": "new",
+    "order_to_delivery_flow": "level_1",
+    "logistic_flow": null,
+    "communicated_delivery_status": "Delivered",
+    "extras_status": "no_extras_added",
+    "protection_status": "no_protection_added",
     "vin": "YSMKKE2AXS9800035",
     "model": "Polestar 2",
     "model_code": "P2",
@@ -21,7 +47,6 @@
     "license_plate": null,
     "order_date": "2026-08-09",
     "handover_date": "2026-09-12",
-    "order_status": "HANDOVER_COMPLETED",
     "currency": "DKK",
     "base_price": 349995.0,
     "paint_amount": 7495.0,
@@ -32,6 +57,32 @@
     "vat_rate": 25.0,
     "vat_amount": 89372.5,
     "total_price": 446862.5,
+    "grand_total_price": 446862.5,
+    "grand_total_vat": 89372.5,
+    "grand_total_tax": 0.0,
+    "grand_total_car_fiscal": null,
+    "car_total_price": 446862.5,
+    "car_total_vat": 89372.5,
+    "car_total_tax": 0.0,
+    "extras_total_price": 0.0,
+    "extras_total_vat": 0.0,
+    "delivery_total_price": 0.0,
+    "delivery_total_vat": 0.0,
+    "assurances_total_price": 0.0,
+    "assurances_total_vat": 0.0,
+    "upfront_payment": 0.0,
+    "final_payment_amount": 446862.5,
+    "down_payment_to_pay": 0.0,
+    "paid_down_payment": 0.0,
+    "deposit_to_pay": 0.0,
+    "financing": {
+      "status": null,
+      "financed_amount": null,
+      "currency": "DKK",
+      "loan_provider_name": null,
+      "loan_provider_salesforce_id": null,
+      "external_reference_number": null
+    },
     "payment_status": "PAID",
     "poms_last_updated": "2026-09-17T18:40:00Z",
     "deliveries": [
@@ -56,6 +107,10 @@
         "event": "payment_received"
       },
       {
+        "timestamp": "2026-08-12 11:06 UTC",
+        "event": "order_locked"
+      },
+      {
         "timestamp": "2026-09-05 09:00 UTC",
         "event": "delivery_planning_started"
       },
@@ -64,6 +119,13 @@
         "event": "handover_completed"
       }
     ],
+    "timestamps": {
+      "created_at": "2026-08-09T10:12:00Z",
+      "confirmed_at": "2026-08-09T10:14:00Z",
+      "locked_at": "2026-08-12T11:06:00Z",
+      "handover_completed_at": "2026-09-12T14:00:00Z",
+      "updated_at": "2026-09-17T18:40:00Z"
+    },
     "workday_invoices": [
       "CI-DK21-400505"
     ]

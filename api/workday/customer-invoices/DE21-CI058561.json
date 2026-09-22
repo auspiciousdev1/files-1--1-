@@ -3,7 +3,14 @@
   "data": {
     "invoice_number": "DE21-CI058561",
     "document_kind": "Customer Invoice",
-    "invoice_type": "Final Invoice",
+    "invoice_type": "Sales Invoice",
+    "finalized_date": null,
+    "delivery_type": "Email",
+    "delivery_type_origin": "Customer",
+    "reference_type": "Standard",
+    "discount_date": null,
+    "latest_print_date": null,
+    "sales_order": "11730219",
     "company": "DE21",
     "company_name": "DE21 Polestar Automotive Germany GmbH",
     "status": "DRAFT",
@@ -30,8 +37,7 @@
     "poms_order_number": "11730219",
     "model": "Polestar 3 (2025)",
     "worktags": {
-      "invoice_type": "Payment - Early Invoice, Bank & FSP Inv before HO",
-      "model": "Polestar 3U",
+      "model": "Polestar 3 (2025)",
       "sales_order": "11730219",
       "vehicle_identifier_number": "YSM4ZPBA1SF407360"
     },
@@ -57,7 +63,16 @@
         "extended_amount": 46802.76,
         "released_on_invoice_lines": null,
         "tax_applicability": "Taxable",
-        "tax_code": "DEU 19% VAT (19%)"
+        "tax_code": "DEU 19% VAT (19%)",
+        "transaction_date": null,
+        "from_date": null,
+        "to_date": null,
+        "contract_line": null,
+        "deferred_revenue": null,
+        "revenue_recognition_schedule_template": null,
+        "ship_from_address": null,
+        "ship_to_customer": "Polestar Automotive Germany GmbH",
+        "ship_to_address": "Moosacher Straße 88, 80809 München, Germany"
       },
       {
         "line": 2,
@@ -75,7 +90,16 @@
         "extended_amount": 2543.63,
         "released_on_invoice_lines": null,
         "tax_applicability": "Taxable",
-        "tax_code": "DEU 19% VAT (19%)"
+        "tax_code": "DEU 19% VAT (19%)",
+        "transaction_date": null,
+        "from_date": null,
+        "to_date": null,
+        "contract_line": null,
+        "deferred_revenue": null,
+        "revenue_recognition_schedule_template": null,
+        "ship_from_address": null,
+        "ship_to_customer": "Polestar Automotive Germany GmbH",
+        "ship_to_address": "Moosacher Straße 88, 80809 München, Germany"
       },
       {
         "line": 3,
@@ -93,7 +117,16 @@
         "extended_amount": 1526.17,
         "released_on_invoice_lines": null,
         "tax_applicability": "Taxable",
-        "tax_code": "DEU 19% VAT (19%)"
+        "tax_code": "DEU 19% VAT (19%)",
+        "transaction_date": null,
+        "from_date": null,
+        "to_date": null,
+        "contract_line": null,
+        "deferred_revenue": null,
+        "revenue_recognition_schedule_template": null,
+        "ship_from_address": null,
+        "ship_to_customer": "Polestar Automotive Germany GmbH",
+        "ship_to_address": "Moosacher Straße 88, 80809 München, Germany"
       }
     ],
     "tax": {

@@ -11,12 +11,13 @@ separate validation layer reads them.
 |---|---|
 | `workday/` | **Workday** — *Find Customer Invoices - OTC* (prompt filters: Company, Customer, Invoice Status, Payment Status, Invoice Type, date range), *View Customer Invoice* (Invoice / Additional / Amount Information, tabs: Invoice Lines with Sales Item and Revenue Category, Currency Rate, Tax, Attachments, Notes, Process History), *Customer Invoice Lines - OTC*, *Find Customers*, Revenue Categories, Sales Items |
 | `poms/` | **POMS** — order management: filterable order list; order detail with Order, Customer, Vehicle, Financing & payment, Order lines, Price information, Deliveries, Events and Billing documents (Workday references); Customers and Deliveries views |
+| `mappings.yaml` | Workday ↔ POMS field mappings and the invoice-type rule (primary key `Sales Order` = `Order No`; Invoice Type → allowed POMS Type / Order Status / Financing Option / Lock State; Customer ↔ Owner fuzzy 85; Company ↔ Market; Total Invoice Amount ↔ Grand Total Price ±0.05 with Payment Receipt / Sales Invoice overrides). The seeded data is built so every branch of this file is exercised |
 | `api/` | Static JSON for both systems plus the side systems the exceptions depend on (`api/index.json` lists every endpoint) |
 | `sql/` | MySQL schema + seed for the Workday / POMS layer |
 | `build.py` | Rebuilds `api/` and `sql/` from the two generators below |
 | `generators/workday_poms/generate_workday_poms.py` | SE21 / NO21 / PT21 / DK21 invoices, orders, trackers, rule catalogue and answer key — deterministic; edit the scenario list to add cases |
 | `generators/legacy_de21/` | The original DE21 dataset (23 invoices, 23 orders, 8 seeded mismatches), fictionalised; `build.py` converts it into the same schema and adds Revenue Categories to its lines |
-| `tools/reference-validator/` | Reference rule implementation used only to prove the seeded data matches the answer key (`python3 tools/reference-validator/validate.py --check` → 60/60). Not part of either system; nothing in the UIs reads it |
+| `tools/reference-validator/` | Reference rule implementation used only to prove the seeded data matches the answer key (`python3 tools/reference-validator/validate.py --check` → 72/72). Not part of either system; nothing in the UIs reads it |
 
 ## Run it
 
@@ -52,7 +53,11 @@ external validation layer; the systems themselves do not evaluate them.
 | Rule | Company | Name | Severity | On fail |
 |---|---|---|---|---|
 | `GEN-001` | ALL | Line arithmetic | critical | FAIL |
-| `GEN-002` | ALL | Workday vs POMS value match | critical | FAIL |
+| `GEN-002` | ALL | Total Invoice Amount vs POMS Grand Total Price (±0.05; Payment Receipt → Final Payment Amount; Sales Invoice / Sales Invoice Bank fallback Grand Total − first positive of Final Payment Amount, Upfront Payment) | critical | FAIL |
+| `MAP-001` | ALL | Invoice Type vs POMS Type / Order Status / Financing Option / Lock State (`mappings.yaml` invoice_type_rule) | critical | FAIL |
+| `MAP-002` | ALL | Customer vs POMS Owner (fuzzy ≥ 85; the order's loan provider is also accepted for bank-billed invoices) | high | FAIL |
+| `MAP-003` | ALL | Company vs POMS Market (SE21 ↔ SE) | high | FAIL |
+| `MAP-004` | ALL | Currency | high | FAIL |
 | `GEN-003` | ALL | VIN match | high | FAIL |
 | `SE21-001` | SE21 | Related party revenue category | high | FAIL |
 | `NO21-001` | NO21 | NGA tracker captured | high | FAIL |
@@ -75,19 +80,27 @@ external validation layer; the systems themselves do not evaluate them.
 | `DE21-004` | DE21 | Model / model year matches POMS | medium | FAIL |
 | `GEN-004` | ALL | POMS order invoiced (run level: orders with no Workday invoice) | medium | INFO |
 
-GEN rules run for every company. GEN-002 compares the Workday subtotal (excl. VAT) with the POMS gross
-taxable amount; it is skipped for prepayments, delivery notes and credit notes, and superseded by NO21-004
-once the NGA team has revised the amounts. HOLD means the invoice cannot proceed until an external
+GEN and MAP rules run for every company. GEN-002 follows `mappings.yaml`: Total Invoice Amount (incl. VAT)
+against the POMS amount for that invoice type within 0.05; it is skipped for delivery notes and credit notes,
+and superseded by NO21-004 once the NGA team has revised the amounts. MAP-001 only fires for invoice types
+listed in `mappings.yaml` (Delivery Note and Credit Note are outside the rule). HOLD means the invoice cannot proceed until an external
 input arrives (NGA response) — it is neither a data error nor a pass.
 
 ## Seeded scenarios (answer key: `api/workday/expected-results.json`)
 
-32 PASS · 27 FAIL · 1 HOLD across 60 invoices. Every exception appears at least once passing and once failing.
+37 PASS · 34 FAIL · 1 HOLD across 72 invoices. Every exception appears at least once passing and once failing.
 
 **DE21** (23 invoices, `DE21-CI058544 … 058567`): 16 pass; the 7 seeded defects of the original POC are
 `058546` total lower than POMS (GEN-002), `058549` 0 % tax code (DE21-001 + GEN-002), `058552` VIN (GEN-003),
 `058555` order missing in POMS (GEN-002), `058558` PO blank (DE21-002), `058561` sold-to ≠ POMS buyer (DE21-003),
-`058564` model year (DE21-004). POMS order `11730254` has no Workday invoice and is reported at run level (GEN-004).
+`058564` model year (DE21-004).
+
+**Mapping-rule scenarios** (12 invoices): `CI-SE21-100207` Bank Invoice Before Handover on a confirmed Personal Loan order (PASS) ·
+`100208` Sales Invoice Bank on a Personal Loan order (FAIL MAP-001) · `100209` Sales Invoice = Grand Total − Upfront Payment (PASS, fallback) ·
+`CI-NO21-200311` currency SEK vs NOK (FAIL MAP-004) · `200312` order manually unlocked (FAIL MAP-001) · `200313` "Nordic Consulting AS" vs
+"Nordic Consulting A/S" (PASS, fuzzy) · `CI-PT21-300417` customer ≠ owner (FAIL MAP-002) · `300418` Payment Receipt = Final Payment Amount (PASS) ·
+`300419` Payment Receipt = grand total although 2,500 paid upfront (FAIL GEN-002) · `CI-DK21-400506` DK21 invoice on a Swedish order
+(FAIL MAP-002/003/004) · `400507` Sales Invoice Fleet on a B2C order (FAIL MAP-001) · `400508` 0.03 rounding difference (PASS, tolerance). POMS order `11730254` has no Workday invoice and is reported at run level (GEN-004).
 
 | Invoice | Expected | Rules | Scenario |
 |---|---|---|---|
@@ -129,7 +142,7 @@ input arrives (NGA response) — it is neither a data error nor a pass.
 | `CI-DK21-400504` | PASS | — | DK21 normal: corporate buyer with accessory line |
 | `CI-DK21-400505` | FAIL | GEN-003 | DK21 generic FAIL: VIN on the invoice does not match the POMS order |
 
-`tools/reference-validator/validate.py --check` confirms the seeded data reproduces this table (60/60).
+`tools/reference-validator/validate.py --check` confirms the seeded data reproduces this table (72/72).
 
 ## Hosting on GitHub Pages
 

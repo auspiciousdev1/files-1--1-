@@ -38,14 +38,14 @@
     "payment_to_factoring": "factoring_tracker.payment_id = customer_invoice.payment_application.payment_id"
   },
   "counts": {
-    "customer_invoices": 60,
-    "invoice_lines": 147,
-    "poms_orders": 58,
+    "customer_invoices": 72,
+    "invoice_lines": 177,
+    "poms_orders": 70,
     "customers": 48,
-    "rules": 23,
+    "rules": 27,
     "expected": {
-      "PASS": 32,
-      "FAIL": 27,
+      "PASS": 37,
+      "FAIL": 34,
       "HOLD": 1
     }
   }

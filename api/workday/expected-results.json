@@ -1,11 +1,11 @@
 {
   "source_system": "Answer key",
   "object": "Expected validation result",
-  "count": 60,
+  "count": 72,
   "generated_at": "2026-09-18T07:00:00Z",
   "summary": {
-    "PASS": 32,
-    "FAIL": 27,
+    "PASS": 37,
+    "FAIL": 34,
     "HOLD": 1
   },
   "data": [
@@ -351,6 +351,118 @@
       "remediation": "Correct VIN to YSMKKE2AXS9800035 from POMS order 11400005."
     },
     {
+      "invoice_number": "CI-SE21-100207",
+      "company": "SE21",
+      "scenario": "MAP PASS: Bank Invoice Before Handover on a confirmed, locked Personal Loan order billed to the bank",
+      "expected_status": "PASS",
+      "expected_findings": [],
+      "remediation": null
+    },
+    {
+      "invoice_number": "CI-SE21-100208",
+      "company": "SE21",
+      "scenario": "MAP FAIL: invoice type Sales Invoice Bank but POMS financing option is Personal Loan (not an allowed combination)",
+      "expected_status": "FAIL",
+      "expected_findings": [
+        "MAP-001"
+      ],
+      "remediation": "Re-type as Bank Invoice Before Handover or correct the POMS financing option to Loan."
+    },
+    {
+      "invoice_number": "CI-SE21-100209",
+      "company": "SE21",
+      "scenario": "MAP PASS: Sales Invoice equals POMS grand total minus the upfront payment (fallback subtract_first_positive)",
+      "expected_status": "PASS",
+      "expected_findings": [],
+      "remediation": null
+    },
+    {
+      "invoice_number": "CI-NO21-200311",
+      "company": "NO21",
+      "scenario": "MAP FAIL: Workday invoice currency SEK, POMS order currency NOK",
+      "expected_status": "FAIL",
+      "expected_findings": [
+        "MAP-004"
+      ],
+      "remediation": "Change the invoice currency to NOK."
+    },
+    {
+      "invoice_number": "CI-NO21-200312",
+      "company": "NO21",
+      "scenario": "MAP FAIL: POMS order lock state is unlocked (manually unlocked — changing financing method)",
+      "expected_status": "FAIL",
+      "expected_findings": [
+        "MAP-001"
+      ],
+      "remediation": "Hold the draft until the order is locked again in POMS, then re-check the financing option."
+    },
+    {
+      "invoice_number": "CI-NO21-200313",
+      "company": "NO21",
+      "scenario": "MAP PASS: Workday customer 'Nordic Consulting AS' vs POMS owner 'Nordic Consulting A/S' — fuzzy match above threshold",
+      "expected_status": "PASS",
+      "expected_findings": [],
+      "remediation": null
+    },
+    {
+      "invoice_number": "CI-PT21-300417",
+      "company": "PT21",
+      "scenario": "MAP FAIL: Workday customer Rentalis Portugal SA but POMS owner of the referenced order is Iberfrota Leasing Lda",
+      "expected_status": "FAIL",
+      "expected_findings": [
+        "MAP-002"
+      ],
+      "remediation": "Correct the Sales Order reference (or the Bill-To / Sold-To customer) so the invoice points at the right POMS order."
+    },
+    {
+      "invoice_number": "CI-PT21-300418",
+      "company": "PT21",
+      "scenario": "MAP PASS: Payment Receipt total equals POMS Final Payment Amount (field override)",
+      "expected_status": "PASS",
+      "expected_findings": [],
+      "remediation": null
+    },
+    {
+      "invoice_number": "CI-PT21-300419",
+      "company": "PT21",
+      "scenario": "MAP FAIL: Payment Receipt total equals the grand total; POMS Final Payment Amount is lower because 2,500 was paid upfront",
+      "expected_status": "FAIL",
+      "expected_findings": [
+        "GEN-002"
+      ],
+      "remediation": "Reduce the receipt to the POMS Final Payment Amount."
+    },
+    {
+      "invoice_number": "CI-DK21-400506",
+      "company": "DK21",
+      "scenario": "MAP FAIL: DK21 invoice points at a POMS order in market SE — company/market and currency both disagree",
+      "expected_status": "FAIL",
+      "expected_findings": [
+        "MAP-002",
+        "MAP-003",
+        "MAP-004"
+      ],
+      "remediation": "Correct the Sales Order reference to the Danish POMS order."
+    },
+    {
+      "invoice_number": "CI-DK21-400507",
+      "company": "DK21",
+      "scenario": "MAP FAIL: invoice type Sales Invoice Fleet but the POMS order type is Order (private cash buyer) — should be Early Invoice",
+      "expected_status": "FAIL",
+      "expected_findings": [
+        "MAP-001"
+      ],
+      "remediation": "Change the invoice type to Early Invoice."
+    },
+    {
+      "invoice_number": "CI-DK21-400508",
+      "company": "DK21",
+      "scenario": "MAP PASS: Sales Invoice Fleet total differs from the POMS grand total by 0.03 — inside the 0.05 tolerance",
+      "expected_status": "PASS",
+      "expected_findings": [],
+      "remediation": null
+    },
+    {
       "invoice_number": "DE21-CI058544",
       "company": "DE21",
       "scenario": "DE21 — normal early invoice, agrees with POMS on every field",
@@ -361,7 +473,7 @@
     {
       "invoice_number": "DE21-CI058545",
       "company": "DE21",
-      "scenario": "DE21 — normal final invoice, agrees with POMS on every field",
+      "scenario": "DE21 — normal sales invoice fsp, agrees with POMS on every field",
       "expected_status": "PASS",
       "expected_findings": [],
       "remediation": null
@@ -379,7 +491,7 @@
     {
       "invoice_number": "DE21-CI058547",
       "company": "DE21",
-      "scenario": "DE21 — normal final invoice, agrees with POMS on every field",
+      "scenario": "DE21 — normal early invoice, agrees with POMS on every field",
       "expected_status": "PASS",
       "expected_findings": [],
       "remediation": null
@@ -387,7 +499,7 @@
     {
       "invoice_number": "DE21-CI058548",
       "company": "DE21",
-      "scenario": "DE21 — normal early invoice, agrees with POMS on every field",
+      "scenario": "DE21 — normal sales invoice fsp, agrees with POMS on every field",
       "expected_status": "PASS",
       "expected_findings": [],
       "remediation": null
@@ -395,11 +507,10 @@
     {
       "invoice_number": "DE21-CI058549",
       "company": "DE21",
-      "scenario": "DE21 — 0% intra-EU tax code applied; POMS expects 19% VAT (net grossed up to the incl.-VAT price).",
+      "scenario": "DE21 — 0% intra-EU tax code applied; POMS expects 19% VAT.",
       "expected_status": "FAIL",
       "expected_findings": [
-        "DE21-001",
-        "GEN-002"
+        "DE21-001"
       ],
       "remediation": "Workday applied a 0% tax code; POMS expects 19% VAT."
     },
@@ -414,7 +525,7 @@
     {
       "invoice_number": "DE21-CI058551",
       "company": "DE21",
-      "scenario": "DE21 — normal final invoice, agrees with POMS on every field",
+      "scenario": "DE21 — normal sales invoice fsp, agrees with POMS on every field",
       "expected_status": "PASS",
       "expected_findings": [],
       "remediation": null
@@ -432,7 +543,7 @@
     {
       "invoice_number": "DE21-CI058553",
       "company": "DE21",
-      "scenario": "DE21 — normal final invoice, agrees with POMS on every field",
+      "scenario": "DE21 — normal early invoice, agrees with POMS on every field",
       "expected_status": "PASS",
       "expected_findings": [],
       "remediation": null
@@ -440,7 +551,7 @@
     {
       "invoice_number": "DE21-CI058554",
       "company": "DE21",
-      "scenario": "DE21 — normal early invoice, agrees with POMS on every field",
+      "scenario": "DE21 — normal sales invoice fsp, agrees with POMS on every field",
       "expected_status": "PASS",
       "expected_findings": [],
       "remediation": null
@@ -466,7 +577,7 @@
     {
       "invoice_number": "DE21-CI058557",
       "company": "DE21",
-      "scenario": "DE21 — normal final invoice, agrees with POMS on every field",
+      "scenario": "DE21 — normal sales invoice fsp, agrees with POMS on every field",
       "expected_status": "PASS",
       "expected_findings": [],
       "remediation": null
@@ -484,7 +595,7 @@
     {
       "invoice_number": "DE21-CI058559",
       "company": "DE21",
-      "scenario": "DE21 — normal final invoice, agrees with POMS on every field",
+      "scenario": "DE21 — normal early invoice, agrees with POMS on every field",
       "expected_status": "PASS",
       "expected_findings": [],
       "remediation": null
@@ -492,7 +603,7 @@
     {
       "invoice_number": "DE21-CI058560",
       "company": "DE21",
-      "scenario": "DE21 — normal early invoice, agrees with POMS on every field",
+      "scenario": "DE21 — normal sales invoice fsp, agrees with POMS on every field",
       "expected_status": "PASS",
       "expected_findings": [],
       "remediation": null
@@ -500,10 +611,11 @@
     {
       "invoice_number": "DE21-CI058561",
       "company": "DE21",
-      "scenario": "DE21 — Sold-To customer differs from the POMS ordering company.",
+      "scenario": "DE21 — Sold-To customer differs from the POMS ordering company / owner.",
       "expected_status": "FAIL",
       "expected_findings": [
-        "DE21-003"
+        "DE21-003",
+        "MAP-002"
       ],
       "remediation": "Sold-to customer in Workday differs from the ordering company in POMS."
     },
@@ -518,7 +630,7 @@
     {
       "invoice_number": "DE21-CI058563",
       "company": "DE21",
-      "scenario": "DE21 — normal final invoice, agrees with POMS on every field",
+      "scenario": "DE21 — normal sales invoice fsp, agrees with POMS on every field",
       "expected_status": "PASS",
       "expected_findings": [],
       "remediation": null
@@ -536,7 +648,7 @@
     {
       "invoice_number": "DE21-CI058565",
       "company": "DE21",
-      "scenario": "DE21 — normal final invoice, agrees with POMS on every field",
+      "scenario": "DE21 — normal early invoice, agrees with POMS on every field",
       "expected_status": "PASS",
       "expected_findings": [],
       "remediation": null
@@ -544,7 +656,7 @@
     {
       "invoice_number": "DE21-CI058567",
       "company": "DE21",
-      "scenario": "DE21 — normal final invoice, agrees with POMS on every field",
+      "scenario": "DE21 — normal sales invoice, agrees with POMS on every field",
       "expected_status": "PASS",
       "expected_findings": [],
       "remediation": null

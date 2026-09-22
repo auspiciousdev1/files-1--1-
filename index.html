@@ -69,6 +69,7 @@
       <thead><tr><th>Company</th><th>Exception scope from the entity document</th><th>Invoices</th><th>Seeded outcome</th></tr></thead>
       <tbody>
         <tr><td><b>DE21</b></td><td>Generic Workday vs POMS field checks (amount, VAT, VIN, PO, customer, model, orphan records)</td><td>23</td><td><span class="pill ok">16 pass</span><span class="pill bad">7 fail</span></td></tr>
+        <tr><td><b>ALL</b></td><td>Workday ↔ POMS mapping rules from <code>mappings.yaml</code>: Invoice Type vs POMS Type / Order Status / Financing Option / Lock State, Customer vs Owner (fuzzy), Company vs Market, Currency, Total Invoice Amount vs Grand Total Price (0.05 tolerance, Payment Receipt and Sales Invoice overrides)</td><td>12</td><td><span class="pill ok">5 pass</span><span class="pill bad">7 fail</span></td></tr>
         <tr><td><b>SE21</b></td><td>Bill-To / Sold-To is a related-party financing bank and line description contains "Brand" → Revenue Category must be 3030</td><td>6</td><td><span class="pill ok">3 pass</span><span class="pill bad">3 fail</span></td></tr>
         <tr><td><b>NO21</b></td><td>NGA customers: tracker capture, wait for NGA response, fee-line removal, revised gross / base, tax recalculation, POMS price match, factoring "On Account"</td><td>10</td><td><span class="pill ok">3 pass</span><span class="pill bad">6 fail</span><span class="pill hold">1 hold</span></td></tr>
         <tr><td><b>PT21</b></td><td>Licence plate for flagged leasing companies, Bill-To = Sold-To = Buyer (bank sold-to reversal), VAT number on extras and prepayments, E&amp;Y daily report exclusions, E&amp;Y final invoice match, gapless PT24… numbering, approve only after E&amp;Y</td><td>16</td><td><span class="pill ok">7 pass</span><span class="pill bad">9 fail</span></td></tr>
@@ -81,14 +82,15 @@
       <thead><tr><th>What</th><th>Path</th><th>Notes</th></tr></thead>
       <tbody>
         <tr><td>Catalogue</td><td><code>api/index.json</code></td><td>Every endpoint, join keys, counts</td></tr>
-        <tr><td>Workday invoice headers</td><td><code>api/workday/customer-invoices.json</code></td><td>60 invoices, all companies</td></tr>
+        <tr><td>Workday invoice headers</td><td><code>api/workday/customer-invoices.json</code></td><td>72 invoices, all companies — every header carries Invoice Type, Sales Order, Currency, Total Invoice Amount</td></tr>
         <tr><td>Workday invoice detail</td><td><code>api/workday/customer-invoices/{invoice_number}.json</code></td><td>e.g. <code>CI-SE21-100203</code>, <code>DE21-CI058544</code> — header, lines, tax, totals</td></tr>
-        <tr><td>Invoice lines (flat)</td><td><code>api/workday/invoice-lines.json</code></td><td>147 rows, Revenue Category and Sales Item on every row</td></tr>
+        <tr><td>Invoice lines (flat)</td><td><code>api/workday/invoice-lines.json</code></td><td>177 rows, Revenue Category and Sales Item on every row</td></tr>
         <tr><td>Customers / revenue categories / sales items</td><td><code>api/workday/customers.json</code> · <code>revenue-categories.json</code> · <code>sales-items.json</code></td><td>Masters with the exception flags</td></tr>
-        <tr><td>POMS orders</td><td><code>api/poms/orders.json</code>, <code>api/poms/orders/{order_number}.json</code></td><td>58 orders</td></tr>
+        <tr><td>POMS orders</td><td><code>api/poms/orders.json</code>, <code>api/poms/orders/{order_number}.json</code></td><td>70 orders — Order No, Type, Order Status, Financing Option, Lock State, Market, Currency, Grand Total Price / Vat, Final Payment Amount, Upfront Payment, Owner</td></tr>
         <tr><td>Trackers and side systems</td><td><code>api/trackers/nga-tracker.json</code> · <code>factoring-tracker.json</code> · <code>dk21-sharepoint-tracker.json</code> · <code>api/ey/final-invoices.json</code> · <code>api/salesforce/accounts.json</code></td><td>What the entity exceptions depend on</td></tr>
-        <tr><td>Rule catalogue</td><td><code>api/workday/exception-rules.json</code></td><td>23 rules</td></tr>
-        <tr><td>Answer key</td><td><code>api/workday/expected-results.json</code></td><td>Expected PASS / FAIL / HOLD and rule ids per invoice (<code>api/mismatches.json</code> is the legacy DE21 key)</td></tr>
+        <tr><td>Field mappings</td><td><code>mappings.yaml</code></td><td>Primary key, invoice-type rule and field matches the external validator applies</td></tr>
+        <tr><td>Rule catalogue</td><td><code>api/workday/exception-rules.json</code></td><td>27 rules (GEN, MAP, entity rules)</td></tr>
+        <tr><td>Answer key</td><td><code>api/workday/expected-results.json</code></td><td>Expected PASS / FAIL / HOLD and rule ids per invoice (37 / 34 / 1) (<code>api/mismatches.json</code> is the legacy DE21 key)</td></tr>
       </tbody>
     </table>
     <p class="note">Join keys: <code>customer_invoice.poms_order_number = poms_order.order_number</code> ·

@@ -38,7 +38,7 @@ function table(cols, rows) {
 }
 
 function page(crumbs, heading, html) {
-  view.innerHTML = `<div class="crumbs">${crumbs}</div><h1 class="report">${heading}</h1>${html}`
+  view.innerHTML = `<div class="inner"><div class="crumbs">${crumbs}</div><h1 class="report">${heading}</h1>${html}</div>`
   window.scrollTo(0, 0)
 }
 const home = '<a href="#/">Customer Invoices</a>'
@@ -81,7 +81,7 @@ const INV_COLS = [
   { label: 'Due Date', key: 'due_date', render: (r) => wdDate(r.due_date) },
   { label: 'Invoice Status', key: 'status', render: (r) => statusChip(r.status) },
   { label: 'Payment Status', key: 'payment_status', render: (r) => title(r.payment_status ?? 'Unpaid') },
-  { label: 'Sales Order', key: 'poms_order_number', render: (r) => pomsLink(r.poms_order_number) },
+  { label: 'Sales Order', key: 'sales_order', render: (r) => pomsLink(r.sales_order ?? r.poms_order_number) },
   { label: 'PO Number', key: 'po_number' },
   { label: 'VIN', key: 'vin', render: (r) => `<span class="mono">${esc(r.vin ?? '')}</span>` },
   { label: 'Model', key: 'model' },
@@ -145,40 +145,56 @@ async function worklist() {
 }
 
 /* ---------------------------- View Customer Invoice ----------------------- */
+const kvl = (rows) => `<div class="kvl">${rows.map(([l, v]) => `<label>${l}</label><div class="v ${isEmpty(v) ? 'empty' : ''}">${isEmpty(v) ? '(empty)' : v}</div>`).join('')}</div>`
+const addr = (a) => (a ? `<span class="icon">⌖</span><a>${esc(a)}</a>` : '')
+
 async function invoiceDetail(id) {
   const d = (await get(`workday/customer-invoices/${id}.json`)).data
-  const order = d.poms_order_number ? (await get(`poms/orders/${d.poms_order_number}.json`, true))?.data : null
+  const order = (d.sales_order || d.poms_order_number) ? (await get(`poms/orders/${d.sales_order || d.poms_order_number}.json`, true))?.data : null
   window.__inv = d.lines
   const amountDue = d.totals.amount_due ?? d.totals.total_amount
+  const so = d.sales_order || d.poms_order_number
+  const wt = d.worktags || {}
 
-  const info = fields([
-    ['Company', esc(d.company_name)], ['Customer', link('customer', d.customer_id ?? d.bill_to_customer_id, d.customer ?? d.bill_to_customer)],
-    ['Bill-To Customer', link('customer', d.bill_to_customer_id, d.bill_to_customer)], ['Bill-To Address', esc(d.bill_to_address)],
-    ['Bill-To Contact', d.bill_to_contact ? esc(d.bill_to_contact) : ''],
+  const info = kvl([
+    ['Company', `<a>${esc(d.company_name)}</a>`],
+    ['Bill-To Customer', link('customer', d.bill_to_customer_id, d.bill_to_customer)],
     ['Sold-To Customer', link('customer', d.sold_to_customer_id, d.sold_to_customer)],
-    ['Ship-To Customer', esc(d.ship_to_customer)], ['Ship-To Address', esc(d.ship_to_address)],
-    ['Invoice Date', wdDate(d.invoice_date)], ['Due Date', wdDate(d.due_date)], ['Payment Terms', esc(d.payment_terms)],
-    ['Payment Type', d.payment_type ? esc(d.payment_type) : ''], ['Currency', esc(d.currency)],
-    ['Default Tax Code', esc(d.tax.tax_code)], ['Customer Tax ID', d.customer_vat_number ? esc(d.customer_vat_number) : ''],
-    ['PO Number', d.po_number ? esc(d.po_number) : ''], ['Printed', esc(d.printed ?? 'No')],
-    ['Memo', d.memo ? esc(d.memo) : ''],
+    ['Invoice Number', esc(d.invoice_number)],
+    ['Invoice Type', esc(d.invoice_type ?? d.document_kind)],
+    ['Invoice Date', wdDate(d.invoice_date)],
+    ['Bill-To Address', addr(d.bill_to_address)],
+    ['Bill-To Contact', d.bill_to_contact ? esc(d.bill_to_contact) : ''],
+    ['Delivery Type', esc(d.delivery_type ?? 'Email')],
+    ['Delivery Type Origin', esc(d.delivery_type_origin ?? 'Customer')],
+    ['Ship-To Customer', `<a>${esc(d.ship_to_customer)}</a>`],
+    ['Ship-To Address', addr(d.ship_to_address)],
   ])
-  const additional = fields([
-    ['Invoice Type', esc(d.invoice_type ?? d.document_kind)], ['Document Type', esc(d.document_kind)],
-    ['Sales Order', pomsLink(d.poms_order_number)], ['Vehicle Identification Number', `<span class="mono">${esc(d.vin)}</span>`],
-    ['Model', esc(d.model)], ['Order Fulfilment', order ? esc(title(order.order_status)) : ''],
-    ['Statutory Invoice Type', d.statutory_invoice_type ? esc(d.statutory_invoice_type) : ''],
-    ['Statutory Invoice Number', d.statutory_invoice_number ? esc(d.statutory_invoice_number) : ''],
-    ['Created By', esc(d.created_by)], ['Created Moment', wdMoment(d.created_on)], ['Last Functionally Updated', wdMoment(d.last_updated)],
+  const additional = kvl([
+    ['Payment Type', d.payment_type ? esc(d.payment_type) : ''],
+    ['Reference Type', esc(d.reference_type ?? 'Standard')],
+    ['Payment Terms', esc(d.payment_terms)],
+    ['Due Date', wdDate(d.due_date)],
+    ['Discount Date', d.discount_date ? wdDate(d.discount_date) : ''],
+    ['PO Number', d.po_number ? esc(d.po_number) : ''],
+    ['Memo', d.memo ? esc(d.memo) : esc(d.invoice_type ?? '')],
+    ['Printed', esc(d.printed ?? 'No')],
+    ['Latest Print Date', d.latest_print_date ? wdMoment(d.latest_print_date) : ''],
+    ['Worktags', `<div class="wt"><div><a>Model: ${esc(wt.model ?? d.model)}</a></div><div>Sales Order: ${pomsLink(so)}</div><div><a>Vehicle Identifier Number: <span class="mono">${esc(wt.vehicle_identifier_number ?? d.vin)}</span></a></div>${d.statutory_invoice_type ? `<div><a>Statutory Invoice Type: ${esc(d.statutory_invoice_type)}</a></div>` : ''}${d.statutory_invoice_number ? `<div><a>Statutory Invoice Number: ${esc(d.statutory_invoice_number)}</a></div>` : ''}</div>`],
   ])
-  const amounts = fields([
-    ['Net Invoice Amount', paren(d.totals.subtotal)], ['Tax Amount', paren(d.totals.tax_amount)],
-    ['Total Invoice Amount', `<b>${paren(d.totals.total_amount)} ${esc(d.currency)}</b>`], ['Less Withholding Amount', '0.00'],
-    ['Amount Paid', paren(d.totals.total_amount - amountDue)], ['Amount Due', `<b>${paren(amountDue)}</b>`], ['Control Total Amount', '0.00'],
+  const amounts = kvl([
+    ['Currency', `<a>${esc(d.currency)}</a>`],
+    ['Default Tax Code', `<a>${esc(d.tax.tax_code)}</a>`],
+    ['Net Invoice Amount', paren(d.totals.subtotal)],
+    ['Tax Amount', paren(d.totals.tax_amount)],
+    ['Total Invoice Amount', paren(d.totals.total_amount)],
+    ['Less Withholding Amount', '0.00'],
+    ['Control Total Amount', '0.00'],
+    ['Amount Due', paren(amountDue)],
   ])
 
   const LINE_COLS = [
-    { label: 'Line', key: 'line', render: (r) => `<span class="icon">🔍</span>${r.line}` },
+    { label: 'Line', key: 'line', render: (r) => `<span class="icon">🔍</span>` },
     { label: 'Company', key: 'company', render: (r) => `<a>${esc(r.company)}</a>` },
     { label: 'Sales Item', key: 'sales_item_name', render: (r) => `<a>${esc(r.sales_item_name)}</a>` },
     { label: 'Revenue Category', key: 'revenue_category', render: (r) => `<a>${esc(r.revenue_category)} ${esc(r.revenue_category_name)}</a>` },
@@ -190,10 +206,16 @@ async function invoiceDetail(id) {
     { label: 'Unit Price', key: 'unit_price', num: true, render: (r) => paren(r.unit_price) },
     { label: 'Released on Invoice Lines', key: 'released_on_invoice_lines' },
     { label: 'Extended Amount', key: 'extended_amount', num: true, render: (r) => paren(r.extended_amount) },
-    { label: 'Tax Applicability', key: 'tax_applicability' },
-    { label: 'Tax Code', key: 'tax_code', render: (r) => esc(r.tax_code ?? d.tax.tax_code) },
+    { label: 'Transaction Date', key: 'transaction_date' },
+    { label: 'From Date', key: 'from_date' }, { label: 'To Date', key: 'to_date' },
+    { label: 'Contract Line', key: 'contract_line' }, { label: 'Deferred Revenue', key: 'deferred_revenue' },
+    { label: 'Revenue Recognition Schedule Template', key: 'revenue_recognition_schedule_template' },
+    { label: 'Ship-From Address', key: 'ship_from_address' },
+    { label: 'Ship-To Customer', key: 'ship_to_customer', render: (r) => (r.ship_to_customer ? `<a>${esc(r.ship_to_customer)}</a>` : '') },
+    { label: 'Ship-To Address', key: 'ship_to_address', wrap: true },
+    { label: 'Tax Applicability', key: 'tax_applicability', render: (r) => `<a>${esc(d.tax.tax_code.split(' ')[0])} Sale of Goods Services</a>` },
   ]
-  const linesTab = () => panel('Invoice Lines', table(LINE_COLS, d.lines), `${d.lines.length} items`, gridTools(`csvDownload(window.__inv,'${esc(d.invoice_number)}-lines.csv')`))
+  const linesTab = () => panel('Invoice Lines', table(LINE_COLS, d.lines), `${d.lines.length} item${d.lines.length === 1 ? '' : 's'}`, gridTools(`csvDownload(window.__inv,'${esc(d.invoice_number)}-lines.csv')`))
   const fxTab = () => panel('Currency Rate', fields([['Transaction Currency', esc(d.currency)], ['Company Currency', esc(d.currency)], ['Currency Rate', '1.000000'], ['Currency Rate Type', 'Current'], ['Rate Date', wdDate(d.invoice_date)]]))
   const taxTab = () => panel('Tax', table([
     { label: 'Tax Code', key: 'tax_code' }, { label: 'Tax Rate', key: 'rate', num: true, render: (r) => `${num(r.rate, 2)}%` },
@@ -201,19 +223,26 @@ async function invoiceDetail(id) {
     { label: 'Tax Applicability', key: 'app' }, { label: 'Tax Recoverability', key: 'rec' },
   ], [{ tax_code: d.tax.tax_code, rate: d.tax.tax_rate, taxable: d.tax.taxable_amount, tax: d.tax.tax_amount, app: 'Taxable', rec: '100% Recoverable' }]))
   const attTab = () => panel('Attachments', d.attachments?.length ? table([{ label: 'File', key: 'name' }, { label: 'Category', key: 'type' }, { label: 'Attached To', key: 'attached_to' }], d.attachments) : '<div class="empty">No attachments.</div>')
+  const bpTab = () => panel('Business Process', `<ul class="hist">${(d.process_history ?? []).map((h) => `<li><b>${esc(h.step)}</b><span>${chip(h.status, h.status === 'Awaiting Action' ? 'warn' : h.status === 'Approved' ? 'ok' : '')}</span><span>${esc(h.person)}</span><span class="when">${wdMoment(h.moment)}${h.comment ? ` · ${esc(h.comment)}` : ''}</span></li>`).join('') || '<li>No history.</li>'}</ul>`)
+  const errTab = () => panel('Errors & Warnings', '<div class="empty">No errors or warnings.</div>')
+  const printTab = () => panel('Printing Runs', d.latest_print_date ? table([{ label: 'Print Run', key: 'r' }, { label: 'Moment', key: 'm' }, { label: 'Delivery Type', key: 'd' }, { label: 'Status', key: 's' }], [{ r: `PR-${d.invoice_number}`, m: wdMoment(d.latest_print_date), d: d.delivery_type ?? 'Email', s: 'Completed' }]) : '<div class="empty">Not yet printed.</div>')
   const notesTab = () => panel('Notes', `<div class="pb">${d.memo ? `<p class="note">${esc(d.memo)}</p>` : '<p class="note">No notes.</p>'}${d.payment_application ? `<p class="note">Payment ${esc(d.payment_application.payment_id)} for ${num(d.payment_application.amount)} ${esc(d.currency)} applied as <b>${esc(title(d.payment_application.applied_as))}</b> on ${wdDate(d.payment_application.payment_date)} (${esc(d.payment_application.factoring_partner)}).</p>` : ''}</div>`)
-  const histTab = () => panel('Process History', `<ul class="hist">${(d.process_history ?? []).map((h) => `<li><b>${esc(h.step)}</b><span>${chip(h.status, h.status === 'Awaiting Action' ? 'warn' : h.status === 'Approved' ? 'ok' : '')}</span><span>${esc(h.person)}</span><span class="when">${wdMoment(h.moment)}${h.comment ? ` · ${esc(h.comment)}` : ''}</span></li>`).join('') || '<li>No history.</li>'}</ul>`)
 
-  view.innerHTML = `<div class="crumbs">${home} › ${esc(d.invoice_number)}</div>
-    <div class="taskhead"><div class="title"><h1>View Customer Invoice</h1><div class="obj">Customer Invoice: ${esc(d.invoice_number)} · ${statusChip(d.status)} · ${title(d.payment_status ?? 'Unpaid')}</div></div>
-      <div class="actions"><button class="btn dots" title="Related Actions">···</button><button class="btn" title="Print">Print</button><button class="btn" title="PDF">PDF</button></div></div>
-    ${panel('Invoice Information', info)}
-    ${panel('Additional Information', additional)}
-    ${panel('Amount Information', amounts)}
-    ${tabs([
-      [`Invoice Lines <span class="badge">${d.lines.length}</span>`, linesTab], ['Currency Rate', fxTab], ['Tax', taxTab],
-      ['Attachments', attTab], ['Notes', notesTab], ['Process History', histTab],
-    ])}`
+  setTimeout(() => view.querySelectorAll('.threecol h2').forEach((h) => h.addEventListener('click', () => h.classList.toggle('closed'))), 0)
+  view.innerHTML = `<div class="titlebar"><h1>View Customer Invoice</h1><span class="obj">${esc(d.invoice_number)}</span><button class="dots" title="Related Actions">···</button><div class="tools"><span title="Export">⇩</span><span title="PDF">▤</span></div></div>
+    <div class="statusband">
+      <div class="kv"><label>Invoice Status</label><span>${title(d.status)}</span><label>Payment Status</label><span>${title(d.payment_status ?? 'Unpaid')}</span><label>Finalized Date</label><span>${d.finalized_date ? wdDate(d.finalized_date) : '(empty)'}</span></div>
+      <div class="amt"><div><label>Total Invoice Amount</label>${paren(d.totals.total_amount)} ${esc(d.currency)}</div><div><label>Amount Due</label>${paren(amountDue)} ${esc(d.currency)}</div></div>
+    </div>
+    <div class="threecol">
+      <div class="col"><h2>Invoice Information</h2>${info}</div>
+      <div class="col"><h2>Additional Information</h2>${additional}</div>
+      <div class="col"><h2>Amount Information</h2>${amounts}</div>
+    </div>
+    <div class="tabwrap">${tabs([
+      ['Invoice Lines', linesTab], ['Currency Rate', fxTab], ['Tax', taxTab], ['Attachments', attTab],
+      ['Business Process', bpTab], ['Errors & Warnings', errTab], ['Printing Runs', printTab], ['Notes', notesTab],
+    ])}</div>`
   window.scrollTo(0, 0)
 }
 
@@ -268,11 +297,11 @@ async function customerDetail(id) {
   const [c, inv] = await Promise.all([get(`workday/customers/${id}.json`).then((x) => x.data), get('workday/customer-invoices.json')])
   const mine = inv.data.filter((r) => r.bill_to_customer_id === id || r.sold_to_customer_id === id || r.customer_id === id)
   window.__rows = mine
-  view.innerHTML = `<div class="crumbs">${home} › <a href="#/customers">Customers</a> › ${esc(c.customer_name)}</div>
+  view.innerHTML = `<div class="inner"><div class="crumbs">${home} › <a href="#/customers">Customers</a> › ${esc(c.customer_name)}</div>
     <div class="taskhead"><div class="title"><h1>View Customer</h1><div class="obj">Customer: ${esc(c.customer_name)} · ${esc(c.company)}</div></div><div class="actions"><button class="btn dots">···</button></div></div>
     ${panel('Customer Information', fields([['Customer Name', esc(c.customer_name)], ['Customer ID', `<span class="mono">${esc(c.customer_id)}</span>`], ['Company', esc(c.company)], ['Customer Category', title(c.customer_type)],
       ['Primary Address', esc(c.address_text)], ['Country', esc(c.country)], ['Tax ID', c.vat_number ?? ''], ['Customer Groups', attrChips(c) || ''], ['Payment Terms', 'Net 30'], ['Default Currency', esc(CCY[c.company])]]))}
-    ${panel('Customer Invoices', table(INV_COLS, mine), `${mine.length} items`, gridTools("csvDownload(window.__rows,'customer-invoices.csv')"))}`
+    ${panel('Customer Invoices', table(INV_COLS, mine), `${mine.length} items`, gridTools("csvDownload(window.__rows,'customer-invoices.csv')"))}</div>`
   window.scrollTo(0, 0)
 }
 
@@ -292,15 +321,12 @@ async function items() {
 /* -------------------------------- routing --------------------------------- */
 const ROUTES = { '': worklist, invoice: invoiceDetail, lines: flatLines, customers, customer: customerDetail, revcats, items }
 const NAV = [
-  ['Customer Accounts', [['', 'Find Customer Invoices - OTC'], ['lines', 'Customer Invoice Lines - OTC'], ['customers', 'Find Customers']]],
-  ['Setup', [['revcats', 'Revenue Categories'], ['items', 'Sales Items']]],
+  ['', '⌂', 'Home'], ['', '▤', 'Accounts Receivable'], ['lines', '☰', 'Invoice Lines'], ['customers', '👤', 'Customers'],
+  ['revcats', '⚙', 'Revenue Categories'], ['items', '▦', 'Sales Items'],
 ]
 async function paintNav(active) {
-  const inv = await get('workday/customer-invoices.json')
-  const counts = { '': inv.data.length }
-  document.getElementById('nav').innerHTML = NAV.map(([g, links]) => `<div class="grp">${g}</div>` +
-    links.map(([r, l]) => `<a href="#/${r}" class="${active === r ? 'active' : ''}">${l}${counts[r] !== undefined ? `<span class="n">${counts[r]}</span>` : ''}</a>`).join('')).join('') +
-    `<div class="grp">Integrations</div><a href="../poms/index.html">POMS — Order Management</a>`
+  document.getElementById('nav').innerHTML = NAV.map(([r, i, l], idx) => `<a href="#/${r}" class="${active === r && idx !== 0 ? 'active' : ''}"><span class="i">${i}</span>${l}</a>`).join('') +
+    `<span class="sp"></span><a href="../poms/index.html" title="POMS — Order Management"><span class="i">⇄</span>POMS</a><a href="#/"><span class="i">☆</span>Saved</a>`
 }
 async function route() {
   const raw = location.hash.replace(/^#\/?/, '')
@@ -310,7 +336,7 @@ async function route() {
   paintNav({ invoice: '', customer: 'customers' }[head] ?? key)
   view.innerHTML = '<div class="loading">Loading…</div>'
   try { await ROUTES[key](arg) } catch (e) {
-    view.innerHTML = `<div class="panel"><div class="pb"><b>The record could not be found.</b><p class="note">${esc(e.message)}. <a href="#/">Return to Customer Invoices</a>.</p></div></div>`
+    view.innerHTML = `<div class="inner"><div class="panel"><div class="pb"><b>The record could not be found.</b><p class="note">${esc(e.message)}. <a href="#/">Return to Customer Invoices</a>.</p></div></div></div>`
   }
 }
 document.getElementById('globalsearch').addEventListener('keydown', (e) => {
