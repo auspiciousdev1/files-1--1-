@@ -5,6 +5,7 @@
     "document_kind": "Customer Invoice",
     "company": "DK21",
     "company_name": "DK21 Polestar Automotive Denmark ApS",
+    "legal_entity": "",
     "status": "DRAFT",
     "invoice_date": "2026-09-16",
     "due_date": "2026-10-16",

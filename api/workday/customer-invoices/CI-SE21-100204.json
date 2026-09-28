@@ -5,6 +5,7 @@
     "document_kind": "Customer Invoice",
     "company": "SE21",
     "company_name": "SE21 Polestar Automotive Sweden AB",
+    "legal_entity": "",
     "status": "DRAFT",
     "invoice_date": "2026-09-16",
     "due_date": "2026-10-16",

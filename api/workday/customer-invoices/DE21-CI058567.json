@@ -13,6 +13,7 @@
     "sales_order": "11730261",
     "company": "DE21",
     "company_name": "DE21 Polestar Automotive Germany GmbH",
+    "legal_entity": "",
     "status": "DRAFT",
     "payment_status": "UNPAID",
     "invoice_date": "2026-07-11",

@@ -5,6 +5,7 @@
     "document_kind": "Customer Invoice",
     "company": "NO21",
     "company_name": "NO21 Polestar Automotive Norway AS",
+    "legal_entity": "",
     "status": "DRAFT",
     "invoice_date": "2026-09-16",
     "due_date": "2026-10-16",

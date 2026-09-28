@@ -5,6 +5,7 @@
     "document_kind": "Customer Invoice",
     "company": "PT21",
     "company_name": "PT21 Polestar Automotive Portugal, Unipessoal Lda",
+    "legal_entity": "",
     "status": "DRAFT",
     "invoice_date": "2026-09-16",
     "due_date": "2026-10-16",

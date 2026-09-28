@@ -53,6 +53,13 @@ def envelope(system, obj_name, rows, **extra):
 # =========================================================================== #
 # 1. COMPANIES (Workday legal entities)
 # =========================================================================== #
+# Legal Entity worktag shown on the Workday invoice. Only these invoices carry it;
+# every other invoice has it empty.
+LEGAL_ENTITY = {
+    "CI-SE21-100201": "SE",
+    "CI-SE21-100202": "SE",
+}
+
 COMPANIES = [
     {"company": "SE21", "company_name": "SE21 Polestar Automotive Sweden AB", "country": "SE",
      "currency": "SEK", "vat_rate": 25.0, "vat_registration": "SE559123456701",
@@ -419,7 +426,7 @@ def invoice(company, order, bill_to, sold_to, lines, *, status="DRAFT", invoice_
     total = money(subtotal + tax_amount)
     inv = {
         "invoice_number": number, "document_kind": document_kind, "company": company,
-        "company_name": co["company_name"], "status": status,
+        "company_name": co["company_name"], "legal_entity": LEGAL_ENTITY.get(number, ""), "status": status,
         "invoice_date": inv_date.isoformat(), "due_date": (inv_date + timedelta(days=30)).isoformat(),
         "payment_terms": "Net 30", "invoice_type": inv_type,
         "finalized_date": inv_date.isoformat() if status == "APPROVED" else None,

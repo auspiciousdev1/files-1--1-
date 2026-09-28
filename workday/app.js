@@ -72,6 +72,7 @@ window.csvDownload = csvDownload
 const INV_COLS = [
   { label: 'Customer Invoice', key: 'invoice_number', render: (r) => link('invoice', r.invoice_number, `Customer Invoice: ${r.invoice_number}`) },
   { label: 'Company', key: 'company_name' },
+  { label: 'Legal Entity', key: 'legal_entity' },
   { label: 'Customer', key: 'customer', render: (r) => link('customer', r.customer_id ?? r.bill_to_customer_id, r.customer ?? r.bill_to_customer) },
   { label: 'Bill-To Customer', key: 'bill_to_customer' },
   { label: 'Sold-To Customer', key: 'sold_to_customer' },
@@ -158,6 +159,7 @@ async function invoiceDetail(id) {
 
   const info = kvl([
     ['Company', `<a>${esc(d.company_name)}</a>`],
+    ['Legal Entity', d.legal_entity ? esc(d.legal_entity) : ''],
     ['Bill-To Customer', link('customer', d.bill_to_customer_id, d.bill_to_customer)],
     ['Sold-To Customer', link('customer', d.sold_to_customer_id, d.sold_to_customer)],
     ['Invoice Number', esc(d.invoice_number)],

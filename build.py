@@ -264,7 +264,7 @@ for i in leg_inv:
         "delivery_type": "Email", "delivery_type_origin": "Customer", "reference_type": "Standard", "discount_date": None,
         "latest_print_date": (iso(i["invoice_date"]) + "T17:51:00Z") if i["status"] == "Approved" else None,
         "sales_order": i["sales_order"],
-        "company": "DE21", "company_name": DE21["company_name"], "status": i["status"].upper(),
+        "company": "DE21", "company_name": DE21["company_name"], "legal_entity": "", "status": i["status"].upper(),
         "payment_status": i["payment_status"].upper(),
         "invoice_date": iso(i["invoice_date"]), "due_date": iso(i["due_date"]), "payment_terms": i["payment_terms"],
         "customer": de_name(i["customer"]), "customer_id": i["customer_id"],

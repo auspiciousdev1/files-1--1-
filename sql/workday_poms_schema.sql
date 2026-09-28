@@ -54,6 +54,7 @@ CREATE TABLE wd_customer_invoice (
   `document_kind` VARCHAR(255),
   `company` VARCHAR(255),
   `company_name` VARCHAR(255),
+  `legal_entity` VARCHAR(255),
   `status` VARCHAR(255),
   `invoice_date` VARCHAR(255),
   `due_date` VARCHAR(255),
