@@ -62,17 +62,22 @@ const COLS = [
   { label: 'Currency', key: 'currency' }, { label: 'Handover', key: 'handover_date' },
 ]
 const f = { market: 'ALL', status: 'ALL', fin: 'ALL', type: 'ALL', lock: 'ALL', q: '' }
+let searchCaret = null // caret position to restore in the search box after a redraw
 async function list() {
   nav('orders')
   const o = await get('poms/orders.json')
-  const rows = o.data.filter((r) => (f.market === 'ALL' || r.market === f.market) && (f.status === 'ALL' || r.order_status === f.status) && (f.fin === 'ALL' || r.financing_option === f.fin) && (f.type === 'ALL' || r.type === f.type) && (f.lock === 'ALL' || r.lock_state === f.lock) && (!f.q || JSON.stringify(r).toLowerCase().includes(f.q)))
+  const q = f.q.trim().toLowerCase()
+  const rows = o.data.filter((r) => (f.market === 'ALL' || r.market === f.market) && (f.status === 'ALL' || r.order_status === f.status) && (f.fin === 'ALL' || r.financing_option === f.fin) && (f.type === 'ALL' || r.type === f.type) && (f.lock === 'ALL' || r.lock_state === f.lock) && (!q || JSON.stringify(r).toLowerCase().includes(q)))
   window.__rows = rows.map(({ options, fees, deliveries, events, workday_invoices, roles, financing, timestamps, ...r }) => ({ ...r, ...Object.fromEntries(Object.entries(financing ?? {}).map(([k, v]) => ['financing_' + k, v])) }))
   const opt = (vals, cur, lbl) => `<option value="ALL" ${cur === 'ALL' ? 'selected' : ''}>${lbl}</option>` + vals.map((v) => `<option value="${esc(v)}" ${cur === v ? 'selected' : ''}>${esc(title(v))}</option>`).join('')
   const uniq = (k) => [...new Set(o.data.map((r) => r[k]).filter(Boolean))].sort()
   setTimeout(() => {
     const bind = (id, key) => view.querySelector(id).addEventListener('change', (e) => { f[key] = e.target.value; list() })
     bind('#f-mk', 'market'); bind('#f-st', 'status'); bind('#f-fin', 'fin'); bind('#f-type', 'type'); bind('#f-lock', 'lock')
-    view.querySelector('#f-q').addEventListener('input', (e) => { f.q = e.target.value.trim().toLowerCase(); list() })
+    const search = view.querySelector('#f-q')
+    search.addEventListener('input', (e) => { f.q = e.target.value; searchCaret = e.target.selectionStart; list() })
+    // The list redraws on every keystroke; keep typing in the new search box
+    if (searchCaret !== null) { search.focus(); search.setSelectionRange(searchCaret, searchCaret); searchCaret = null }
     view.querySelector('#f-reset').addEventListener('click', () => { Object.assign(f, { market: 'ALL', status: 'ALL', fin: 'ALL', type: 'ALL', lock: 'ALL', q: '' }); list() })
   }, 0)
   view.innerHTML = `<h1>Orders</h1><p class="lead">Confirmed vehicle orders across markets.</p>
