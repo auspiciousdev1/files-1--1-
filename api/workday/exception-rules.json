@@ -150,7 +150,7 @@
       "company": "PT21",
       "name": "Leasing licence plate",
       "severity": "high",
-      "condition": "Bill-To is a leasing company that requires the licence plate (customer.leasing_plate_required = true)",
+      "condition": "Bill-To is LeasePlan, Arval, Leasys, Locarent or Kinto (customer.leasing_plate_required = true)",
       "check": "Vehicle line description contains the POMS license_plate",
       "source": "POMS order",
       "outcome_on_fail": "FAIL"

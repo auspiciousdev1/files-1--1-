@@ -16,12 +16,12 @@
     "unlock_reason": null,
     "manually_unlocked_reason": null,
     "manually_unlocked_note": null,
-    "owner": "Rentalis Portugal SA",
+    "owner": "Locarent",
     "owner_customer_id": "C-PT-0204",
     "roles": {
-      "orderer": "Rentalis Portugal SA",
-      "buyer": "Rentalis Portugal SA",
-      "owner": "Rentalis Portugal SA"
+      "orderer": "Locarent",
+      "buyer": "Locarent",
+      "owner": "Locarent"
     },
     "is_sme_order": false,
     "cycle_state": "new",
@@ -36,7 +36,7 @@
     "model_year": 2027,
     "exterior_colour": "Snow",
     "buyer_customer_id": "C-PT-0204",
-    "buyer_name": "Rentalis Portugal SA",
+    "buyer_name": "Locarent",
     "buyer_address": "Rua Júlio Dinis 728, 4050-012 Porto, Portugal",
     "order_type": "new_car",
     "sales_type": "B2B",

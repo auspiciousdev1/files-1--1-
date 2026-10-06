@@ -177,11 +177,11 @@ CUSTOMERS = [
     cust("C-NO-0111", "Lars Berg", "NO21", "PRIVATE"),
     cust("C-NO-0112", "Nordic Consulting AS", "NO21", "CORPORATE", "NO987654321MVA"),
     # ---- PT21 --------------------------------------------------------------
-    cust("C-PT-0201", "Atlântico Renting SA", "PT21", "LEASING", "PT502062468", leasing_plate_required=True),
-    cust("C-PT-0202", "Lusoleasing SA", "PT21", "LEASING", "PT503123456", leasing_plate_required=True),
-    cust("C-PT-0203", "Iberfrota Leasing Lda", "PT21", "LEASING", "PT504234567", leasing_plate_required=True),
-    cust("C-PT-0204", "Rentalis Portugal SA", "PT21", "LEASING", "PT505345678", leasing_plate_required=True),
-    cust("C-PT-0205", "Mobilease Portugal Lda", "PT21", "LEASING", "PT506456789", leasing_plate_required=True),
+    cust("C-PT-0201", "LeasePlan Portugal", "PT21", "LEASING", "PT502062468", leasing_plate_required=True),
+    cust("C-PT-0202", "Arval Service Lease Portugal", "PT21", "LEASING", "PT503123456", leasing_plate_required=True),
+    cust("C-PT-0203", "Leasys Portugal", "PT21", "LEASING", "PT504234567", leasing_plate_required=True),
+    cust("C-PT-0204", "Locarent", "PT21", "LEASING", "PT505345678", leasing_plate_required=True),
+    cust("C-PT-0205", "Kinto Portugal", "PT21", "LEASING", "PT506456789", leasing_plate_required=True),
     cust("C-PT-0206", "Banco Meridional SA", "PT21", "BANK", "PT501214534", loan_provider=True, bank_sold_to_exception=True),
     cust("C-PT-0207", "Lusitânia Crédito SA", "PT21", "BANK", "PT507567890", loan_provider=True),
     cust("C-PT-0208", "Crédito Ibérico SA", "PT21", "BANK", "PT508678901", loan_provider=True),
@@ -209,7 +209,7 @@ SALESFORCE_ACCOUNTS = [
      "vat_number": "PT509876543", "billing_country": "PT", "owner": "Market Portugal"},
     {"sf_account_id": "001PT00000A1B2D", "account_name": "Tejo Logística Lda", "workday_customer_id": "C-PT-0216",
      "vat_number": "PT501234567", "billing_country": "PT", "owner": "Market Portugal"},
-    {"sf_account_id": "001PT00000A1B2E", "account_name": "Atlântico Renting SA", "workday_customer_id": "C-PT-0201",
+    {"sf_account_id": "001PT00000A1B2E", "account_name": "LeasePlan Portugal", "workday_customer_id": "C-PT-0201",
      "vat_number": "PT502062468", "billing_country": "PT", "owner": "Market Portugal"},
     {"sf_account_id": "001SE00000B7C8D", "account_name": "Nordic Fleet Solutions AB", "workday_customer_id": "C-SE-0005",
      "vat_number": "SE559312345601", "billing_country": "SE", "owner": "Market Sweden"},
@@ -705,7 +705,7 @@ inv["attachments"].append({"name": f"{inv['statutory_invoice_number']}.pdf", "ty
 o = poms_order("PT21", "C-PT-0201", "P2-CAR", financing="LEASING", plate="AF-23-XR")
 inv = invoice("PT21", o, "C-PT-0201", "C-PT-0201", [line("P2-CAR", "3022", pt_car("P2-CAR", "AF-23-XR"), 1, P["P2-CAR"])],
               po_number="LP-PT-77812", statutory_type=EY_INV,
-              scenario="PT21 leasing PASS: Atlântico Renting, licence plate from POMS present in the line description",
+              scenario="PT21 leasing PASS: LeasePlan, licence plate from POMS present in the line description",
               expected_status="PASS")
 inv["statutory_invoice_number"] = ey(inv)
 
@@ -714,7 +714,7 @@ o = poms_order("PT21", "C-PT-0202", "P4-CAR", colour="Storm", financing="LEASING
 inv = invoice("PT21", o, "C-PT-0202", "C-PT-0202",
               [line("P4-CAR", "3022", pt_car("P4-CAR"), 1, P["P4-CAR"]), line("P4-CAR", "3022", "Storm", 1, P["PAINT"])],
               po_number="ARV-2026-3310", statutory_type=EY_INV,
-              scenario="PT21 leasing FAIL: Lusoleasing, licence plate BH-44-LQ missing from the description",
+              scenario="PT21 leasing FAIL: Arval, licence plate BH-44-LQ missing from the description",
               expected_status="FAIL", expected_findings=["PT21-001"],
               remediation="Append ' - Matrícula BH-44-LQ' (from POMS) to the vehicle line description.")
 inv["statutory_invoice_number"] = ey(inv)
@@ -723,7 +723,7 @@ inv["statutory_invoice_number"] = ey(inv)
 o_p4 = o = poms_order("PT21", "C-PT-0205", "P2-CAR", financing="LEASING", plate="CJ-01-MN")
 inv = invoice("PT21", o, "C-PT-0205", "C-PT-0205", [line("P2-CAR", "3022", pt_car("P2-CAR", "CJ-10-MN"), 1, P["P2-CAR"])],
               po_number="KIN-PT-0091", statutory_type=EY_INV,
-              scenario="PT21 leasing FAIL: Mobilease, plate on invoice CJ-10-MN, POMS has CJ-01-MN",
+              scenario="PT21 leasing FAIL: Kinto, plate on invoice CJ-10-MN, POMS has CJ-01-MN",
               expected_status="FAIL", expected_findings=["PT21-001"],
               remediation="Correct the plate in the description to CJ-01-MN as recorded in POMS.")
 inv["statutory_invoice_number"] = ey(inv)
@@ -823,7 +823,7 @@ inv = invoice("PT21", o_p1, "C-PT-0209", "C-PT-0209", [line("DN-INT", "9000", "G
               expected_status="PASS")
 
 # P16 credit note — matches E&Y, memo per process
-o = o_p4   # Mobilease order re-billed
+o = o_p4   # Kinto order re-billed
 inv = invoice("PT21", o, "C-PT-0205", "C-PT-0205", [line("P2-CAR", "3022", pt_car("P2-CAR", "CJ-01-MN"), 1, -P["P2-CAR"])],
               po_number="KIN-PT-0091", statutory_type=EY_CN, document_kind="Credit Note",
               memo="Manual credit and rebill due to E&Y error.",
@@ -964,7 +964,7 @@ P = PRICES["PT21"]
 o = poms_order("PT21", "C-PT-0203", "P2-CAR", financing="LEASING", plate="FM-27-QP")
 inv = invoice("PT21", o, "C-PT-0204", "C-PT-0204", [line("P2-CAR", "3022", pt_car("P2-CAR", "FM-27-QP"), 1, P["P2-CAR"])],
               statutory_type=EY_INV,
-              scenario="MAP FAIL: Workday customer Rentalis Portugal SA but POMS owner of the referenced order is Iberfrota Leasing Lda",
+              scenario="MAP FAIL: Workday customer Locarent but POMS owner of the referenced order is Leasys Portugal",
               expected_status="FAIL", expected_findings=["MAP-002"],
               remediation="Correct the Sales Order reference (or the Bill-To / Sold-To customer) so the invoice points at the right POMS order.")
 inv["statutory_invoice_number"] = ey(inv)
@@ -1072,7 +1072,7 @@ RULES = [
      "condition": "A payment is applied to the invoice as ON_ACCOUNT", "check": "payment_id exists in the factoring tracker",
      "source": "Factoring tracker", "outcome_on_fail": "FAIL"},
     {"rule_id": "PT21-001", "company": "PT21", "name": "Leasing licence plate", "severity": "high",
-     "condition": "Bill-To is a leasing company that requires the licence plate (customer.leasing_plate_required = true)",
+     "condition": "Bill-To is LeasePlan, Arval, Leasys, Locarent or Kinto (customer.leasing_plate_required = true)",
      "check": "Vehicle line description contains the POMS license_plate", "source": "POMS order", "outcome_on_fail": "FAIL"},
     {"rule_id": "PT21-002", "company": "PT21", "name": "Personal loan bill-to", "severity": "high",
      "condition": "POMS financing_type = PERSONAL_LOAN and the partner is not flagged bank_sold_to_exception",

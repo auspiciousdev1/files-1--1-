@@ -16,12 +16,12 @@
     "unlock_reason": null,
     "manually_unlocked_reason": null,
     "manually_unlocked_note": null,
-    "owner": "Iberfrota Leasing Lda",
+    "owner": "Leasys Portugal",
     "owner_customer_id": "C-PT-0203",
     "roles": {
-      "orderer": "Iberfrota Leasing Lda",
-      "buyer": "Iberfrota Leasing Lda",
-      "owner": "Iberfrota Leasing Lda"
+      "orderer": "Leasys Portugal",
+      "buyer": "Leasys Portugal",
+      "owner": "Leasys Portugal"
     },
     "is_sme_order": false,
     "cycle_state": "new",
@@ -36,7 +36,7 @@
     "model_year": 2027,
     "exterior_colour": "Snow",
     "buyer_customer_id": "C-PT-0203",
-    "buyer_name": "Iberfrota Leasing Lda",
+    "buyer_name": "Leasys Portugal",
     "buyer_address": "Avenida da República 25, 1050-186 Lisboa, Portugal",
     "order_type": "new_car",
     "sales_type": "B2B",

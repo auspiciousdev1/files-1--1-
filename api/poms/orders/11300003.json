@@ -16,12 +16,12 @@
     "unlock_reason": null,
     "manually_unlocked_reason": null,
     "manually_unlocked_note": null,
-    "owner": "Lusoleasing SA",
+    "owner": "Arval Service Lease Portugal",
     "owner_customer_id": "C-PT-0202",
     "roles": {
-      "orderer": "Lusoleasing SA",
-      "buyer": "Lusoleasing SA",
-      "owner": "Lusoleasing SA"
+      "orderer": "Arval Service Lease Portugal",
+      "buyer": "Arval Service Lease Portugal",
+      "owner": "Arval Service Lease Portugal"
     },
     "is_sme_order": false,
     "cycle_state": "new",
@@ -36,7 +36,7 @@
     "model_year": 2027,
     "exterior_colour": "Storm",
     "buyer_customer_id": "C-PT-0202",
-    "buyer_name": "Lusoleasing SA",
+    "buyer_name": "Arval Service Lease Portugal",
     "buyer_address": "Rua de Santa Catarina 320, 4000-443 Porto, Portugal",
     "order_type": "new_car",
     "sales_type": "B2B",

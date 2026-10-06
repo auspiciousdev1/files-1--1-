@@ -170,7 +170,7 @@
     {
       "invoice_number": "CI-PT21-300402",
       "company": "PT21",
-      "scenario": "PT21 leasing PASS: Atlântico Renting, licence plate from POMS present in the line description",
+      "scenario": "PT21 leasing PASS: LeasePlan, licence plate from POMS present in the line description",
       "expected_status": "PASS",
       "expected_findings": [],
       "remediation": null
@@ -178,7 +178,7 @@
     {
       "invoice_number": "CI-PT21-300403",
       "company": "PT21",
-      "scenario": "PT21 leasing FAIL: Lusoleasing, licence plate BH-44-LQ missing from the description",
+      "scenario": "PT21 leasing FAIL: Arval, licence plate BH-44-LQ missing from the description",
       "expected_status": "FAIL",
       "expected_findings": [
         "PT21-001"
@@ -188,7 +188,7 @@
     {
       "invoice_number": "CI-PT21-300404",
       "company": "PT21",
-      "scenario": "PT21 leasing FAIL: Mobilease, plate on invoice CJ-10-MN, POMS has CJ-01-MN",
+      "scenario": "PT21 leasing FAIL: Kinto, plate on invoice CJ-10-MN, POMS has CJ-01-MN",
       "expected_status": "FAIL",
       "expected_findings": [
         "PT21-001"
@@ -407,7 +407,7 @@
     {
       "invoice_number": "CI-PT21-300417",
       "company": "PT21",
-      "scenario": "MAP FAIL: Workday customer Rentalis Portugal SA but POMS owner of the referenced order is Iberfrota Leasing Lda",
+      "scenario": "MAP FAIL: Workday customer Locarent but POMS owner of the referenced order is Leasys Portugal",
       "expected_status": "FAIL",
       "expected_findings": [
         "MAP-002"

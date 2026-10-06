@@ -16,12 +16,12 @@
     "unlock_reason": null,
     "manually_unlocked_reason": null,
     "manually_unlocked_note": null,
-    "owner": "Mobilease Portugal Lda",
+    "owner": "Kinto Portugal",
     "owner_customer_id": "C-PT-0205",
     "roles": {
-      "orderer": "Mobilease Portugal Lda",
-      "buyer": "Mobilease Portugal Lda",
-      "owner": "Mobilease Portugal Lda"
+      "orderer": "Kinto Portugal",
+      "buyer": "Kinto Portugal",
+      "owner": "Kinto Portugal"
     },
     "is_sme_order": false,
     "cycle_state": "new",
@@ -36,7 +36,7 @@
     "model_year": 2027,
     "exterior_colour": "Snow",
     "buyer_customer_id": "C-PT-0205",
-    "buyer_name": "Mobilease Portugal Lda",
+    "buyer_name": "Kinto Portugal",
     "buyer_address": "Avenida Fontes Pereira de Melo 14, 1050-121 Lisboa, Portugal",
     "order_type": "new_car",
     "sales_type": "B2B",

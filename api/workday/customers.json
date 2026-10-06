@@ -424,7 +424,7 @@
     },
     {
       "customer_id": "C-PT-0201",
-      "customer_name": "Atlântico Renting SA",
+      "customer_name": "LeasePlan Portugal",
       "company": "PT21",
       "customer_type": "LEASING",
       "country": "PT",
@@ -446,7 +446,7 @@
     },
     {
       "customer_id": "C-PT-0202",
-      "customer_name": "Lusoleasing SA",
+      "customer_name": "Arval Service Lease Portugal",
       "company": "PT21",
       "customer_type": "LEASING",
       "country": "PT",
@@ -468,7 +468,7 @@
     },
     {
       "customer_id": "C-PT-0203",
-      "customer_name": "Iberfrota Leasing Lda",
+      "customer_name": "Leasys Portugal",
       "company": "PT21",
       "customer_type": "LEASING",
       "country": "PT",
@@ -490,7 +490,7 @@
     },
     {
       "customer_id": "C-PT-0204",
-      "customer_name": "Rentalis Portugal SA",
+      "customer_name": "Locarent",
       "company": "PT21",
       "customer_type": "LEASING",
       "country": "PT",
@@ -512,7 +512,7 @@
     },
     {
       "customer_id": "C-PT-0205",
-      "customer_name": "Mobilease Portugal Lda",
+      "customer_name": "Kinto Portugal",
       "company": "PT21",
       "customer_type": "LEASING",
       "country": "PT",
