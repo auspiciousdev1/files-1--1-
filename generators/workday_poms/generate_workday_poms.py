@@ -59,6 +59,10 @@ LEGAL_ENTITY = {
     "CI-SE21-100201": "SE",
     "CI-SE21-100202": "SE",
 }
+# Legal entity for every invoice of a company (per-invoice entries above win)
+LEGAL_ENTITY_BY_COMPANY = {
+    "PT21": "PT21",
+}
 
 COMPANIES = [
     {"company": "SE21", "company_name": "SE21 Polestar Automotive Sweden AB", "country": "SE",
@@ -426,7 +430,7 @@ def invoice(company, order, bill_to, sold_to, lines, *, status="DRAFT", invoice_
     total = money(subtotal + tax_amount)
     inv = {
         "invoice_number": number, "document_kind": document_kind, "company": company,
-        "company_name": co["company_name"], "legal_entity": LEGAL_ENTITY.get(number, ""), "status": status,
+        "company_name": co["company_name"], "legal_entity": LEGAL_ENTITY.get(number) or LEGAL_ENTITY_BY_COMPANY.get(company, ""), "status": status,
         "invoice_date": inv_date.isoformat(), "due_date": (inv_date + timedelta(days=30)).isoformat(),
         "payment_terms": "Net 30", "invoice_type": inv_type,
         "finalized_date": inv_date.isoformat() if status == "APPROVED" else None,
