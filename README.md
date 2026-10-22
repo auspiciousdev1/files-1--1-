@@ -144,6 +144,28 @@ input arrives (NGA response) — it is neither a data error nor a pass.
 
 `tools/reference-validator/validate.py --check` confirms the seeded data reproduces this table (72/72).
 
+## Layout variant 3 — hashed divs (branch `variant/3-hashed`)
+
+A scraper test fixture: the same data, routes, filters and answer key as `bv-poc`, rendered without any stable
+class or id a selector could hold on to. Only `workday/`, `poms/`, this README and the landing-page banner differ
+from `bv-poc`; nothing under `api/`, `generators/`, `build.py` or `sql/` changes.
+
+| Aspect | `bv-poc` | this branch |
+|---|---|---|
+| Label/value pairs | `label` + `.v` (various containers) | two sibling `div`s; the label text is in `aria-label` on the value `div` (status band: on the pair wrapper, which also carries a `data-testid`) |
+| Icon-only labels | — | Workday **Invoice Date** (📅) and POMS **Lock State** (🔒) show only an icon; the field name exists only in `aria-label` |
+| Class names | semantic (`.kvl`, `.kvrow`, `.statusband` …) | hashed `x` + 5 hex (`x7f3a1`), regenerated on **every render** by `rehash()` in `app.js`; the styling is injected as a `<style>` built from the same names, so a class learned on one order does not exist on the next |
+| ids | `#view`, `#grid`, `#quick`, `#f-co`, `#gridcount`, `#prompt`, `#applyBtn` … | none on the views (only the top-bar search `#globalsearch` / `#gs` and the Workday rail `#nav` keep theirs); form controls are named by `aria-label`, the result count has `role="status"`, the prompt panel is `role="region"` |
+| Headings | `h1`/`h2`/`h3` | `div[role=heading][aria-level=n]` (the POMS "Order N" title too) |
+| Tabs | `button.tab`, `.active`, `.dim`, `data-k` | `div[role=tab]` in a `role=tablist`, `aria-selected`, `aria-disabled` for the inert tabs |
+| Workday worklist / customer invoices | `a[href="#/invoice/…"]` in the first cell | no link: the row is `tr[role=button][tabindex=0]` and opens the invoice on click or Enter; the Customer cell keeps its link |
+| Chrome | unchanged | unchanged (top bar, rail, nav), data-grid `table`/`th`/`td` element rules, `.loading`, `.empty` not-found card |
+
+What it exercises in a learner: class-free and id-free selectors, generated-class rejection, `aria-label` as the
+label relation, icon-only labels, role-based tab discovery, and a results grid whose open control is the row
+itself rather than a link or button inside the matched column. The current `src/sites/poc/*.yaml` selectors read
+nothing on this branch; the POMS `role=heading "Order N"` locator still resolves, its `h1` fallback does not.
+
 ## Hosting on GitHub Pages
 
 1. `git init -b main && git add . && git commit -m "POC"` in this folder (`index.html` must be at the repo root).
