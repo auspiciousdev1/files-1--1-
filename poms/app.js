@@ -3,6 +3,17 @@ const API = '../api'
 const view = document.getElementById('view')
 const cache = new Map()
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]))
+// Layout variant 5: every field label carries text noise — a trailing colon, a deterministic case style
+// (upper / lower / as-is, by a hash of the label) and, for about a third of them, an icon in an
+// aria-hidden span. The same label always renders the same way, so the noise is consistent across pages.
+const ICONS = ['🏷️', '📌', '🔹', '💠', '🧾', '📎']
+const hashStr = (s) => { let h = 7; for (const ch of s) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return h }
+const noisy = (l) => {
+  const h = hashStr(l)
+  const text = h % 3 === 0 ? l.toUpperCase() : h % 3 === 1 ? l.toLowerCase() : l
+  const icon = (h >>> 2) % 3 === 0 ? `<span class="ico" aria-hidden="true">${ICONS[(h >>> 4) % ICONS.length]}</span>` : ''
+  return `${icon}${esc(text)}:`
+}
 const num = (n, dp = 2) => (n == null || n === '' ? '' : Number(n).toLocaleString('en-US', { minimumFractionDigits: dp, maximumFractionDigits: dp }))
 const plain = (n) => (n == null || n === '' ? '—' : Number.isInteger(Number(n)) ? String(Number(n)) : String(Math.round(Number(n) * 100) / 100))
 const title = (s) => String(s ?? '').toLowerCase().replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
@@ -27,7 +38,7 @@ function table(cols, rows) {
   if (!rows.length) return '<div class="empty">No records.</div>'
   return `<div class="scroll"><table><thead><tr>${cols.map((c) => `<th class="${c.num ? 'num' : ''}">${c.label}</th>`).join('')}</tr></thead><tbody>${rows.map((r) => `<tr>${cols.map((c) => `<td class="${c.num ? 'num' : ''}">${c.render ? c.render(r) : esc(r[c.key] ?? '')}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`
 }
-const kvlist = (heading, rows) => `<div class="kvlist">${heading ? `<h3>${heading}</h3>` : ''}${rows.map((r) => r.length === 1 ? `<div class="kvrow"><span class="grp">${r[0]}</span></div>` : `<div class="kvrow"><label>${r[0]}</label><div class="v ${r[2] ?? ''}">${r[1]}</div></div>`).join('')}</div>`
+const kvlist = (heading, rows) => `<div class="kvlist">${heading ? `<h3>${heading}</h3>` : ''}${rows.map((r) => r.length === 1 ? `<div class="kvrow"><span class="grp">${r[0]}</span></div>` : `<div class="kvrow"><label>${noisy(r[0])}</label><div class="v ${r[2] ?? ''}">${r[1]}</div></div>`).join('')}</div>`
 function csv(rows, filename) {
   const cols = Object.keys(rows[0] ?? {})
   const cell = (v) => { const t = v == null ? '' : typeof v === 'object' ? JSON.stringify(v) : String(v); return /[",\n]/.test(t) ? `"${t.replace(/"/g, '""')}"` : t }
@@ -82,12 +93,12 @@ async function list() {
   }, 0)
   view.innerHTML = `<h1>Orders</h1><p class="lead">Confirmed vehicle orders across markets.</p>
     <div class="filters">
-      <div><label>Market</label><select id="f-mk">${opt(uniq('market'), f.market, 'All markets')}</select></div>
-      <div><label>Type</label><select id="f-type">${opt(uniq('type'), f.type, 'All types')}</select></div>
-      <div><label>Status</label><select id="f-st">${opt(uniq('order_status'), f.status, 'All statuses')}</select></div>
-      <div><label>Financing option</label><select id="f-fin">${opt(uniq('financing_option'), f.fin, 'All financing')}</select></div>
-      <div><label>Lock state</label><select id="f-lock">${opt(uniq('lock_state'), f.lock, 'Any')}</select></div>
-      <div><label>Search</label><input id="f-q" value="${esc(f.q)}" placeholder="Order no, VIN, owner"></div>
+      <div><label>${noisy('Market')}</label><select id="f-mk">${opt(uniq('market'), f.market, 'All markets')}</select></div>
+      <div><label>${noisy('Type')}</label><select id="f-type">${opt(uniq('type'), f.type, 'All types')}</select></div>
+      <div><label>${noisy('Status')}</label><select id="f-st">${opt(uniq('order_status'), f.status, 'All statuses')}</select></div>
+      <div><label>${noisy('Financing option')}</label><select id="f-fin">${opt(uniq('financing_option'), f.fin, 'All financing')}</select></div>
+      <div><label>${noisy('Lock state')}</label><select id="f-lock">${opt(uniq('lock_state'), f.lock, 'Any')}</select></div>
+      <div><label>${noisy('Search')}</label><input id="f-q" value="${esc(f.q)}" placeholder="Order no, VIN, owner"></div>
       <div><button class="btn" id="f-reset">Reset</button> <button class="btn" onclick="csv(window.__rows,'poms-orders.csv')">Export</button></div>
       <span class="count">${rows.length} of ${o.data.length} orders</span>
     </div>
@@ -105,14 +116,15 @@ async function detail(n) {
   const car = `${o.model} (${o.model_year})`
   const extras = (o.options ?? []).length ? o.options.map((x) => x.description).join(', ') : 'No extras'
 
+  const cell = (l, v) => `<div class="cell"><label>${noisy(l)}</label><div class="v">${v}</div></div>`
   const overview = () => `<h2 class="sec">Summary</h2>
     <div class="sum">
-      <div class="row"><div class="t">Products</div><div><div class="cell"><label>Car</label><div class="v">${esc(car)}<span class="arrow">→</span></div></div></div><div><div class="cell"><label>Extras</label><div class="v">${esc(extras)}</div></div></div></div>
+      <div class="row"><div class="t">Products</div><div>${cell('Car', `${esc(car)}<span class="arrow">→</span>`)}</div><div>${cell('Extras', esc(extras))}</div></div>
       <div class="row"><div class="t">Timeline</div>
-        <div><div class="cell"><label>Created at</label><div class="v">${usTs(ts.created_at)}</div></div><div class="cell"><label>Locked at</label><div class="v">${usTs(ts.locked_at ?? o.locked_at)}</div></div><div class="cell"><label>Last updated</label><div class="v">${usTs(ts.updated_at ?? o.poms_last_updated)}</div></div></div>
-        <div><div class="cell"><label>Confirmed at</label><div class="v">${usTs(ts.confirmed_at)}</div></div><div class="cell"><label>Handover completed at</label><div class="v">${usTs(ts.handover_completed_at)}</div></div></div></div>
-      <div class="row"><div class="t">Sales Process</div><div><div class="cell"><label>Sales channel</label><div class="v">${esc(o.sales_channel)}</div></div><div class="cell"><label>Is SME order</label><div class="v">${o.is_sme_order ? 'Yes' : 'No'}</div></div></div><div><div class="cell"><label>Sales type</label><div class="v">${esc(o.sales_type)}</div></div></div></div>
-      <div class="row"><div class="t">Roles</div><div><div class="cell"><label>Orderer</label><div class="v">${esc(o.roles?.orderer ?? o.buyer_contact ?? o.buyer_name)}</div></div><div class="cell"><label>Owner</label><div class="v">${esc(o.roles?.owner ?? o.owner ?? o.buyer_name)}</div></div></div><div><div class="cell"><label>Buyer</label><div class="v">${esc(o.roles?.buyer ?? o.buyer_name)}</div></div><div class="cell"><label>Buyer address</label><div class="v">${esc(o.buyer_address ?? '')}</div></div></div></div>
+        <div>${cell('Created at', usTs(ts.created_at))}${cell('Locked at', usTs(ts.locked_at ?? o.locked_at))}${cell('Last updated', usTs(ts.updated_at ?? o.poms_last_updated))}</div>
+        <div>${cell('Confirmed at', usTs(ts.confirmed_at))}${cell('Handover completed at', usTs(ts.handover_completed_at))}</div></div>
+      <div class="row"><div class="t">Sales Process</div><div>${cell('Sales channel', esc(o.sales_channel))}${cell('Is SME order', o.is_sme_order ? 'Yes' : 'No')}</div><div>${cell('Sales type', esc(o.sales_type))}</div></div>
+      <div class="row"><div class="t">Roles</div><div>${cell('Orderer', esc(o.roles?.orderer ?? o.buyer_contact ?? o.buyer_name))}${cell('Owner', esc(o.roles?.owner ?? o.owner ?? o.buyer_name))}</div><div>${cell('Buyer', esc(o.roles?.buyer ?? o.buyer_name))}${cell('Buyer address', esc(o.buyer_address ?? ''))}</div></div>
     </div>
     <h2 class="sec" style="margin-top:28px">Details</h2>
     ${kvlist('', [
@@ -169,10 +181,10 @@ async function detail(n) {
 
   view.innerHTML = `<h1>Order ${esc(o.order_no ?? o.order_number)}</h1><div class="idline">ID: ${esc(o.id ?? '')}</div>
     <div class="headgrid">
-      <div><label>Configuration ID</label><div class="v mono">${esc(o.configuration_id ?? '')}</div></div>
-      <div><label>Type</label><div class="v">${esc(title(o.type))}</div></div>
-      <div><label>Market</label><div class="v">${esc(o.market)}</div></div>
-      <div><label>Status</label><div class="v">${statusDot(o.order_status)}</div></div>
+      <div><label>${noisy('Configuration ID')}</label><div class="v mono">${esc(o.configuration_id ?? '')}</div></div>
+      <div><label>${noisy('Type')}</label><div class="v">${esc(title(o.type))}</div></div>
+      <div><label>${noisy('Market')}</label><div class="v">${esc(o.market)}</div></div>
+      <div><label>${noisy('Status')}</label><div class="v">${statusDot(o.order_status)}</div></div>
     </div>
     ${tabs([['Overview', overview], ['Order lines', linesTab], ['Deliveries', deliveriesTab], ['Pricing', pricingTab], ['Financing', financingTab], ['Invoicing', invoicingTab], ['Events', eventsTab]])}`
   window.scrollTo(0, 0)
@@ -207,7 +219,7 @@ async function route() {
     else if (head === 'customers') await customers()
     else if (head === 'deliveries') await deliveries()
     else await list()
-  } catch (e) { view.innerHTML = `<div class="empty"><b>Record not found.</b> ${esc(e.message)} — <a href="#/">back to orders</a></div>` }
+  } catch (e) { view.innerHTML = `<div class="empty"><b>No order matches ${esc(arg ?? head)}.</b> ${esc(e.message)} — <a href="#/">back to orders</a></div>` }
 }
 document.getElementById('gs').addEventListener('keydown', (e) => {
   if (e.key !== 'Enter') return

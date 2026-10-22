@@ -114,6 +114,22 @@ th.num,td.num{text-align:right}
 td.wrap{white-space:normal;min-width:220px;max-width:380px}
 tr:hover td{background:#fafbfd}
 td .icon{color:#8a8f97;margin-right:4px;font-size:11px}
+/* ARIA grids (layout variant 5): divs laid out like the tables above */
+.grid{display:table;border-collapse:separate;border-spacing:0;width:100%;background:#fff;font-size:12.5px}
+.grid [role=rowgroup]{display:table-row-group}
+.gr{display:table-row}
+.gh,.gc{display:table-cell;border-bottom:1px solid var(--line-soft);border-right:1px solid var(--line-soft);padding:8px 10px;text-align:left;vertical-align:top;white-space:nowrap}
+.gh{background:var(--head);color:#3b3f45;font-weight:600;font-size:11.5px;position:sticky;top:0;white-space:normal;min-width:80px;vertical-align:bottom}
+.gh:last-child,.gc:last-child{border-right:0}
+.gh.num,.gc.num{text-align:right}
+.gc.wrap{white-space:normal;min-width:220px;max-width:380px}
+.gr:hover .gc{background:#fafbfd}
+.gc .icon{color:#8a8f97;margin-right:4px;font-size:11px}
+/* label noise and worktag chips (layout variant 5) */
+label .ico{margin-right:4px}
+.wtchip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:12px;padding:1px 9px;margin:0 4px 4px 0;background:var(--head)}
+.wtchip .k{color:var(--muted);font-size:11px}
+.printcopy[hidden]{display:none}
 .empty{padding:18px 14px;color:var(--muted)}
 .loading{padding:30px;color:var(--muted)}
 .toolbar{display:flex;gap:8px;align-items:center;margin:0 0 10px}

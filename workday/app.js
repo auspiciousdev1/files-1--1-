@@ -4,6 +4,17 @@ const view = document.getElementById('view')
 const cache = new Map()
 
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]))
+// Layout variant 5: every field label carries text noise — a trailing colon, a deterministic case style
+// (upper / lower / as-is, by a hash of the label) and, for about a third of them, an icon in an
+// aria-hidden span. The same label always renders the same way, so the noise is consistent across pages.
+const ICONS = ['🏷️', '📌', '🔹', '💠', '🧾', '📎']
+const hashStr = (s) => { let h = 7; for (const ch of s) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return h }
+const noisy = (l) => {
+  const h = hashStr(l)
+  const text = h % 3 === 0 ? l.toUpperCase() : h % 3 === 1 ? l.toLowerCase() : l
+  const icon = (h >>> 2) % 3 === 0 ? `<span class="ico" aria-hidden="true">${ICONS[(h >>> 4) % ICONS.length]}</span>` : ''
+  return `${icon}${esc(text)}:`
+}
 const num = (n, dp = 2) => (n === null || n === undefined || n === '' ? '' : Number(n).toLocaleString('en-US', { minimumFractionDigits: dp, maximumFractionDigits: dp }))
 const paren = (n, dp = 2) => (Number(n) < 0 ? `(${num(-n, dp)})` : num(n, dp))   // Workday shows negatives in parentheses
 const title = (s) => String(s ?? '').toLowerCase().replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
@@ -28,13 +39,15 @@ const gridTools = (exportFn) => `<div class="gridtools"><span title="Export to E
 const panel = (heading, body, count = '', tools = '') =>
   `<div class="panel"><div class="ph"><h2>${heading}</h2>${count ? `<span class="count">${count}</span>` : ''}${tools ? `<div class="tools">${tools}</div>` : ''}</div>${body}</div>`
 const isEmpty = (v) => v === '' || v === null || v === undefined
-const fields = (rows, cls = '') => `<div class="fields ${cls}">${rows.map(([l, v]) => `<div class="field"><label>${l}</label><div class="v ${isEmpty(v) ? 'empty' : ''}">${isEmpty(v) ? '(empty)' : v}</div></div>`).join('')}</div>`
+const fields = (rows, cls = '') => `<div class="fields ${cls}">${rows.map(([l, v]) => `<div class="field"><label>${noisy(l)}</label><div class="v ${isEmpty(v) ? 'empty' : ''}">${isEmpty(v) ? '(empty)' : v}</div></div>`).join('')}</div>`
 
+// Layout variant 5: every data grid is an ARIA grid of <div>s (role=grid / row / columnheader / gridcell),
+// not a <table>; an empty grid says "Nothing to show."
 function table(cols, rows) {
-  if (!rows.length) return '<div class="empty">No data available.</div>'
-  const head = cols.map((c) => `<th class="${c.num ? 'num' : ''}">${c.label}</th>`).join('')
-  const body = rows.map((r) => `<tr>${cols.map((c) => `<td class="${c.num ? 'num' : ''} ${c.wrap ? 'wrap' : ''}">${c.render ? c.render(r) : esc(r[c.key] ?? '')}</td>`).join('')}</tr>`).join('')
-  return `<div class="scroll"><table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`
+  if (!rows.length) return '<div class="empty">Nothing to show.</div>'
+  const head = `<div role="row" class="gr">${cols.map((c) => `<div role="columnheader" class="gh ${c.num ? 'num' : ''}">${c.label}</div>`).join('')}</div>`
+  const body = rows.map((r) => `<div role="row" class="gr">${cols.map((c) => `<div role="gridcell" class="gc ${c.num ? 'num' : ''} ${c.wrap ? 'wrap' : ''}">${c.render ? c.render(r) : esc(r[c.key] ?? '')}</div>`).join('')}</div>`).join('')
+  return `<div class="scroll"><div role="grid" class="grid"><div role="rowgroup">${head}</div><div role="rowgroup">${body}</div></div></div>`
 }
 
 function page(crumbs, heading, html) {
@@ -132,21 +145,23 @@ async function worklist() {
   page(home, 'Find Customer Invoices - OTC',
     `<div class="panel"><div class="ph"><button class="section-toggle" aria-expanded="${promptOpen}">Details</button></div>
       <div id="prompt" class="prompt" ${promptOpen ? '' : 'hidden'}>
-        <div><label>Company</label><select id="f-co">${opt(cos.data.map((c) => [c.company, c.company_name]), filters.company, 'All Companies')}</select></div>
-        <div><label>Customer</label><input id="f-cust" value="${esc(filters.customer)}" placeholder="Customer name"></div>
-        <div><label>Invoice Status</label><select id="f-st">${opt([['DRAFT', 'Draft'], ['APPROVED', 'Approved']], filters.status)}</select></div>
-        <div><label>Payment Status</label><select id="f-pay">${opt([['UNPAID', 'Unpaid'], ['PAID', 'Paid']], filters.payment)}</select></div>
-        <div><label>Invoice Type</label><select id="f-type">${opt(types.map((t) => [t, t]), filters.type)}</select></div>
-        <div><label>Invoice Date On or After</label><input id="f-from" type="date" value="${esc(filters.from)}"></div>
-        <div><label>Invoice Date On or Before</label><input id="f-to" type="date" value="${esc(filters.to)}"></div>
+        <div><label>${noisy('Company')}</label><select id="f-co">${opt(cos.data.map((c) => [c.company, c.company_name]), filters.company, 'All Companies')}</select></div>
+        <div><label>${noisy('Customer')}</label><input id="f-cust" value="${esc(filters.customer)}" placeholder="Customer name"></div>
+        <div><label>${noisy('Invoice Status')}</label><select id="f-st">${opt([['DRAFT', 'Draft'], ['APPROVED', 'Approved']], filters.status)}</select></div>
+        <div><label>${noisy('Payment Status')}</label><select id="f-pay">${opt([['UNPAID', 'Unpaid'], ['PAID', 'Paid']], filters.payment)}</select></div>
+        <div><label>${noisy('Invoice Type')}</label><select id="f-type">${opt(types.map((t) => [t, t]), filters.type)}</select></div>
+        <div><label>${noisy('Invoice Date On or After')}</label><input id="f-from" type="date" value="${esc(filters.from)}"></div>
+        <div><label>${noisy('Invoice Date On or Before')}</label><input id="f-to" type="date" value="${esc(filters.to)}"></div>
         <div class="row"><button class="btn" id="resetBtn">Reset</button><button class="btn primary" id="applyBtn">OK</button></div>
       </div></div>
-    <div class="toolbar"><input id="quick" placeholder="Filter results"><span class="count" id="gridcount">${rows.length} items</span></div>
+    <div class="toolbar"><input id="quick" placeholder="Search invoices…"><span class="count" id="gridcount">${rows.length} items</span></div>
     ${panel('Customer Invoices', `<div id="grid">${table(INV_COLS, rows)}</div>`, '', gridTools("csvDownload(window.__rows,'customer-invoices.csv')"))}`)
 }
 
 /* ---------------------------- View Customer Invoice ----------------------- */
-const kvl = (rows) => `<div class="kvl">${rows.map(([l, v]) => `<label>${l}</label><div class="v ${isEmpty(v) ? 'empty' : ''}">${isEmpty(v) ? '(empty)' : v}</div>`).join('')}</div>`
+const kvl = (rows) => `<div class="kvl">${rows.map(([l, v]) => `<label>${noisy(l)}</label><div class="v ${isEmpty(v) ? 'empty' : ''}">${isEmpty(v) ? '(empty)' : v}</div>`).join('')}</div>`
+// worktags as chips: name and value side by side, no "Name: value" text pattern
+const wtChip = (k, v) => `<span class="wtchip"><span class="k">${k}</span><span class="val">${v}</span></span>`
 const addr = (a) => (a ? `<span class="icon">⌖</span><a>${esc(a)}</a>` : '')
 
 async function invoiceDetail(id) {
@@ -182,7 +197,7 @@ async function invoiceDetail(id) {
     ['Memo', d.memo ? esc(d.memo) : esc(d.invoice_type ?? '')],
     ['Printed', esc(d.printed ?? 'No')],
     ['Latest Print Date', d.latest_print_date ? wdMoment(d.latest_print_date) : ''],
-    ['Worktags', `<div class="wt"><div><a>Model: ${esc(wt.model ?? d.model)}</a></div><div>Sales Order: ${pomsLink(so)}</div><div><a>Vehicle Identifier Number: <span class="mono">${esc(wt.vehicle_identifier_number ?? d.vin)}</span></a></div>${d.statutory_invoice_type ? `<div><a>Statutory Invoice Type: ${esc(d.statutory_invoice_type)}</a></div>` : ''}${d.statutory_invoice_number ? `<div><a>Statutory Invoice Number: ${esc(d.statutory_invoice_number)}</a></div>` : ''}</div>`],
+    ['Worktags', `<div class="wt">${wtChip('Model', `<a>${esc(wt.model ?? d.model)}</a>`)}${wtChip('Sales Order', pomsLink(so))}${wtChip('Vehicle Identifier Number', `<a><span class="mono">${esc(wt.vehicle_identifier_number ?? d.vin)}</span></a>`)}${d.statutory_invoice_type ? wtChip('Statutory Invoice Type', `<a>${esc(d.statutory_invoice_type)}</a>`) : ''}${d.statutory_invoice_number ? wtChip('Statutory Invoice Number', `<a>${esc(d.statutory_invoice_number)}</a>`) : ''}</div>`],
   ])
   const amounts = kvl([
     ['Currency', `<a>${esc(d.currency)}</a>`],
@@ -233,8 +248,8 @@ async function invoiceDetail(id) {
   setTimeout(() => view.querySelectorAll('.threecol h2').forEach((h) => h.addEventListener('click', () => h.classList.toggle('closed'))), 0)
   view.innerHTML = `<div class="titlebar"><h1>View Customer Invoice</h1><span class="obj">${esc(d.invoice_number)}</span><button class="dots" title="Related Actions">···</button><div class="tools"><span title="Export">⇩</span><span title="PDF">▤</span></div></div>
     <div class="statusband">
-      <div class="kv"><label>Invoice Status</label><span>${title(d.status)}</span><label>Payment Status</label><span>${title(d.payment_status ?? 'Unpaid')}</span><label>Finalized Date</label><span>${d.finalized_date ? wdDate(d.finalized_date) : '(empty)'}</span></div>
-      <div class="amt"><div><label>Total Invoice Amount</label>${paren(d.totals.total_amount)} ${esc(d.currency)}</div><div><label>Amount Due</label>${paren(amountDue)} ${esc(d.currency)}</div></div>
+      <div class="kv"><label>${noisy('Invoice Status')}</label><span>${title(d.status)}</span><label>${noisy('Payment Status')}</label><span>${title(d.payment_status ?? 'Unpaid')}</span><label>${noisy('Finalized Date')}</label><span>${d.finalized_date ? wdDate(d.finalized_date) : '(empty)'}</span></div>
+      <div class="amt"><div><label>${noisy('Total Invoice Amount')}</label>${paren(d.totals.total_amount)} ${esc(d.currency)}</div><div><label>${noisy('Amount Due')}</label>${paren(amountDue)} ${esc(d.currency)}</div></div>
     </div>
     <div class="threecol">
       <div class="col"><h2>Invoice Information</h2>${info}</div>
@@ -244,7 +259,9 @@ async function invoiceDetail(id) {
     <div class="tabwrap">${tabs([
       ['Invoice Lines', linesTab], ['Currency Rate', fxTab], ['Tax', taxTab], ['Attachments', attTab],
       ['Business Process', bpTab], ['Errors & Warnings', errTab], ['Printing Runs', printTab], ['Notes', notesTab],
-    ])}</div>`
+    ])}</div>
+    <!-- print preview: a hidden second copy of every field (display:none), never shown on screen -->
+    <div class="printcopy" hidden aria-hidden="true"><h2>Print preview</h2>${info}${additional}${amounts}</div>`
   window.scrollTo(0, 0)
 }
 
@@ -338,7 +355,7 @@ async function route() {
   paintNav({ invoice: '', customer: 'customers' }[head] ?? key)
   view.innerHTML = '<div class="loading">Loading…</div>'
   try { await ROUTES[key](arg) } catch (e) {
-    view.innerHTML = `<div class="inner"><div class="panel"><div class="pb"><b>The record could not be found.</b><p class="note">${esc(e.message)}. <a href="#/">Return to Customer Invoices</a>.</p></div></div></div>`
+    view.innerHTML = `<div class="inner"><div class="panel"><div class="pb"><b>Nothing to show for ${esc(arg ?? raw)}.</b><p class="note">${esc(e.message)}. <a href="#/">Return to Customer Invoices</a>.</p></div></div></div>`
   }
 }
 document.getElementById('globalsearch').addEventListener('keydown', (e) => {

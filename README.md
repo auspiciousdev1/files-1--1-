@@ -144,6 +144,29 @@ input arrives (NGA response) — it is neither a data error nor a pass.
 
 `tools/reference-validator/validate.py --check` confirms the seeded data reproduces this table (72/72).
 
+## Layout variant 5 — text noise and ARIA grids (branch `variant/5-noise-grid`)
+
+A scraper test fixture: the same `label` + `.v` markup, data, routes, filters and answer key as `bv-poc`, with noise
+on every label and a different kind of results grid. Only `workday/`, `poms/`, this README and the landing-page
+banner differ from `bv-poc`; nothing under `api/`, `generators/`, `build.py` or `sql/` changes.
+
+| Aspect | `bv-poc` | this branch |
+|---|---|---|
+| Field labels (both apps) | `Total Invoice Amount` | a trailing colon, a case style chosen by a hash of the label (upper / lower / as-is) and, for about a third of the labels, an icon in a `span.ico[aria-hidden=true]` before the text: `🏷️TOTAL INVOICE AMOUNT:`, `currency:`. The same label always renders the same way |
+| Workday grids (worklist, invoice lines, customers, revenue categories, sales items, tax…) | `table` with `thead th` / `tbody td` | `div[role=grid]` → `[role=rowgroup]` → `[role=row]` of `[role=columnheader]` / `[role=gridcell]`, styled with CSS `display:table`; the `#grid` host id, the column texts and the invoice link in the first cell are unchanged |
+| Worklist filter box | placeholder `Filter results` | placeholder `Search invoices…` (same `#quick` id) |
+| Worktags | `Model: Polestar 2 2027`, `Sales Order: 11200003` … as text lines | chips: `span.wtchip > span.k` (name) + `span.val` (value), no `Name: value` text pattern; the Sales Order chip still links to POMS |
+| Not found | Workday: "The record could not be found."; POMS: "Record not found." | Workday: "Nothing to show for &lt;key&gt;."; empty grids: "Nothing to show."; POMS: "No order matches &lt;key&gt;." (the key stays in the text; the `.empty` card is kept) |
+| Hidden duplicates | — | the invoice page ends with `div.printcopy[hidden]`: a second, `display:none` copy of Invoice / Additional / Amount Information with every label and value |
+| POMS tables | unchanged | unchanged |
+
+What it exercises in a learner: label normalisation (colon, case, aria-hidden decorations), ARIA-grid lookup with
+the open control resolved from the live column headers, learning the not-found signature from a negative sample
+with the key templated out, a key field that is no longer a `Name: value` text, and value-first search that must
+skip elements without a box. The current `src/sites/poc/workday.yaml` fails on `placeholder: Filter results`,
+`rows: #grid tbody tr`, the `Revenue Category` lines table and the worktag parser; its labels no longer equal the
+on-page text on either app.
+
 ## Hosting on GitHub Pages
 
 1. `git init -b main && git add . && git commit -m "POC"` in this folder (`index.html` must be at the repo root).
