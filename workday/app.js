@@ -157,18 +157,21 @@ async function invoiceDetail(id) {
   const so = d.sales_order || d.poms_order_number
   const wt = d.worktags || {}
 
+  // Layout variant 4: "Customer" appears under two headings with different values (the bill-to party
+  // here, the sold-to party in its own section); Invoice Date is only shown inside the Currency Rate tab.
   const info = kvl([
     ['Company', `<a>${esc(d.company_name)}</a>`],
     ['Legal Entity', d.legal_entity ? esc(d.legal_entity) : ''],
-    ['Bill-To Customer', link('customer', d.bill_to_customer_id, d.bill_to_customer)],
-    ['Sold-To Customer', link('customer', d.sold_to_customer_id, d.sold_to_customer)],
+    ['Customer', link('customer', d.bill_to_customer_id, d.bill_to_customer)],
     ['Invoice Number', esc(d.invoice_number)],
     ['Invoice Type', esc(d.invoice_type ?? d.document_kind)],
-    ['Invoice Date', wdDate(d.invoice_date)],
     ['Bill-To Address', addr(d.bill_to_address)],
     ['Bill-To Contact', d.bill_to_contact ? esc(d.bill_to_contact) : ''],
     ['Delivery Type', esc(d.delivery_type ?? 'Email')],
     ['Delivery Type Origin', esc(d.delivery_type_origin ?? 'Customer')],
+  ])
+  const soldTo = kvl([
+    ['Customer', link('customer', d.sold_to_customer_id, d.sold_to_customer)],
     ['Ship-To Customer', `<a>${esc(d.ship_to_customer)}</a>`],
     ['Ship-To Address', addr(d.ship_to_address)],
   ])
@@ -218,7 +221,8 @@ async function invoiceDetail(id) {
     { label: 'Tax Applicability', key: 'tax_applicability', render: (r) => `<a>${esc(d.tax.tax_code.split(' ')[0])} Sale of Goods Services</a>` },
   ]
   const linesTab = () => panel('Invoice Lines', table(LINE_COLS, d.lines), `${d.lines.length} item${d.lines.length === 1 ? '' : 's'}`, gridTools(`csvDownload(window.__inv,'${esc(d.invoice_number)}-lines.csv')`))
-  const fxTab = () => panel('Currency Rate', fields([['Transaction Currency', esc(d.currency)], ['Company Currency', esc(d.currency)], ['Currency Rate', '1.000000'], ['Currency Rate Type', 'Current'], ['Rate Date', wdDate(d.invoice_date)]]))
+  // Invoice Date lives only here (rendered when the tab is clicked); Rate Date carries the same value
+  const fxTab = () => panel('Currency Rate', fields([['Transaction Currency', esc(d.currency)], ['Company Currency', esc(d.currency)], ['Currency Rate', '1.000000'], ['Currency Rate Type', 'Current'], ['Invoice Date', wdDate(d.invoice_date)], ['Rate Date', wdDate(d.invoice_date)]]))
   const taxTab = () => panel('Tax', table([
     { label: 'Tax Code', key: 'tax_code' }, { label: 'Tax Rate', key: 'rate', num: true, render: (r) => `${num(r.rate, 2)}%` },
     { label: 'Taxable Amount', key: 'taxable', num: true, render: (r) => paren(r.taxable) }, { label: 'Tax Amount', key: 'tax', num: true, render: (r) => paren(r.tax) },
@@ -240,6 +244,7 @@ async function invoiceDetail(id) {
       <div class="col"><h2>Invoice Information</h2>${info}</div>
       <div class="col"><h2>Additional Information</h2>${additional}</div>
       <div class="col"><h2>Amount Information</h2>${amounts}</div>
+      <div class="col"><h2>Sold-To Party</h2>${soldTo}</div>
     </div>
     <div class="tabwrap">${tabs([
       ['Invoice Lines', linesTab], ['Currency Rate', fxTab], ['Tax', taxTab], ['Attachments', attTab],

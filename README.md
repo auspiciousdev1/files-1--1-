@@ -144,6 +144,26 @@ input arrives (NGA response) — it is neither a data error nor a pass.
 
 `tools/reference-validator/validate.py --check` confirms the seeded data reproduces this table (72/72).
 
+## Layout variant 4 — duplicate labels and lazy tabs (branch `variant/4-dupes-tabs`)
+
+A scraper test fixture: the same markup style as `bv-poc` (`label` + `.v`), the same data, routes, filters and
+answer key, but the *placement* of three fields changes. Only `workday/`, `poms/`, this README and the landing-page
+banner differ from `bv-poc`; nothing under `api/`, `generators/`, `build.py` or `sql/` changes.
+
+| Field | `bv-poc` | this branch |
+|---|---|---|
+| POMS **Currency** | Pricing tab *Price information* and Financing tab *Financing*, same value | **two different values**: the order currency under *Price information*; the financing partner's settlement currency under *Financing* (display rule: EUR for non-EUR orders, USD for EUR orders, so the two differ on every order) |
+| Workday **Customer** | Invoice Information shows *Bill-To Customer* and *Sold-To Customer* | *Invoice Information* shows **Customer** = the bill-to party; a new fourth section **Sold-To Party** shows **Customer** = the sold-to party plus Ship-To Customer / Ship-To Address (moved there). On 6 of 72 invoices the two differ |
+| Workday **Invoice Date** | Invoice Information | **only inside the Currency Rate tab**, whose content is built when the tab is clicked (both apps' tabs are lazy: the inactive panes do not exist in the DOM). *Rate Date* in the same tab carries the same value |
+
+What it exercises in a learner: section disambiguation of a repeated label (the mapping's `Currency` must come from
+*Price information*; `Customer` from the heading the sample names), tab discovery for a mapped field that is absent
+from the record's initial DOM, and a same-value decoy next to the wanted field (Invoice Date vs Rate Date).
+
+Effect on the current scraper: `Sections.get("Currency")` without a section raises `AmbiguousLabel` on every POMS
+order, `Customer` raises it on the six invoices where bill-to ≠ sold-to, and `Invoice Date` is simply missing from
+the invoice page until the tab is opened.
+
 ## Hosting on GitHub Pages
 
 1. `git init -b main && git add . && git commit -m "POC"` in this folder (`index.html` must be at the repo root).

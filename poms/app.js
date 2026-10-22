@@ -153,8 +153,12 @@ async function detail(n) {
     ['Upfront Payment', plain(o.upfront_payment ?? 0), 'hl'], ['Final Payment Amount', plain(o.final_payment_amount), 'hl'],
     ['Down Payment To Pay', plain(o.down_payment_to_pay ?? 0), 'hl'], ['Paid Down Payment', plain(o.paid_down_payment ?? 0), 'hl'], ['Deposit To Pay', plain(o.deposit_to_pay ?? 0), 'hl'],
   ])
+  // Layout variant 4: "Currency" is shown under two headings with different values. Under Price
+  // information it is the order currency; here it is the financing partner's settlement currency,
+  // which in this fixture is always the other major currency (EUR for non-EUR orders, USD for EUR orders).
+  const settlementCurrency = o.currency === 'EUR' ? 'USD' : 'EUR'
   const financingTab = () => kvlist('Financing', [
-    ['Financing Option', `<b>${esc(o.financing_option)}</b>`], ['Currency', esc(fin.currency ?? o.currency), 'hl'],
+    ['Financing Option', `<b>${esc(o.financing_option)}</b>`], ['Currency', esc(settlementCurrency), 'hl'],
     ['Down Payment To Pay', plain(o.down_payment_to_pay ?? 0), 'hl'], ['Paid Down Payment', plain(o.paid_down_payment ?? 0), 'hl'], ['Deposit To Pay', plain(o.deposit_to_pay ?? 0), 'hl'],
     ['Status', dash(fin.status), 'hl'], ['Financed Amount', fin.financed_amount == null ? dash(null) : plain(fin.financed_amount), 'hl'],
     ['Loan Provider Name', dash(fin.loan_provider_name), 'hl'], ['Loan Provider SalesforceId', dash(fin.loan_provider_salesforce_id)], ['External Reference Number', dash(fin.external_reference_number)],
