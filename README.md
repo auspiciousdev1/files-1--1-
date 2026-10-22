@@ -144,6 +144,31 @@ input arrives (NGA response) — it is neither a data error nor a pass.
 
 `tools/reference-validator/validate.py --check` confirms the seeded data reproduces this table (72/72).
 
+## Layout variant 1 — definition lists (branch `variant/1-dl`)
+
+A scraper test fixture: the same data, routes, filters and answer key as `bv-poc`, with a different DOM for every
+label/value pair. Only `workday/`, `poms/`, this README and the landing-page banner differ from `bv-poc`; nothing
+under `api/`, `generators/`, `build.py` or `sql/` changes.
+
+| Where | `bv-poc` | this branch |
+|---|---|---|
+| Workday status band | `.kv > label + span`, `.amt > div > label + text` | `dl.kv > dt + dd`, `dl.amt > div > dt + dd` |
+| Workday Invoice / Additional / Amount Information | `h2` + `.kvl > label + .v` | `h2` + `dl.kvl > dt + dd` (the heading is a sibling before the list, not inside it) |
+| Workday Currency Rate tab, Customer Information | `.field > label + .v` | `dl.fields > .field > dt + dd` |
+| Workday filter prompt | `label + select` | `span.pl + select[aria-label]` |
+| POMS order header | `.headgrid > div > label + .v` | `dl.headgrid > div > dt + dd` |
+| POMS Overview summary | `.sum .cell > label + .v` | `.sum dl > .cell > dt + dd` |
+| POMS Details / Pricing / Financing lists | `.kvlist > h3 + .kvrow > label + .v`, group rows as `span.grp` | `.kvlist > h3`, then one `dl` per group with `.kvrow > dt + dd`; group titles are `h4.grp` between the lists |
+| POMS list filters | `label + select` | `span.pl + select[aria-label]` |
+
+Deliberate trap: in Amount Information, **Total Invoice Amount** and **Amount Due** are adjacent and carry the same
+value, so only the `dt` text separates them. The POMS group titles (Timestamps, Lock, Payments) are now `h4`
+headings, so a "nearest preceding heading" section check sees them before the `h3` of the card.
+
+What it exercises in a learner: `dt`/`dd` label relation, text-anchored selectors, section detection with the heading
+outside the list container. The current `src/sites/poc/*.yaml` selectors (`label` / `.v`) read nothing on this
+branch, which is the point.
+
 ## Hosting on GitHub Pages
 
 1. `git init -b main && git add . && git commit -m "POC"` in this folder (`index.html` must be at the repo root).

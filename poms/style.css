@@ -5,6 +5,7 @@ html,body{margin:0;background:var(--bg)}
 body{font-family:Inter,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:13px;color:var(--ink)}
 a{color:var(--ink);text-decoration:none}a:hover{color:#fff;text-decoration:underline}
 button,input,select{font:inherit;color:inherit}
+dl,dd{margin:0}
 .top{position:sticky;top:0;z-index:5;background:#000;border-bottom:1px solid var(--line-soft);display:flex;align-items:center;gap:18px;height:54px;padding:0 20px}
 .burger{font-size:18px;color:#ddd}
 .brand{font-weight:600;font-size:14px;letter-spacing:.01em}
@@ -20,8 +21,8 @@ h1{font-size:28px;font-weight:500;margin:6px 0 2px;letter-spacing:-.01em}
 .idline{color:var(--muted);font-size:12.5px;margin-bottom:22px}
 .lead{color:var(--muted);margin:0 0 14px}
 .headgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:22px}
-.headgrid label,.sum label,.kvrow label{display:block;color:var(--muted);font-size:12px;margin-bottom:3px}
-.headgrid .v{font-size:13.5px}
+.headgrid dt,.sum dt{display:block;color:var(--muted);font-size:12px;margin-bottom:3px}
+.headgrid dd{font-size:13.5px}
 .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--ok);margin-right:6px;vertical-align:1px}
 .dot.warn{background:var(--warn)}.dot.info{background:var(--info)}.dot.bad{background:var(--bad)}
 .tabs{display:flex;gap:22px;border-bottom:1px solid var(--line-soft);margin:0 0 26px}
@@ -32,7 +33,7 @@ h2.sec{font-size:22px;font-weight:500;margin:0 0 6px}
 .sum{border-top:1px solid var(--line);}
 .sum .row{display:grid;grid-template-columns:200px 1fr 1fr;gap:16px 28px;padding:26px 0;border-bottom:1px solid var(--line-soft)}
 .sum .row .t{font-size:16px;font-weight:500}
-.sum .v{font-size:13.5px}
+.sum dd{font-size:13.5px}
 .sum .cell{margin-bottom:22px}
 .sum .cell:last-child{margin-bottom:0}
 .arrow{color:var(--accent);margin-left:6px}
@@ -41,11 +42,11 @@ h2.sec{font-size:22px;font-weight:500;margin:0 0 6px}
 .kvlist h3{margin:0;padding:12px 16px;font-size:14px;font-weight:600;border-bottom:1px solid #e6e8eb;color:#1f2933}
 .kvrow{display:grid;grid-template-columns:400px 1fr;padding:10px 16px;border-bottom:1px solid #eef0f2;font-size:12.5px}
 .kvrow:last-child{border-bottom:0}
-.kvrow label{color:#3c72c9;margin:0;font-size:12.5px}
-.kvrow .v{color:#1f2933}
-.kvrow .v.hl{color:#3c72c9}
-.kvrow .v.dash{color:#9aa0a6}
-.kvrow .grp{grid-column:1/-1;font-size:11px;letter-spacing:.06em;color:#3c72c9;text-transform:uppercase;font-weight:600;padding-top:4px}
+.kvrow dt{color:#3c72c9;margin:0;font-size:12.5px}
+.kvrow dd{color:#1f2933}
+.kvrow dd.hl{color:#3c72c9}
+.kvrow dd.dash{color:#9aa0a6}
+.kvlist h4.grp{margin:0;padding:14px 16px 6px;font-size:11px;letter-spacing:.06em;color:#3c72c9;text-transform:uppercase;font-weight:600;border-bottom:1px solid #eef0f2}
 /* dark tables */
 table{border-collapse:collapse;width:100%;font-size:12.5px}
 th,td{border-bottom:1px solid var(--line-soft);padding:10px 12px;text-align:left;white-space:nowrap;vertical-align:top}
@@ -57,7 +58,7 @@ tr:hover td{background:#0d0d0d}
 .pill.ok{color:var(--ok)}.pill.warn{color:var(--warn)}.pill.info{color:var(--info)}.pill.bad{color:var(--bad)}.pill.acc{color:var(--accent)}
 .mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px}
 .filters{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:flex-end;margin:0 0 16px}
-.filters label{display:block;font-size:11px;color:var(--muted);margin-bottom:4px}
+.filters .pl{display:block;font-size:11px;color:var(--muted);margin-bottom:4px}
 .filters select,.filters input{height:32px;border:1px solid var(--line);border-radius:6px;padding:0 10px;background:#111;color:#fff;min-width:160px}
 .filters .count{margin-left:auto;color:var(--muted);font-size:12px;padding-bottom:8px}
 .btn{border:1px solid var(--line);background:#111;color:#fff;border-radius:6px;padding:6px 12px;cursor:pointer}

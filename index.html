@@ -30,6 +30,8 @@
   .note{font-size:13px;color:var(--muted);line-height:1.6}
   .pill{display:inline-block;font-size:11px;padding:1px 7px;border-radius:9px;background:#eef1f4;margin-right:4px}
   .pill.ok{background:#e3f4ea;color:#1d8a4b}.pill.bad{background:#fdecea;color:#b3261e}.pill.hold{background:#efe8fb;color:#6b3fc7}
+  .variant{display:inline-block;margin-top:14px;padding:6px 12px;border:1px solid #ffb000;background:#2a2410;color:#ffd166;font-size:13px;border-radius:3px}
+  .variant code{background:transparent;color:#fff;padding:0}
 </style>
 </head>
 <body>
@@ -39,6 +41,7 @@
        (DE21, SE21, NO21, PT21, DK21), every invoice line with a Sales Item and a Revenue Category, and seeded scenarios for
        each entity exception — normal cases, passing cases and failing cases. All customers, contacts and addresses are fictional.
        The dataset is served as static JSON so an external validation agent can read both systems.</p>
+    <p class="variant">Layout variant 1 — definition lists: every label/value pair in Workday and POMS is a &lt;dt&gt;/&lt;dd&gt;, the site has no &lt;label&gt; elements. Same data, same routes, same answer key as <code>bv-poc</code>.</p>
   </header>
   <main>
     <div class="cards">

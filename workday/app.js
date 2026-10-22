@@ -28,7 +28,8 @@ const gridTools = (exportFn) => `<div class="gridtools"><span title="Export to E
 const panel = (heading, body, count = '', tools = '') =>
   `<div class="panel"><div class="ph"><h2>${heading}</h2>${count ? `<span class="count">${count}</span>` : ''}${tools ? `<div class="tools">${tools}</div>` : ''}</div>${body}</div>`
 const isEmpty = (v) => v === '' || v === null || v === undefined
-const fields = (rows, cls = '') => `<div class="fields ${cls}">${rows.map(([l, v]) => `<div class="field"><label>${l}</label><div class="v ${isEmpty(v) ? 'empty' : ''}">${isEmpty(v) ? '(empty)' : v}</div></div>`).join('')}</div>`
+// Layout variant 1: every label/value pair is a <dt>/<dd> inside a <dl>; the site has no <label> elements
+const fields = (rows, cls = '') => `<dl class="fields ${cls}">${rows.map(([l, v]) => `<div class="field"><dt>${l}</dt><dd class="${isEmpty(v) ? 'empty' : ''}">${isEmpty(v) ? '(empty)' : v}</dd></div>`).join('')}</dl>`
 
 function table(cols, rows) {
   if (!rows.length) return '<div class="empty">No data available.</div>'
@@ -132,13 +133,13 @@ async function worklist() {
   page(home, 'Find Customer Invoices - OTC',
     `<div class="panel"><div class="ph"><button class="section-toggle" aria-expanded="${promptOpen}">Details</button></div>
       <div id="prompt" class="prompt" ${promptOpen ? '' : 'hidden'}>
-        <div><label>Company</label><select id="f-co">${opt(cos.data.map((c) => [c.company, c.company_name]), filters.company, 'All Companies')}</select></div>
-        <div><label>Customer</label><input id="f-cust" value="${esc(filters.customer)}" placeholder="Customer name"></div>
-        <div><label>Invoice Status</label><select id="f-st">${opt([['DRAFT', 'Draft'], ['APPROVED', 'Approved']], filters.status)}</select></div>
-        <div><label>Payment Status</label><select id="f-pay">${opt([['UNPAID', 'Unpaid'], ['PAID', 'Paid']], filters.payment)}</select></div>
-        <div><label>Invoice Type</label><select id="f-type">${opt(types.map((t) => [t, t]), filters.type)}</select></div>
-        <div><label>Invoice Date On or After</label><input id="f-from" type="date" value="${esc(filters.from)}"></div>
-        <div><label>Invoice Date On or Before</label><input id="f-to" type="date" value="${esc(filters.to)}"></div>
+        <div><span class="pl">Company</span><select id="f-co" aria-label="Company">${opt(cos.data.map((c) => [c.company, c.company_name]), filters.company, 'All Companies')}</select></div>
+        <div><span class="pl">Customer</span><input id="f-cust" aria-label="Customer" value="${esc(filters.customer)}" placeholder="Customer name"></div>
+        <div><span class="pl">Invoice Status</span><select id="f-st" aria-label="Invoice Status">${opt([['DRAFT', 'Draft'], ['APPROVED', 'Approved']], filters.status)}</select></div>
+        <div><span class="pl">Payment Status</span><select id="f-pay" aria-label="Payment Status">${opt([['UNPAID', 'Unpaid'], ['PAID', 'Paid']], filters.payment)}</select></div>
+        <div><span class="pl">Invoice Type</span><select id="f-type" aria-label="Invoice Type">${opt(types.map((t) => [t, t]), filters.type)}</select></div>
+        <div><span class="pl">Invoice Date On or After</span><input id="f-from" aria-label="Invoice Date On or After" type="date" value="${esc(filters.from)}"></div>
+        <div><span class="pl">Invoice Date On or Before</span><input id="f-to" aria-label="Invoice Date On or Before" type="date" value="${esc(filters.to)}"></div>
         <div class="row"><button class="btn" id="resetBtn">Reset</button><button class="btn primary" id="applyBtn">OK</button></div>
       </div></div>
     <div class="toolbar"><input id="quick" placeholder="Filter results"><span class="count" id="gridcount">${rows.length} items</span></div>
@@ -146,7 +147,7 @@ async function worklist() {
 }
 
 /* ---------------------------- View Customer Invoice ----------------------- */
-const kvl = (rows) => `<div class="kvl">${rows.map(([l, v]) => `<label>${l}</label><div class="v ${isEmpty(v) ? 'empty' : ''}">${isEmpty(v) ? '(empty)' : v}</div>`).join('')}</div>`
+const kvl = (rows) => `<dl class="kvl">${rows.map(([l, v]) => `<dt>${l}</dt><dd class="${isEmpty(v) ? 'empty' : ''}">${isEmpty(v) ? '(empty)' : v}</dd>`).join('')}</dl>`
 const addr = (a) => (a ? `<span class="icon">⌖</span><a>${esc(a)}</a>` : '')
 
 async function invoiceDetail(id) {
@@ -189,10 +190,12 @@ async function invoiceDetail(id) {
     ['Default Tax Code', `<a>${esc(d.tax.tax_code)}</a>`],
     ['Net Invoice Amount', paren(d.totals.subtotal)],
     ['Tax Amount', paren(d.totals.tax_amount)],
+    // Total Invoice Amount and Amount Due are adjacent on purpose: they carry the same
+    // value, so only the <dt> text tells them apart (layout variant 1 trap)
     ['Total Invoice Amount', paren(d.totals.total_amount)],
+    ['Amount Due', paren(amountDue)],
     ['Less Withholding Amount', '0.00'],
     ['Control Total Amount', '0.00'],
-    ['Amount Due', paren(amountDue)],
   ])
 
   const LINE_COLS = [
@@ -233,8 +236,8 @@ async function invoiceDetail(id) {
   setTimeout(() => view.querySelectorAll('.threecol h2').forEach((h) => h.addEventListener('click', () => h.classList.toggle('closed'))), 0)
   view.innerHTML = `<div class="titlebar"><h1>View Customer Invoice</h1><span class="obj">${esc(d.invoice_number)}</span><button class="dots" title="Related Actions">···</button><div class="tools"><span title="Export">⇩</span><span title="PDF">▤</span></div></div>
     <div class="statusband">
-      <div class="kv"><label>Invoice Status</label><span>${title(d.status)}</span><label>Payment Status</label><span>${title(d.payment_status ?? 'Unpaid')}</span><label>Finalized Date</label><span>${d.finalized_date ? wdDate(d.finalized_date) : '(empty)'}</span></div>
-      <div class="amt"><div><label>Total Invoice Amount</label>${paren(d.totals.total_amount)} ${esc(d.currency)}</div><div><label>Amount Due</label>${paren(amountDue)} ${esc(d.currency)}</div></div>
+      <dl class="kv"><dt>Invoice Status</dt><dd>${title(d.status)}</dd><dt>Payment Status</dt><dd>${title(d.payment_status ?? 'Unpaid')}</dd><dt>Finalized Date</dt><dd>${d.finalized_date ? wdDate(d.finalized_date) : '(empty)'}</dd></dl>
+      <dl class="amt"><div><dt>Total Invoice Amount</dt><dd>${paren(d.totals.total_amount)} ${esc(d.currency)}</dd></div><div><dt>Amount Due</dt><dd>${paren(amountDue)} ${esc(d.currency)}</dd></div></dl>
     </div>
     <div class="threecol">
       <div class="col"><h2>Invoice Information</h2>${info}</div>

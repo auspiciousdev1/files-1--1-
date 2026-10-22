@@ -27,7 +27,16 @@ function table(cols, rows) {
   if (!rows.length) return '<div class="empty">No records.</div>'
   return `<div class="scroll"><table><thead><tr>${cols.map((c) => `<th class="${c.num ? 'num' : ''}">${c.label}</th>`).join('')}</tr></thead><tbody>${rows.map((r) => `<tr>${cols.map((c) => `<td class="${c.num ? 'num' : ''}">${c.render ? c.render(r) : esc(r[c.key] ?? '')}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`
 }
-const kvlist = (heading, rows) => `<div class="kvlist">${heading ? `<h3>${heading}</h3>` : ''}${rows.map((r) => r.length === 1 ? `<div class="kvrow"><span class="grp">${r[0]}</span></div>` : `<div class="kvrow"><label>${r[0]}</label><div class="v ${r[2] ?? ''}">${r[1]}</div></div>`).join('')}</div>`
+// Layout variant 1: a key/value list is a heading followed by one <dl> per group; every pair is <dt>/<dd>.
+// A one-element row starts a new group, rendered as an <h4> between the lists (no <label> anywhere).
+const kvlist = (heading, rows) => {
+  const groups = []
+  rows.forEach((r) => {
+    if (r.length === 1) groups.push({ title: r[0], rows: [] })
+    else { if (!groups.length) groups.push({ title: '', rows: [] }); groups[groups.length - 1].rows.push(r) }
+  })
+  return `<div class="kvlist">${heading ? `<h3>${heading}</h3>` : ''}${groups.map((g) => `${g.title ? `<h4 class="grp">${g.title}</h4>` : ''}<dl>${g.rows.map((r) => `<div class="kvrow"><dt>${r[0]}</dt><dd class="${r[2] ?? ''}">${r[1]}</dd></div>`).join('')}</dl>`).join('')}</div>`
+}
 function csv(rows, filename) {
   const cols = Object.keys(rows[0] ?? {})
   const cell = (v) => { const t = v == null ? '' : typeof v === 'object' ? JSON.stringify(v) : String(v); return /[",\n]/.test(t) ? `"${t.replace(/"/g, '""')}"` : t }
@@ -82,12 +91,12 @@ async function list() {
   }, 0)
   view.innerHTML = `<h1>Orders</h1><p class="lead">Confirmed vehicle orders across markets.</p>
     <div class="filters">
-      <div><label>Market</label><select id="f-mk">${opt(uniq('market'), f.market, 'All markets')}</select></div>
-      <div><label>Type</label><select id="f-type">${opt(uniq('type'), f.type, 'All types')}</select></div>
-      <div><label>Status</label><select id="f-st">${opt(uniq('order_status'), f.status, 'All statuses')}</select></div>
-      <div><label>Financing option</label><select id="f-fin">${opt(uniq('financing_option'), f.fin, 'All financing')}</select></div>
-      <div><label>Lock state</label><select id="f-lock">${opt(uniq('lock_state'), f.lock, 'Any')}</select></div>
-      <div><label>Search</label><input id="f-q" value="${esc(f.q)}" placeholder="Order no, VIN, owner"></div>
+      <div><span class="pl">Market</span><select id="f-mk" aria-label="Market">${opt(uniq('market'), f.market, 'All markets')}</select></div>
+      <div><span class="pl">Type</span><select id="f-type" aria-label="Type">${opt(uniq('type'), f.type, 'All types')}</select></div>
+      <div><span class="pl">Status</span><select id="f-st" aria-label="Status">${opt(uniq('order_status'), f.status, 'All statuses')}</select></div>
+      <div><span class="pl">Financing option</span><select id="f-fin" aria-label="Financing option">${opt(uniq('financing_option'), f.fin, 'All financing')}</select></div>
+      <div><span class="pl">Lock state</span><select id="f-lock" aria-label="Lock state">${opt(uniq('lock_state'), f.lock, 'Any')}</select></div>
+      <div><span class="pl">Search</span><input id="f-q" aria-label="Search" value="${esc(f.q)}" placeholder="Order no, VIN, owner"></div>
       <div><button class="btn" id="f-reset">Reset</button> <button class="btn" onclick="csv(window.__rows,'poms-orders.csv')">Export</button></div>
       <span class="count">${rows.length} of ${o.data.length} orders</span>
     </div>
@@ -105,14 +114,15 @@ async function detail(n) {
   const car = `${o.model} (${o.model_year})`
   const extras = (o.options ?? []).length ? o.options.map((x) => x.description).join(', ') : 'No extras'
 
+  const cell = (l, v) => `<div class="cell"><dt>${l}</dt><dd>${v}</dd></div>`
   const overview = () => `<h2 class="sec">Summary</h2>
     <div class="sum">
-      <div class="row"><div class="t">Products</div><div><div class="cell"><label>Car</label><div class="v">${esc(car)}<span class="arrow">→</span></div></div></div><div><div class="cell"><label>Extras</label><div class="v">${esc(extras)}</div></div></div></div>
+      <div class="row"><div class="t">Products</div><dl>${cell('Car', `${esc(car)}<span class="arrow">→</span>`)}</dl><dl>${cell('Extras', esc(extras))}</dl></div>
       <div class="row"><div class="t">Timeline</div>
-        <div><div class="cell"><label>Created at</label><div class="v">${usTs(ts.created_at)}</div></div><div class="cell"><label>Locked at</label><div class="v">${usTs(ts.locked_at ?? o.locked_at)}</div></div><div class="cell"><label>Last updated</label><div class="v">${usTs(ts.updated_at ?? o.poms_last_updated)}</div></div></div>
-        <div><div class="cell"><label>Confirmed at</label><div class="v">${usTs(ts.confirmed_at)}</div></div><div class="cell"><label>Handover completed at</label><div class="v">${usTs(ts.handover_completed_at)}</div></div></div></div>
-      <div class="row"><div class="t">Sales Process</div><div><div class="cell"><label>Sales channel</label><div class="v">${esc(o.sales_channel)}</div></div><div class="cell"><label>Is SME order</label><div class="v">${o.is_sme_order ? 'Yes' : 'No'}</div></div></div><div><div class="cell"><label>Sales type</label><div class="v">${esc(o.sales_type)}</div></div></div></div>
-      <div class="row"><div class="t">Roles</div><div><div class="cell"><label>Orderer</label><div class="v">${esc(o.roles?.orderer ?? o.buyer_contact ?? o.buyer_name)}</div></div><div class="cell"><label>Owner</label><div class="v">${esc(o.roles?.owner ?? o.owner ?? o.buyer_name)}</div></div></div><div><div class="cell"><label>Buyer</label><div class="v">${esc(o.roles?.buyer ?? o.buyer_name)}</div></div><div class="cell"><label>Buyer address</label><div class="v">${esc(o.buyer_address ?? '')}</div></div></div></div>
+        <dl>${cell('Created at', usTs(ts.created_at))}${cell('Locked at', usTs(ts.locked_at ?? o.locked_at))}${cell('Last updated', usTs(ts.updated_at ?? o.poms_last_updated))}</dl>
+        <dl>${cell('Confirmed at', usTs(ts.confirmed_at))}${cell('Handover completed at', usTs(ts.handover_completed_at))}</dl></div>
+      <div class="row"><div class="t">Sales Process</div><dl>${cell('Sales channel', esc(o.sales_channel))}${cell('Is SME order', o.is_sme_order ? 'Yes' : 'No')}</dl><dl>${cell('Sales type', esc(o.sales_type))}</dl></div>
+      <div class="row"><div class="t">Roles</div><dl>${cell('Orderer', esc(o.roles?.orderer ?? o.buyer_contact ?? o.buyer_name))}${cell('Owner', esc(o.roles?.owner ?? o.owner ?? o.buyer_name))}</dl><dl>${cell('Buyer', esc(o.roles?.buyer ?? o.buyer_name))}${cell('Buyer address', esc(o.buyer_address ?? ''))}</dl></div>
     </div>
     <h2 class="sec" style="margin-top:28px">Details</h2>
     ${kvlist('', [
@@ -168,12 +178,12 @@ async function detail(n) {
   const eventsTab = () => `<ul class="timeline">${(o.events ?? []).map((e) => `<li><span class="when">${esc(e.timestamp)}</span><span>${title(e.event)}</span></li>`).join('') || '<li class="empty">No events.</li>'}</ul>`
 
   view.innerHTML = `<h1>Order ${esc(o.order_no ?? o.order_number)}</h1><div class="idline">ID: ${esc(o.id ?? '')}</div>
-    <div class="headgrid">
-      <div><label>Configuration ID</label><div class="v mono">${esc(o.configuration_id ?? '')}</div></div>
-      <div><label>Type</label><div class="v">${esc(title(o.type))}</div></div>
-      <div><label>Market</label><div class="v">${esc(o.market)}</div></div>
-      <div><label>Status</label><div class="v">${statusDot(o.order_status)}</div></div>
-    </div>
+    <dl class="headgrid">
+      <div><dt>Configuration ID</dt><dd class="mono">${esc(o.configuration_id ?? '')}</dd></div>
+      <div><dt>Type</dt><dd>${esc(title(o.type))}</dd></div>
+      <div><dt>Market</dt><dd>${esc(o.market)}</dd></div>
+      <div><dt>Status</dt><dd>${statusDot(o.order_status)}</dd></div>
+    </dl>
     ${tabs([['Overview', overview], ['Order lines', linesTab], ['Deliveries', deliveriesTab], ['Pricing', pricingTab], ['Financing', financingTab], ['Invoicing', invoicingTab], ['Events', eventsTab]])}`
   window.scrollTo(0, 0)
 }
