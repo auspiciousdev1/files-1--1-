@@ -28,7 +28,11 @@ const gridTools = (exportFn) => `<div class="gridtools"><span title="Export to E
 const panel = (heading, body, count = '', tools = '') =>
   `<div class="panel"><div class="ph"><h2>${heading}</h2>${count ? `<span class="count">${count}</span>` : ''}${tools ? `<div class="tools">${tools}</div>` : ''}</div>${body}</div>`
 const isEmpty = (v) => v === '' || v === null || v === undefined
-const fields = (rows, cls = '') => `<div class="fields ${cls}">${rows.map(([l, v]) => `<div class="field"><label>${l}</label><div class="v ${isEmpty(v) ? 'empty' : ''}">${isEmpty(v) ? '(empty)' : v}</div></div>`).join('')}</div>`
+// Layout variant 2: every label/value section is a key/value <table> — <th scope=row> label,
+// <td> value, two pairs per row, no <thead>; the section heading is the table <caption>.
+const pairRows = (cells) => { const rows = []; for (let i = 0; i < cells.length; i += 2) rows.push(`<tr>${cells.slice(i, i + 2).join('')}</tr>`); return rows.join('') }
+const kvCell = (l, v) => `<th scope="row">${l}</th><td class="${isEmpty(v) ? 'empty' : ''}">${isEmpty(v) ? '(empty)' : v}</td>`
+const fields = (rows, cls = '') => `<table class="fields kvt ${cls}"><tbody>${pairRows(rows.map(([l, v]) => kvCell(l, v)))}</tbody></table>`
 
 function table(cols, rows) {
   if (!rows.length) return '<div class="empty">No data available.</div>'
@@ -146,7 +150,7 @@ async function worklist() {
 }
 
 /* ---------------------------- View Customer Invoice ----------------------- */
-const kvl = (rows) => `<div class="kvl">${rows.map(([l, v]) => `<label>${l}</label><div class="v ${isEmpty(v) ? 'empty' : ''}">${isEmpty(v) ? '(empty)' : v}</div>`).join('')}</div>`
+const kvl = (caption, rows) => `<table class="kvl kvt"><caption>${caption}</caption><tbody>${pairRows(rows.map(([l, v]) => kvCell(l, v)))}</tbody></table>`
 const addr = (a) => (a ? `<span class="icon">⌖</span><a>${esc(a)}</a>` : '')
 
 async function invoiceDetail(id) {
@@ -157,7 +161,7 @@ async function invoiceDetail(id) {
   const so = d.sales_order || d.poms_order_number
   const wt = d.worktags || {}
 
-  const info = kvl([
+  const info = kvl('Invoice Information', [
     ['Company', `<a>${esc(d.company_name)}</a>`],
     ['Legal Entity', d.legal_entity ? esc(d.legal_entity) : ''],
     ['Bill-To Customer', link('customer', d.bill_to_customer_id, d.bill_to_customer)],
@@ -172,7 +176,7 @@ async function invoiceDetail(id) {
     ['Ship-To Customer', `<a>${esc(d.ship_to_customer)}</a>`],
     ['Ship-To Address', addr(d.ship_to_address)],
   ])
-  const additional = kvl([
+  const additional = kvl('Additional Information', [
     ['Payment Type', d.payment_type ? esc(d.payment_type) : ''],
     ['Reference Type', esc(d.reference_type ?? 'Standard')],
     ['Payment Terms', esc(d.payment_terms)],
@@ -184,7 +188,7 @@ async function invoiceDetail(id) {
     ['Latest Print Date', d.latest_print_date ? wdMoment(d.latest_print_date) : ''],
     ['Worktags', `<div class="wt"><div><a>Model: ${esc(wt.model ?? d.model)}</a></div><div>Sales Order: ${pomsLink(so)}</div><div><a>Vehicle Identifier Number: <span class="mono">${esc(wt.vehicle_identifier_number ?? d.vin)}</span></a></div>${d.statutory_invoice_type ? `<div><a>Statutory Invoice Type: ${esc(d.statutory_invoice_type)}</a></div>` : ''}${d.statutory_invoice_number ? `<div><a>Statutory Invoice Number: ${esc(d.statutory_invoice_number)}</a></div>` : ''}</div>`],
   ])
-  const amounts = kvl([
+  const amounts = kvl('Amount Information', [
     ['Currency', `<a>${esc(d.currency)}</a>`],
     ['Default Tax Code', `<a>${esc(d.tax.tax_code)}</a>`],
     ['Net Invoice Amount', paren(d.totals.subtotal)],
@@ -230,16 +234,17 @@ async function invoiceDetail(id) {
   const printTab = () => panel('Printing Runs', d.latest_print_date ? table([{ label: 'Print Run', key: 'r' }, { label: 'Moment', key: 'm' }, { label: 'Delivery Type', key: 'd' }, { label: 'Status', key: 's' }], [{ r: `PR-${d.invoice_number}`, m: wdMoment(d.latest_print_date), d: d.delivery_type ?? 'Email', s: 'Completed' }]) : '<div class="empty">Not yet printed.</div>')
   const notesTab = () => panel('Notes', `<div class="pb">${d.memo ? `<p class="note">${esc(d.memo)}</p>` : '<p class="note">No notes.</p>'}${d.payment_application ? `<p class="note">Payment ${esc(d.payment_application.payment_id)} for ${num(d.payment_application.amount)} ${esc(d.currency)} applied as <b>${esc(title(d.payment_application.applied_as))}</b> on ${wdDate(d.payment_application.payment_date)} (${esc(d.payment_application.factoring_partner)}).</p>` : ''}</div>`)
 
-  setTimeout(() => view.querySelectorAll('.threecol h2').forEach((h) => h.addEventListener('click', () => h.classList.toggle('closed'))), 0)
+  // the section caption collapses its table
+  setTimeout(() => view.querySelectorAll('.threecol caption').forEach((c) => c.addEventListener('click', () => c.parentElement.classList.toggle('closed'))), 0)
   view.innerHTML = `<div class="titlebar"><h1>View Customer Invoice</h1><span class="obj">${esc(d.invoice_number)}</span><button class="dots" title="Related Actions">···</button><div class="tools"><span title="Export">⇩</span><span title="PDF">▤</span></div></div>
     <div class="statusband">
-      <div class="kv"><label>Invoice Status</label><span>${title(d.status)}</span><label>Payment Status</label><span>${title(d.payment_status ?? 'Unpaid')}</span><label>Finalized Date</label><span>${d.finalized_date ? wdDate(d.finalized_date) : '(empty)'}</span></div>
-      <div class="amt"><div><label>Total Invoice Amount</label>${paren(d.totals.total_amount)} ${esc(d.currency)}</div><div><label>Amount Due</label>${paren(amountDue)} ${esc(d.currency)}</div></div>
+      <table class="kv kvt"><tbody>${pairRows([kvCell('Invoice Status', title(d.status)), kvCell('Payment Status', title(d.payment_status ?? 'Unpaid')), kvCell('Finalized Date', d.finalized_date ? wdDate(d.finalized_date) : '(empty)')])}</tbody></table>
+      <table class="amt kvt"><tbody><tr><th scope="col">Total Invoice Amount</th><th scope="col">Amount Due</th></tr><tr><td>${paren(d.totals.total_amount)} ${esc(d.currency)}</td><td>${paren(amountDue)} ${esc(d.currency)}</td></tr></tbody></table>
     </div>
     <div class="threecol">
-      <div class="col"><h2>Invoice Information</h2>${info}</div>
-      <div class="col"><h2>Additional Information</h2>${additional}</div>
-      <div class="col"><h2>Amount Information</h2>${amounts}</div>
+      <div class="col">${info}</div>
+      <div class="col">${additional}</div>
+      <div class="col">${amounts}</div>
     </div>
     <div class="tabwrap">${tabs([
       ['Invoice Lines', linesTab], ['Currency Rate', fxTab], ['Tax', taxTab], ['Attachments', attTab],

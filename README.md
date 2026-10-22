@@ -144,6 +144,35 @@ input arrives (NGA response) — it is neither a data error nor a pass.
 
 `tools/reference-validator/validate.py --check` confirms the seeded data reproduces this table (72/72).
 
+## Layout variant 2 — key/value tables (branch `variant/2-kvtable`)
+
+A scraper test fixture: the same data, routes, filters and answer key as `bv-poc`, with every label/value section
+rendered as a **key/value table**. Only `workday/`, `poms/`, this README and the landing-page banner differ from
+`bv-poc`; nothing under `api/`, `generators/`, `build.py` or `sql/` changes.
+
+| Where | `bv-poc` | this branch |
+|---|---|---|
+| Workday status band | `.kv > label + span` | `table.kv`: `th[scope=row]` + `td`, two pairs per row |
+| Workday status band amounts | `.amt > div > label + text` | `table.amt`: one row of `th[scope=col]` over one row of `td` (no `thead`) |
+| Workday Invoice / Additional / Amount Information | `h2` + `.kvl > label + .v`, three columns | `table.kvl` with the heading in `caption`, two pairs per row, stacked full width; clicking the caption collapses the table |
+| Workday Currency Rate tab, Customer Information | `.field > label + .v` | `table.fields`, two pairs per row |
+| POMS order header | `.headgrid > div > label + .v` | `table.headgrid`, two pairs per row |
+| POMS Overview summary | `.sum .cell > label + .v` | one `table` per summary row, two pairs per row; the row title stays a plain `div.t` |
+| POMS Details / Pricing / Financing lists | `.kvlist > h3 + .kvrow > label + .v`, group rows as `span.grp` | `table.kvlist` with the heading in `caption`, two pairs per row; group titles are a `td.grp[colspan=4]` row |
+
+Every key/value table carries the class `kvt`, has no `thead`, and its `th` cells have `scope="row"` (or `scope="col"`
+in the status band amounts). The data grids (invoice worklist, invoice lines, order lines, customers…) are
+unchanged: real tables with a `thead`.
+
+Deliberate traps: **Currency** and **Total Invoice Amount** are `th` text in key/value tables and column headers
+in the data grids, so header text alone cannot tell a record table from a data grid; the section name lives only
+in `caption`, which is not an `h*` element; the status band amounts are a header-row-over-value-row table, so the
+label relation there is column-wise, not row-wise.
+
+What it exercises in a learner: `th`/`td` row relation vs column relation, key/value table vs data grid
+discrimination, `caption` as a section heading. The current `src/sites/poc/*.yaml` selectors (`label` / `.v`,
+`h2`/`h3` section names) read nothing on this branch, which is the point.
+
 ## Hosting on GitHub Pages
 
 1. `git init -b main && git add . && git commit -m "POC"` in this folder (`index.html` must be at the repo root).

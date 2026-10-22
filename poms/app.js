@@ -27,7 +27,20 @@ function table(cols, rows) {
   if (!rows.length) return '<div class="empty">No records.</div>'
   return `<div class="scroll"><table><thead><tr>${cols.map((c) => `<th class="${c.num ? 'num' : ''}">${c.label}</th>`).join('')}</tr></thead><tbody>${rows.map((r) => `<tr>${cols.map((c) => `<td class="${c.num ? 'num' : ''}">${c.render ? c.render(r) : esc(r[c.key] ?? '')}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`
 }
-const kvlist = (heading, rows) => `<div class="kvlist">${heading ? `<h3>${heading}</h3>` : ''}${rows.map((r) => r.length === 1 ? `<div class="kvrow"><span class="grp">${r[0]}</span></div>` : `<div class="kvrow"><label>${r[0]}</label><div class="v ${r[2] ?? ''}">${r[1]}</div></div>`).join('')}</div>`
+// Layout variant 2: a key/value list is a <table> — <th scope=row> label, <td> value, two pairs per
+// row, no <thead>, heading in <caption>; a one-element row becomes a full-width group row.
+const pairRows = (cells) => { const rows = []; for (let i = 0; i < cells.length; i += 2) rows.push(`<tr>${cells.slice(i, i + 2).join('')}</tr>`); return rows.join('') }
+const kvCell = (l, v, cls = '') => `<th scope="row">${l}</th><td class="${cls}">${v}</td>`
+const kvlist = (heading, rows) => {
+  let html = ''; let cells = []
+  const flush = () => { html += pairRows(cells); cells = [] }
+  rows.forEach((r) => {
+    if (r.length === 1) { flush(); html += `<tr><td class="grp" colspan="4">${r[0]}</td></tr>` }
+    else cells.push(kvCell(r[0], r[1], r[2] ?? ''))
+  })
+  flush()
+  return `<table class="kvlist kvt">${heading ? `<caption>${heading}</caption>` : ''}<tbody>${html}</tbody></table>`
+}
 function csv(rows, filename) {
   const cols = Object.keys(rows[0] ?? {})
   const cell = (v) => { const t = v == null ? '' : typeof v === 'object' ? JSON.stringify(v) : String(v); return /[",\n]/.test(t) ? `"${t.replace(/"/g, '""')}"` : t }
@@ -105,14 +118,13 @@ async function detail(n) {
   const car = `${o.model} (${o.model_year})`
   const extras = (o.options ?? []).length ? o.options.map((x) => x.description).join(', ') : 'No extras'
 
+  const sumrow = (t, cells) => `<div class="row"><div class="t">${t}</div><table class="kvt"><tbody>${pairRows(cells)}</tbody></table></div>`
   const overview = () => `<h2 class="sec">Summary</h2>
     <div class="sum">
-      <div class="row"><div class="t">Products</div><div><div class="cell"><label>Car</label><div class="v">${esc(car)}<span class="arrow">→</span></div></div></div><div><div class="cell"><label>Extras</label><div class="v">${esc(extras)}</div></div></div></div>
-      <div class="row"><div class="t">Timeline</div>
-        <div><div class="cell"><label>Created at</label><div class="v">${usTs(ts.created_at)}</div></div><div class="cell"><label>Locked at</label><div class="v">${usTs(ts.locked_at ?? o.locked_at)}</div></div><div class="cell"><label>Last updated</label><div class="v">${usTs(ts.updated_at ?? o.poms_last_updated)}</div></div></div>
-        <div><div class="cell"><label>Confirmed at</label><div class="v">${usTs(ts.confirmed_at)}</div></div><div class="cell"><label>Handover completed at</label><div class="v">${usTs(ts.handover_completed_at)}</div></div></div></div>
-      <div class="row"><div class="t">Sales Process</div><div><div class="cell"><label>Sales channel</label><div class="v">${esc(o.sales_channel)}</div></div><div class="cell"><label>Is SME order</label><div class="v">${o.is_sme_order ? 'Yes' : 'No'}</div></div></div><div><div class="cell"><label>Sales type</label><div class="v">${esc(o.sales_type)}</div></div></div></div>
-      <div class="row"><div class="t">Roles</div><div><div class="cell"><label>Orderer</label><div class="v">${esc(o.roles?.orderer ?? o.buyer_contact ?? o.buyer_name)}</div></div><div class="cell"><label>Owner</label><div class="v">${esc(o.roles?.owner ?? o.owner ?? o.buyer_name)}</div></div></div><div><div class="cell"><label>Buyer</label><div class="v">${esc(o.roles?.buyer ?? o.buyer_name)}</div></div><div class="cell"><label>Buyer address</label><div class="v">${esc(o.buyer_address ?? '')}</div></div></div></div>
+      ${sumrow('Products', [kvCell('Car', `${esc(car)}<span class="arrow">→</span>`), kvCell('Extras', esc(extras))])}
+      ${sumrow('Timeline', [kvCell('Created at', usTs(ts.created_at)), kvCell('Confirmed at', usTs(ts.confirmed_at)), kvCell('Locked at', usTs(ts.locked_at ?? o.locked_at)), kvCell('Handover completed at', usTs(ts.handover_completed_at)), kvCell('Last updated', usTs(ts.updated_at ?? o.poms_last_updated))])}
+      ${sumrow('Sales Process', [kvCell('Sales channel', esc(o.sales_channel)), kvCell('Sales type', esc(o.sales_type)), kvCell('Is SME order', o.is_sme_order ? 'Yes' : 'No')])}
+      ${sumrow('Roles', [kvCell('Orderer', esc(o.roles?.orderer ?? o.buyer_contact ?? o.buyer_name)), kvCell('Buyer', esc(o.roles?.buyer ?? o.buyer_name)), kvCell('Owner', esc(o.roles?.owner ?? o.owner ?? o.buyer_name)), kvCell('Buyer address', esc(o.buyer_address ?? ''))])}
     </div>
     <h2 class="sec" style="margin-top:28px">Details</h2>
     ${kvlist('', [
@@ -168,12 +180,7 @@ async function detail(n) {
   const eventsTab = () => `<ul class="timeline">${(o.events ?? []).map((e) => `<li><span class="when">${esc(e.timestamp)}</span><span>${title(e.event)}</span></li>`).join('') || '<li class="empty">No events.</li>'}</ul>`
 
   view.innerHTML = `<h1>Order ${esc(o.order_no ?? o.order_number)}</h1><div class="idline">ID: ${esc(o.id ?? '')}</div>
-    <div class="headgrid">
-      <div><label>Configuration ID</label><div class="v mono">${esc(o.configuration_id ?? '')}</div></div>
-      <div><label>Type</label><div class="v">${esc(title(o.type))}</div></div>
-      <div><label>Market</label><div class="v">${esc(o.market)}</div></div>
-      <div><label>Status</label><div class="v">${statusDot(o.order_status)}</div></div>
-    </div>
+    <table class="headgrid kvt"><tbody>${pairRows([kvCell('Configuration ID', esc(o.configuration_id ?? ''), 'mono'), kvCell('Type', esc(title(o.type))), kvCell('Market', esc(o.market)), kvCell('Status', statusDot(o.order_status))])}</tbody></table>
     ${tabs([['Overview', overview], ['Order lines', linesTab], ['Deliveries', deliveriesTab], ['Pricing', pricingTab], ['Financing', financingTab], ['Invoicing', invoicingTab], ['Events', eventsTab]])}`
   window.scrollTo(0, 0)
 }
